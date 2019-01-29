@@ -1,0 +1,21 @@
+# Automation
+doit; python_version > '3'
+doit==0.29.0; python_version < '3'
+
+# Dependencies
+pip-tools
+
+# Code quality
+flake8; python_version > '3'
+black; python_version > '3'
+
+# Testing
+tox
+mock
+pytest
+pytest-cov
+pytest-sugar
+pytest-randomly
+
+# Packaging
+twine

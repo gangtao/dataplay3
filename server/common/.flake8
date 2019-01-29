@@ -1,0 +1,35 @@
+[flake8]
+max-line-length = 96
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    vendor,
+    *_pb2*
+ignore =
+    # E402 module level import not at top of file.
+    # We have this because we run exec_anaconda before most imports.
+    E402,
+    # E501 line too long.
+    # Black formatter checks the line length for the code. This will catch the length
+    # for comments. We may need this, but ignore for now.
+    E501,
+    # E203 whitespace before ':'.
+    # We leave formatting stuff to black.
+    E203,
+    # E722 do not use bare except'.
+    # Not the best practice, but ignore for now.
+    E722,
+    # E203 whitespace before ':'.
+    # Black formatter takes care of these things.
+    E203,
+    # W503 line break before binary operator.
+    # This is black formatter's territory.
+    W503,
+    # E401 multiple imports on one line.
+    # Not a serious issue.
+    E401,
+    # E712 comparison to False should be 'if cond is False:' or 'if not cond:'.
+    # We have assert tests that may check the exact boolean value.
+    E712

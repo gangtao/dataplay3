@@ -1,0 +1,10 @@
+[run]
+source=
+    dataplay/*
+omit=
+    .tox/*
+    .venv/*
+    common/*
+    tests/*
+    dodo.py
+    setup.py
