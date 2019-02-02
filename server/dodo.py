@@ -65,7 +65,6 @@ def task_formatcheck() -> DoitReturn:
     return {"actions": [formatter], "verbosity": 2}
 
 
-
 def task_pytest() -> DoitReturn:
     """ Runs pytest with coverage"""
     coverage_config = make_config_path(".coveragerc")
@@ -76,7 +75,7 @@ def task_pytest() -> DoitReturn:
 def task_update_dependencies() -> DoitReturn:
     """ Updates the requirements-{mac,linux}.txt files for packages"""
     commands = []
-    
+
     pinner_template = "pip-compile requirements.txt --no-index --output-file {} "
     darwin_pinner = pinner_template.format("requirements-darwin.txt")
     linux_pinner = pinner_template.format("requirements-linux.txt")
@@ -95,9 +94,7 @@ def task_install() -> DoitReturn:
     """ Installs requirements-{darwin/linux}.txt & requirements-local.txt of packages """
 
     return {
-        "actions": [
-            f"pip install -r requirements-{sys.platform}.txt . --no-deps"
-        ],
+        "actions": [f"pip install -r requirements-{sys.platform}.txt . --no-deps"],
         "verbosity": 2,
     }
 
