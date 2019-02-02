@@ -1,4 +1,5 @@
 from flask import Flask
+from dataplay.datasvc.service import dataset_svc
 
 app = Flask(__name__, static_url_path="")
 
@@ -9,7 +10,7 @@ def index():
 
 
 def init():
-    pass
+    app.register_blueprint(dataset_svc, url_prefix='/')
 
 
 if __name__ == "__main__":
