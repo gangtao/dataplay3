@@ -107,3 +107,7 @@ def task_tox() -> DoitReturn:
 def task_build() -> DoitReturn:
     """ Runs python setup.py sdist on packages """
     return {"actions": ["python setup.py sdist"], "verbosity": 2}
+
+def task_server() -> DoitReturn:
+    """ Runs tox """
+    return {"actions": ["python -m dataplay.server"], "verbosity": 2}
