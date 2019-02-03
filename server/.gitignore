@@ -109,3 +109,6 @@ venv.bak/
 .LSOverride
 
 .doit.db
+
+# client code
+static/

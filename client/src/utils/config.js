@@ -1,6 +1,6 @@
 module.exports = {
-  siteName: 'AntD Admin',
-  copyright: 'Ant Design Admin  © 2018 zuiidea',
+  siteName: 'Dataplay3',
+  copyright: 'Gang Tao  © 2019 gang.tao@outlook.com',
   logoPath: '/logo.svg',
   apiPrefix: '/api/v1',
   fixedHeader: true, // sticky primary layout header
