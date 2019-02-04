@@ -19,6 +19,12 @@ routes_config = '''[{
     "name": "Dashboard",
     "zhName": "仪表盘",
     "route": "/dashboard"
+},{
+    "id": "2",
+    "icon": "database",
+    "name": "Dataset",
+    "zhName": "数据集",
+    "route": "/dataset"
 }]'''
 
 dashboard_config = '''{

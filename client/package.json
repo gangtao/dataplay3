@@ -107,7 +107,6 @@
     "add-locale": "lingui add-locale",
     "extract": "lingui extract",
     "trans": "lingui extract --clean && node ./scripts/translate.js",
-    "doc": "docsify serve docs",
-    "deploy": "cp -r dist/* ../server/dataplay/static/"
+    "doc": "docsify serve docs"
   }
 }

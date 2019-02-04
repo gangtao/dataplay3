@@ -108,6 +108,12 @@ def task_build() -> DoitReturn:
     """ Runs python setup.py sdist on packages """
     return {"actions": ["python setup.py sdist"], "verbosity": 2}
 
+
+def task_link_client() -> DoitReturn:
+    """ Create a symbol link of static to the client side build outout """
+    return {"actions": ["ln -s ../client/dist static"], "verbosity": 2}
+
+
 def task_server() -> DoitReturn:
-    """ Runs tox """
+    """ Runs dataplay server """
     return {"actions": ["python -m dataplay.server"], "verbosity": 2}

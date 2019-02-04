@@ -112,3 +112,4 @@ venv.bak/
 
 # client code
 static/
+dataplay/static
