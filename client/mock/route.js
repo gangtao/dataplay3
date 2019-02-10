@@ -18,14 +18,6 @@ const database = [
     route: '/user',
   },
   {
-    id: '7',
-    breadcrumbParentId: '1',
-    name: 'Posts',
-    zhName: '文章管理',
-    icon: 'shopping-cart',
-    route: '/post',
-  },
-  {
     id: '21',
     menuParentId: '-1',
     breadcrumbParentId: '2',
@@ -90,6 +82,21 @@ const database = [
     zhName: 'Rechartst',
     icon: 'area-chart',
     route: '/chart/Recharts',
+  },
+  {
+    id: '6',
+    name: 'Dataset',
+    zhName: '数据管理',
+    icon: 'database',
+    route: '/dataset',
+  },
+  {
+    id: '7',
+    breadcrumbParentId: '1',
+    name: 'Posts',
+    zhName: '文章管理',
+    icon: 'shopping-cart',
+    route: '/post',
   },
 ]
 
