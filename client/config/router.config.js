@@ -18,7 +18,15 @@ export default [
     authority: ['admin', 'user'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/dataset' },
+      // dataset
+      {
+        path: '/dataset',
+        icon: 'database',
+        name: 'dataset',
+        component: 'Dataset'
+      },
+      /*
       {
         path: '/dashboard',
         name: 'dashboard',
@@ -258,6 +266,7 @@ export default [
       {
         component: '404',
       },
+      */
     ],
   },
 ];
