@@ -1,25 +1,31 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Select } from 'antd';
+import { Row, Col } from 'antd';
+import { connect } from 'dva';
 
 import DatasetListSelector from './DatasetListSelector'
 import DatasetTable from './DatasetTable'
 
 import styles from './index.less';
 
-const { Option } = Select;
-
+@connect(({ dataset, loading }) => ({
+  dataset,
+  loading: loading.effects['dataset/fetch'],
+}))
 class Dataset extends PureComponent {
+
   render() {
+    const { dataset, loading , dispatch } = this.props
+    const { dataSource, columns } = dataset.currentDataset
     return (
       <div className={styles.dataset}>
         <Row gutter={16}>
           <Col span={8}>
-            <DatasetListSelector></DatasetListSelector>
+            <DatasetListSelector ></DatasetListSelector>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col span={16}>
-            <DatasetTable></DatasetTable>
+            <DatasetTable dataSource={dataSource} columns={columns} ></DatasetTable>
           </Col>
         </Row>
       </div>

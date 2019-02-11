@@ -1,15 +1,34 @@
 import React, { PureComponent } from 'react';
 import { Select } from 'antd';
+import { connect } from 'dva';
 
 import styles from './DatasetListSelector.less';
 
 const {Option} = Select;
 
+@connect(({ dataset, loading }) => ({
+    dataset,
+    loading: loading.effects['dataset/fetch'],
+}))
 class DatasetListSelector extends PureComponent {
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'dataset/fetch',
+        });
+    }
+
     render() {
+        const { dataset, dispatch } = this.props
+
         const handleChange = value => {
             console.log(`selected ${value}`)
+            dispatch({
+                type: 'dataset/fetchSelected',
+                payload: value
+            });
         }
+
         const handleBlur = value => {
             console.log('blur')
         }
@@ -17,20 +36,8 @@ class DatasetListSelector extends PureComponent {
             console.log('focus')
         }
 
-        const options = [{
-            "value": "jack",
-            "text": "Jack"
-        }, {
-            "value": "lucy",
-            "text": "Lucy"
-        }, {
-            "value": "tom",
-            "text": "Tom"
-        },]
-
-
-        const optionContent = options.map(item  => {
-            return <Option key={item.value} value={item.value}>{item.text}</Option>
+        const optionContents = dataset.list.map( (item)  => {
+            return <Option key={item.id} value={item.id}>{item.name}</Option>
         })
 
         return (
@@ -48,7 +55,7 @@ class DatasetListSelector extends PureComponent {
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 >
-                  {optionContent}
+                    {optionContents}
                 </Select>
             </div>
         );
