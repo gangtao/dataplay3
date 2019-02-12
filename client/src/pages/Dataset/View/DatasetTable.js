@@ -7,13 +7,15 @@ class DatasetTable extends PureComponent {
 
     render() {
         const { dataSource, columns } = this.props
-        if (columns) {
+        let scroll = {}
+        if (columns && columns.length > 10) {
             columns[0].fixed = 'left'
+            scroll = { x: 1300 }
         }
             
         return (
             <div className={styles.datasetTable} >
-                <Table dataSource={dataSource} columns={columns} scroll={{ x: 1300 }}/>
+                <Table dataSource={dataSource} columns={columns} scroll={scroll}/>
             </div>
         );
     }
