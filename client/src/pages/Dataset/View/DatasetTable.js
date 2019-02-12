@@ -7,11 +7,13 @@ class DatasetTable extends PureComponent {
 
     render() {
         const { dataSource, columns } = this.props
-        console.log(`render a new data set table`)
-        
+        if (columns) {
+            columns[0].fixed = 'left'
+        }
+            
         return (
             <div className={styles.datasetTable} >
-                <Table dataSource={dataSource} columns={columns}/>
+                <Table dataSource={dataSource} columns={columns} scroll={{ x: 1300 }}/>
             </div>
         );
     }

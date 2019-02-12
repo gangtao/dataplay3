@@ -10,12 +10,12 @@ for (let i =0; i < 5 ; i++) {
         },
         name: '@word(3,10)',
         cols: Mock.mock({
-            'data|5': ['@word(3,10)']
+            'data|50': ['@word(3,10)']
         }).data,
         // TODO: this will actually generate duplicated rows
         rows: Mock.mock({
             'data|100': [Mock.mock({
-                'data|5': ['@integer(0,100)']
+                'data|50': ['@integer(0,100)']
             }).data]
         }).data,
     }
