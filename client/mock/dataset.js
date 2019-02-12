@@ -31,8 +31,7 @@ function getDatasets(req, res) {
     let newData = database.map(function(item) {
         return {
             id: item.id,
-            name: item.name,
-            cols: item.cols
+            name: item.name
         };
     });
     res.status(200).json(newData);

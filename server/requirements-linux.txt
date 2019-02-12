@@ -10,4 +10,9 @@ flask_api==1.1
 itsdangerous==1.1.0       # via flask
 jinja2==2.10              # via flask
 markupsafe==1.1.0         # via jinja2
+numpy==1.16.1             # via pandas
+pandas==0.24.1
+python-dateutil==2.8.0    # via pandas
+pytz==2018.9              # via pandas
+six==1.12.0               # via python-dateutil
 werkzeug==0.14.1          # via flask

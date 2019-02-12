@@ -1,10 +1,10 @@
 from flask import Flask
-from dataplay.datasvc.service import dataset_svc
-from dataplay.usersvc.service import user_svc
+from .datasvc.service import dataset_svc
+from .usersvc.service import user_svc
 
 app = Flask(__name__, static_url_path="")
 
-PREFIX = '/api/v1/'
+PREFIX = '/api/'
 
 
 @app.route('/')

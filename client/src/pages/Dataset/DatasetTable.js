@@ -11,7 +11,7 @@ class DatasetTable extends PureComponent {
         
         return (
             <div className={styles.datasetTable} >
-                <Table dataSource={dataSource} columns={columns} />
+                <Table dataSource={dataSource} columns={columns}/>
             </div>
         );
     }

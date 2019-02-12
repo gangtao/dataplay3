@@ -16,6 +16,8 @@ class Dataset extends PureComponent {
   render() {
     const { dataset, loading , dispatch } = this.props
     const { dataSource, columns } = dataset.currentDataset
+    console.log("Render new dataset")
+    console.log(dataset.currentDataset)
     return (
       <div className={styles.dataset}>
         <Row gutter={16}>
