@@ -28,7 +28,9 @@ class CVSDataset(BaseDataset):
         return [{"id": f, "name": f} for f in flist]
 
     def _load(self):
-        self._df = pd.read_csv(self._path)
+        df = pd.read_csv(self._path)
+        # null fill
+        self._df = df.where(pd.notnull(df), None)
         self._payload["id"] = self._name
         self._payload["name"] = self._name
         self._payload["cols"] = list(self._df.columns.values)
