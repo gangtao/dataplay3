@@ -1,33 +1,14 @@
 import React, { PureComponent } from 'react';
 import { Select } from 'antd';
-import { connect } from 'dva';
 
 import styles from './DatasetListSelector.less';
 
 const {Option} = Select;
 
-@connect(({ dataset, loading }) => ({
-    dataset,
-    loading: loading.effects['dataset/fetch'],
-}))
 class DatasetListSelector extends PureComponent {
-    componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'dataset/fetch',
-        });
-    }
 
     render() {
-        const { dataset, dispatch } = this.props
-
-        const handleChange = value => {
-            console.log(`selected ${value}`)
-            dispatch({
-                type: 'dataset/fetchSelected',
-                payload: value
-            });
-        }
+        const { list, dispatch , handleChange} = this.props
 
         const handleBlur = value => {
             console.log('blur')
@@ -36,7 +17,7 @@ class DatasetListSelector extends PureComponent {
             console.log('focus')
         }
 
-        const optionContents = dataset.list.map( (item)  => {
+        const optionContents = list.map( (item)  => {
             return <Option key={item.id} value={item.id}>{item.name}</Option>
         })
 

@@ -21,5 +21,9 @@ def test_dataset_to_json():
         id = file['id']
         dataset = CVSDataset(id)
         payload = json.dumps(dataset.payload())
+        '''
+        with open(f'{id}.json', 'w') as f:
+            f.write(payload)
+        '''
 
         assert is_json(payload)

@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6-slim
 
 RUN mkdir /home/dataplay
 ADD server/dataplay /home/dataplay

@@ -36,16 +36,28 @@ export default [
         name: 'dataset',
         routes: [{
           path: '/dataset/view',
-          icon: 'database',
+          icon: 'table',
           name: 'viewDataset',
           component: './Dataset/View'
         },{
           path: '/dataset/getDataIn',
-          icon: 'database',
+          icon: 'download',
           name: 'getDataIn',
           component: './Dataset/GetdataIn'
         }]
       },
+      // Analysis
+      {
+        path: '/visualization',
+        icon: 'area-chart',
+        name: 'visualization',
+        routes: [{
+          path: '/visualization/gg',
+          icon: 'bar-chart',
+          name: 'gg',
+          component: './Visualization/GG'
+        }]
+      }
     ],
   },
 ];

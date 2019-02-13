@@ -1,26 +1,13 @@
 import Mock from 'mockjs';
 
-let datasetId = 0;
-let database = []
-for (let i =0; i < 5 ; i++) {
-    const template = {
-        id() {
-            datasetId += 1;
-            return datasetId;
-        },
-        name: '@word(3,10)',
-        cols: Mock.mock({
-            'data|50': ['@word(3,10)']
-        }).data,
-        // TODO: this will actually generate duplicated rows
-        rows: Mock.mock({
-            'data|100': [Mock.mock({
-                'data|50': ['@integer(0,100)']
-            }).data]
-        }).data,
-    }
-    database[i] = Mock.mock(template);
-}
+import iris from './data/iris.json';
+import diabetes from './data/diabetes.json';
+import app_usage from './data/app_usage.json';
+import churn from './data/churn.json';
+import disk_failures from './data/disk_failures.json';
+
+
+const database = [iris,diabetes,app_usage,churn,disk_failures]
 
 const NOTFOUND = {
   message: 'Not Found',
