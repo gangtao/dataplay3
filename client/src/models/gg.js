@@ -1,10 +1,11 @@
 import { queryDatasets, queryDataset } from '@/services/dataset';
 
 export default {
-  namespace: 'dataset',
+  namespace: 'gg',
 
   state: {
     list: [],
+    options: [],
     currentDataset: {},
   },
 

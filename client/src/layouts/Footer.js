@@ -16,7 +16,25 @@ const FooterView = () => (
         {
           key: 'github',
           title: <Icon type="github" />,
-          href: '',
+          href: 'https://github.com/gangtao',
+          blankTarget: true,
+        },
+        {
+          key: 'linkedin',
+          title: <Icon type="linkedin" />,
+          href: 'https://www.linkedin.com/in/taogang/',
+          blankTarget: true,
+        },
+        {
+          key: 'codepen',
+          title: <Icon type="codepen" />,
+          href: 'https://codepen.io/gangtao/',
+          blankTarget: true,
+        },
+        {
+          key: 'zhihu',
+          title: <Icon type="zhihu" />,
+          href: 'https://www.zhihu.com/people/gangtao/activities',
           blankTarget: true,
         },
       ]}
