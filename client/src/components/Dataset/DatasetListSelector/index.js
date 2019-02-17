@@ -7,7 +7,7 @@ const { Option } = Select;
 
 class DatasetListSelector extends PureComponent {
   render() {
-    const { list, dispatch, handleChange } = this.props;
+    const { list, dispatch, handleChange, size } = this.props;
 
     const handleBlur = value => {
       console.log('blur');
@@ -27,10 +27,9 @@ class DatasetListSelector extends PureComponent {
     return (
       <div className={styles.datasetListSelector}>
         <Select
+          size={size}
           showSearch
-          style={{
-            width: 200,
-          }}
+          style={{ width: '100%' }}
           placeholder="Select a dataset"
           optionFilterProp="children"
           onChange={handleChange}

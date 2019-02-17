@@ -6,10 +6,10 @@ import styles from './index.less';
 class DatasetTable extends PureComponent {
   render() {
     const { dataSource, columns } = this.props;
-    const whenTofix = 10
-    const fixX = 1300
+    const whenTofix = 10;
+    const fixX = 1300;
     let scroll = {};
-    if (columns && columns.length > whenTofix ) {
+    if (columns && columns.length > whenTofix) {
       columns[0].fixed = 'left';
       scroll = { x: fixX };
     }

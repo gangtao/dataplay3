@@ -26,6 +26,8 @@ class GrammerGraph extends PureComponent {
     const { gg, loading, dispatch } = this.props;
     const { dataSource, columns } = gg.currentDataset;
 
+    console.log(gg.grammar);
+
     const handleChange = value => {
       console.log(`selected ${value}`);
       dispatch({
@@ -38,18 +40,19 @@ class GrammerGraph extends PureComponent {
       <PageHeaderWrapper>
         <div className={styles.gg}>
           <Row gutter={16}>
-            <Col span={8}>
+            <Col span={6}>
               <Row>
+                Dataset:
                 <DatasetListSelector list={gg.list} handleChange={handleChange} />
               </Row>
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={4}>
+            <Col span={6}>
               <GrammarConfigPanel />
             </Col>
             <Col span={16}>
-              <VisualizationPanel />
+              <VisualizationPanel grammar={gg.grammar} dataset={gg.currentDataset} />
             </Col>
           </Row>
         </div>

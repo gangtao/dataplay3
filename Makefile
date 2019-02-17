@@ -14,3 +14,12 @@ push:
 
 run: 
 	docker run -p 5000:5000 $(IMAGE_NAME)
+
+clean:
+	rm -rf build
+
+build:
+	mkdir build
+	cp -r server/dataplay build/dataplay
+	cp -r client/dist build/dataplay/static
+	cp server/requirements.txt build/

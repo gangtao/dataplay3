@@ -5,7 +5,7 @@ export default {
 
   state: {
     list: [],
-    options: [],
+    grammar: { facad: null, coordination: null, geom: {} },
     currentDataset: {},
   },
 
@@ -22,6 +22,30 @@ export default {
       yield put({
         type: 'getDataset',
         payload: response,
+      });
+    },
+    *facadUpdate({ payload }, { call, put }) {
+      yield put({
+        type: 'updateFacad',
+        payload: payload,
+      });
+    },
+    *coordUpdate({ payload }, { call, put }) {
+      yield put({
+        type: 'updateCoord',
+        payload: payload,
+      });
+    },
+    *geomUpdate({ payload }, { call, put }) {
+      yield put({
+        type: 'updateGeom',
+        payload: payload,
+      });
+    },
+    *geomDelete({ payload }, { call, put }) {
+      yield put({
+        type: 'deleteGeom',
+        payload: payload,
       });
     },
   },
@@ -66,6 +90,31 @@ export default {
       return {
         ...state,
         currentDataset: convertedDataset,
+      };
+    },
+    updateFacad(state, action) {
+      state.grammar.facad = action.payload;
+      return {
+        ...state,
+      };
+    },
+    updateCoord(state, action) {
+      state.grammar.coordination = action.payload;
+      return {
+        ...state,
+      };
+    },
+    updateGeom(state, action) {
+      const geomKey = action.payload.key;
+      state.grammar.geom[geomKey] = { ...state.grammar.geom[geomKey], ...action.payload.value };
+      return {
+        ...state,
+      };
+    },
+    deleteGeom(state, action) {
+      delete state.grammar.geom[action.payload];
+      return {
+        ...state,
       };
     },
   },
