@@ -52,7 +52,7 @@ class GrammerGraph extends PureComponent {
               <GrammarConfigPanel />
             </Col>
             <Col span={16}>
-              <VisualizationPanel grammar={gg.grammar} dataset={gg.currentDataset} />
+              <VisualizationPanel />
             </Col>
           </Row>
         </div>

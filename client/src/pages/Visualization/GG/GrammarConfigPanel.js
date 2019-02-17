@@ -15,10 +15,10 @@ class GrammarConfigPanel extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.newTabIndex = 1;
-    const panes = [{ title: 'Geom1', content: '', key: 'Geom_0' }];
+    this.newTabIndex = 0;
+    const panes = [];
     this.state = {
-      activeKey: panes[0].key,
+      activeKey: null,
       panes,
     };
   }

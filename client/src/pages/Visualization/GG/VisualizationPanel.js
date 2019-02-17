@@ -14,53 +14,22 @@ import {
   Facet,
   Util,
 } from 'bizcharts';
+import { connect } from 'dva';
 
 import styles from './VisualizationPanel.less';
 
+@connect(({ gg }) => ({
+  gg
+}))
 class VisualizationPanel extends PureComponent {
   render() {
-    const { grammar, dataset } = this.props;
+    const { grammar, currentDataset } = this.props.gg;
+    const dataset = currentDataset;
     console.log('render Viz');
     console.log(grammar);
     console.log(dataset);
 
     const data = dataset.dataSource;
-
-    const geomType = grammar.geometry;
-    let position = '';
-    if (grammar.position) {
-      position = grammar.position.join('*');
-    }
-
-    let color = '';
-    if (grammar.color && grammar.color.length > 0) {
-      color = grammar.color[0];
-    }
-
-    let size = '';
-    if (grammar.size && grammar.size.length > 0) {
-      size = grammar.size[0];
-    }
-
-    let shape = '';
-    if (grammar.shape && grammar.shape.length > 0) {
-      shape = grammar.shape[0];
-    }
-
-    let opacity = '';
-    if (grammar.opacity && grammar.opacity.length > 0) {
-      opacity = grammar.opacity[0];
-    }
-
-    const buildLable = () => {
-      if (grammar.label && grammar.label.length > 0) {
-        const lable = grammar.label.join('*');
-        return <Label content={lable} />;
-      } else {
-        return null;
-      }
-    };
-    const label = buildLable();
 
     const coordinationType = grammar.coordination;
     const buildCoordination = () => {
@@ -73,9 +42,9 @@ class VisualizationPanel extends PureComponent {
     const coordination = buildCoordination();
 
     //TODO: build a rule base grammar validator
-    const validateGrammar = () => {
+    const validateGrammar = (geom) => {
       if (!coordinationType || coordinationType == 'rect' || coordinationType == 'polar') {
-        if (grammar.position && grammar.position.length == 2) {
+        if (geom.position && geom.position.length == 2) {
           return true;
         }
       }
@@ -83,7 +52,42 @@ class VisualizationPanel extends PureComponent {
       return false;
     };
 
-    const buildGeom = () => {
+    const buildGeom = (geom) => {
+      const geomType = geom.geometry;
+      let position = '';
+      if (geom.position) {
+        position = geom.position.join('*');
+      }
+
+      let color = '';
+      if (geom.color && geom.color.length > 0) {
+        color = geom.color[0];
+      }
+
+      let size = '';
+      if (geom.size && geom.size.length > 0) {
+        size = geom.size[0];
+      }
+
+      let shape = '';
+      if (geom.shape && geom.shape.length > 0) {
+        shape = geom.shape[0];
+      }
+
+      let opacity = '';
+      if (geom.opacity && geom.opacity.length > 0) {
+        opacity = geom.opacity[0];
+      }
+
+      const buildLable = () => {
+        if (geom.label && geom.label.length > 0) {
+          const lable = geom.label.join('*');
+          return <Label content={lable} />;
+        } else {
+          return null;
+        }
+      };
+      const label = buildLable();
       return (
         <Geom
           type={geomType}
@@ -99,19 +103,33 @@ class VisualizationPanel extends PureComponent {
     };
 
     const buildSingeChart = () => {
-      const geom = buildGeom();
-      if (validateGrammar()) {
-        return (
-          <div>
-            <Chart height={600} data={data} forceFit>
-              {coordination}
-              {geom}
-            </Chart>
-          </div>
-        );
-      } else {
+      
+      if ( !grammar.geom ) {
         return <div />;
       }
+
+      let geometryList = [];
+
+      Object.entries(grammar.geom).map( item => {
+        const value  = item[1];
+        if (!validateGrammar(value)) {
+          return <div />;
+        }
+        geometryList.push(buildGeom(value));
+      })
+
+      if ( geometryList.length === 0) {
+        return <div />;
+      }
+
+      return (
+        <div>
+          <Chart height={600} data={data} forceFit>
+            {coordination}
+            {geometryList}
+          </Chart>
+        </div>
+      );
     };
 
     const chart = buildSingeChart();

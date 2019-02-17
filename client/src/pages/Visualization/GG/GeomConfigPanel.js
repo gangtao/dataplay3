@@ -65,7 +65,7 @@ class GeomConfigPanel extends PureComponent {
 
     return (
       <div className={styles.geomConfigPanel}>
-        Geometry:
+        geometry:
         {geomTypeSelector}
         {geomAttributesSelectors}
       </div>
