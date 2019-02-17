@@ -26,8 +26,6 @@ class GrammerGraph extends PureComponent {
     const { gg, loading, dispatch } = this.props;
     const { dataSource, columns } = gg.currentDataset;
 
-    console.log(gg.grammar);
-
     const handleChange = value => {
       console.log(`selected ${value}`);
       dispatch({

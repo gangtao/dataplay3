@@ -17,10 +17,21 @@ class GrammarConfigPanel extends PureComponent {
 
     this.newTabIndex = 0;
     const panes = [];
+
+    const {gg} = this.props;
+    this.buildPanel(gg.grammar.geom,panes);
+
     this.state = {
-      activeKey: null,
+      activeKey: panes[0].key,
       panes,
     };
+  }
+
+  buildPanel = (geom, panes) => {
+    Object.entries(geom).map( item => {
+      const activeKey = item[0];
+      panes.push({ title: item[0], content: '', key: item[0] });
+    })
   }
 
   onTabChange = activeKey => {
@@ -68,7 +79,6 @@ class GrammarConfigPanel extends PureComponent {
 
   render() {
     const { gg, dispatch } = this.props;
-
     const { currentDataset } = gg;
     const facadOptions = [];
 
@@ -108,6 +118,12 @@ class GrammarConfigPanel extends PureComponent {
       });
     }
 
+    const facadValue = gg.grammar.facad ? gg.grammar.facad:[];
+    const coordinationValue = gg.grammar.coordination ? gg.grammar.coordination:[];
+    const getGeom = function(key){
+      return gg.grammar.geom[key];
+    };
+
     return (
       <div className={styles.grammarConfigPanel}>
         <Row gutter={16}>
@@ -117,7 +133,7 @@ class GrammarConfigPanel extends PureComponent {
             style={{ width: '100%' }}
             placeholder="Please select facad"
             onChange={handleFacadUpdate}
-            defaultValue={[]}
+            value={facadValue}
           >
             {facadOptions}
           </Select>
@@ -129,7 +145,7 @@ class GrammarConfigPanel extends PureComponent {
             style={{ width: '100%' }}
             placeholder="Please select coordination"
             onChange={handleCoordinationUpdate}
-            defaultValue={[]}
+            value={coordinationValue}
           >
             {coordList}
           </Select>
@@ -147,6 +163,7 @@ class GrammarConfigPanel extends PureComponent {
               <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
                 <GeomConfigPanel
                   geomKey={pane.key}
+                  geomValues={getGeom(pane.key)}
                   cols={currentDataset.columns}
                   handleUpdate={handleGeomUpdate}
                 />

@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 class GeomConfigPanel extends PureComponent {
   render() {
-    const { geomKey, cols, handleUpdate } = this.props;
+    const { geomKey, cols, handleUpdate , geomValues} = this.props;
     const fields = [];
     if (cols) {
       cols.map(col => fields.push(col.key));
@@ -34,7 +34,7 @@ class GeomConfigPanel extends PureComponent {
 
     const geomAttributes = ['position', 'color', 'size', 'shape', 'opacity', 'label'];
 
-    const buildSelect = (type, children, single) => {
+    const buildSelect = (type, children, single, selected) => {
       const hint = `please select ${type}`;
       const handleChange = value => {
         handleUpdate(type, value, geomKey);
@@ -46,16 +46,19 @@ class GeomConfigPanel extends PureComponent {
           placeholder={hint}
           onChange={handleChange}
           style={{ width: '100%' }}
+          value={selected}
         >
           {children}
         </Select>
       );
     };
 
-    const geomTypeSelector = buildSelect('geometry', geomTypeList, true);
+    const geomTypeSelected = (geomValues && geomValues.geometry) ? geomValues.geometry:[];
+    const geomTypeSelector = buildSelect('geometry', geomTypeList, true, geomTypeSelected);
 
     const geomAttributesSelectors = geomAttributes.map(attr => {
-      const content = buildSelect(attr, fieldsList, false);
+      const selected = (geomValues && geomValues[attr]) ? geomValues[attr]:[];
+      const content = buildSelect(attr, fieldsList, false, selected);
       return (
         <li key={attr}>
           {attr}:{content}
