@@ -1,7 +1,7 @@
 import { queryDatasets, queryDataset } from '@/services/dataset';
 
 export default {
-  namespace: 'gg',
+  namespace: 'tchart',
 
   state: {
     list: [],
@@ -22,30 +22,6 @@ export default {
       yield put({
         type: 'getDataset',
         payload: response,
-      });
-    },
-    *facatUpdate({ payload }, { call, put }) {
-      yield put({
-        type: 'updatefacat',
-        payload: payload,
-      });
-    },
-    *coordUpdate({ payload }, { call, put }) {
-      yield put({
-        type: 'updateCoord',
-        payload: payload,
-      });
-    },
-    *geomUpdate({ payload }, { call, put }) {
-      yield put({
-        type: 'updateGeom',
-        payload: payload,
-      });
-    },
-    *geomDelete({ payload }, { call, put }) {
-      yield put({
-        type: 'deleteGeom',
-        payload: payload,
       });
     },
   },
@@ -91,31 +67,6 @@ export default {
         ...state,
         currentDataset: convertedDataset,
         grammar: { facat: null, coordination: null, geom: {} },
-      };
-    },
-    updatefacat(state, action) {
-      state.grammar.facat = action.payload;
-      return {
-        ...state,
-      };
-    },
-    updateCoord(state, action) {
-      state.grammar.coordination = action.payload;
-      return {
-        ...state,
-      };
-    },
-    updateGeom(state, action) {
-      const geomKey = action.payload.key;
-      state.grammar.geom[geomKey] = { ...state.grammar.geom[geomKey], ...action.payload.value };
-      return {
-        ...state,
-      };
-    },
-    deleteGeom(state, action) {
-      delete state.grammar.geom[action.payload];
-      return {
-        ...state,
       };
     },
   },

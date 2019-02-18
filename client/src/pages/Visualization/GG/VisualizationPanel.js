@@ -18,11 +18,11 @@ import {
 import { connect } from 'dva';
 
 
-import GGChart from '@/components/Visualization/GGChart';
+import gchartChart from '@/components/Visualization/GGChart';
 import styles from './VisualizationPanel.less';
 
-export default connect(({ gg }) => ({
-    gg
-}))(GGChart);
+export default connect(({ gchart }) => ({
+    model:gchart,
+}))(gchartChart);
 
 

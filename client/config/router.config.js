@@ -66,6 +66,12 @@ export default [
             name: 'gg',
             component: './Visualization/GG',
           },
+          {
+            path: '/visualization/td',
+            icon: 'pie-chart',
+            name: 'typeDriven',
+            component: './Visualization/TD',
+          },
         ],
       },
     ],

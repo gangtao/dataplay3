@@ -8,23 +8,28 @@ import styles from './GrammarConfigPanel.less';
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 
-@connect(({ gg }) => ({
-  gg,
+@connect(({ gchart }) => ({
+  gchart,
 }))
 class GrammarConfigPanel extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.newTabIndex = 0;
+    const { gchart } = this.props;
     const panes = [];
-
-    const { gg } = this.props;
-    this.buildPanel(gg.grammar.geom, panes);
-
-    this.state = {
-      activeKey: panes[0].key,
-      panes,
-    };
+    this.newTabIndex = 0;
+    this.buildPanel(gchart.grammar.geom, panes);
+    
+    if ( panes.length > 0 ) {
+      this.state = {
+        activeKey: panes[0].key,
+        panes,
+      };
+    } else {
+      this.state = {
+        activeKey: null,
+        panes,
+      };
+    }
   }
 
   buildPanel = (geom, panes) => {
@@ -72,14 +77,14 @@ class GrammarConfigPanel extends PureComponent {
     this.setState({ panes, activeKey });
     this.newTabIndex--;
     dispatch({
-      type: 'gg/geomDelete',
+      type: 'gchart/geomDelete',
       payload: targetKey,
     });
   };
 
   render() {
-    const { gg, dispatch } = this.props;
-    const { currentDataset } = gg;
+    const { gchart, dispatch } = this.props;
+    const { currentDataset } = gchart;
     const facatOptions = [];
 
     const handleGeomUpdate = (type, value, key) => {
@@ -88,21 +93,21 @@ class GrammarConfigPanel extends PureComponent {
       payload.value = {};
       payload.value[type] = value;
       dispatch({
-        type: 'gg/geomUpdate',
+        type: 'gchart/geomUpdate',
         payload: payload,
       });
     };
 
     const handlefacatUpdate = value => {
       dispatch({
-        type: 'gg/facatUpdate',
+        type: 'gchart/facatUpdate',
         payload: value,
       });
     };
 
     const handleCoordinationUpdate = value => {
       dispatch({
-        type: 'gg/coordUpdate',
+        type: 'gchart/coordUpdate',
         payload: value,
       });
     };
@@ -118,10 +123,10 @@ class GrammarConfigPanel extends PureComponent {
       });
     }
 
-    const facatValue = gg.grammar.facat ? gg.grammar.facat : [];
-    const coordinationValue = gg.grammar.coordination ? gg.grammar.coordination : [];
+    const facatValue = gchart.grammar.facat ? gchart.grammar.facat : [];
+    const coordinationValue = gchart.grammar.coordination ? gchart.grammar.coordination : [];
     const getGeom = function(key) {
-      return gg.grammar.geom[key];
+      return gchart.grammar.geom[key];
     };
 
     return (

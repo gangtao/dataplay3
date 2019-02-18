@@ -10,38 +10,37 @@ import VisualizationPanel from './VisualizationPanel';
 
 import styles from './index.less';
 
-@connect(({ gg, loading }) => ({
-  gg,
-  loading: loading.effects['gg/fetch'],
+@connect(({ gchart, loading }) => ({
+  gchart,
+  loading: loading.effects['gchart/fetch'],
 }))
 class GrammerGraph extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'gg/fetch',
+      type: 'gchart/fetch',
     });
   }
 
   render() {
-    const { gg, loading, dispatch } = this.props;
-    const { dataSource, columns } = gg.currentDataset;
+    const { gchart, loading, dispatch } = this.props;
+    const { dataSource, columns } = gchart.currentDataset;
 
     const handleChange = value => {
-      console.log(`selected ${value}`);
       dispatch({
-        type: 'gg/fetchSelected',
+        type: 'gchart/fetchSelected',
         payload: value,
       });
     };
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.gg}>
+        <div className={styles.gchart}>
           <Row gutter={16}>
             <Col span={6}>
               <Row>
                 Dataset:
-                <DatasetListSelector list={gg.list} handleChange={handleChange} />
+                <DatasetListSelector list={gchart.list} handleChange={handleChange} />
               </Row>
             </Col>
           </Row>

@@ -21,7 +21,7 @@ import styles from './index.less';
 class GGChart extends PureComponent {
   render() {
     console.log('render chart');
-    const { grammar, currentDataset } = this.props.gg;
+    const { grammar, currentDataset } = this.props.model;
     if (!currentDataset) {
       return <Empty />;
     }
