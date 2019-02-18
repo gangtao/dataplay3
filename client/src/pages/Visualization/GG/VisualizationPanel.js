@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Empty } from 'antd';
 import {
   G2,
   Chart,
@@ -19,7 +20,7 @@ import { connect } from 'dva';
 import styles from './VisualizationPanel.less';
 
 @connect(({ gg }) => ({
-  gg
+  gg,
 }))
 class VisualizationPanel extends PureComponent {
   render() {
@@ -41,18 +42,25 @@ class VisualizationPanel extends PureComponent {
     };
     const coordination = buildCoordination();
 
-    //TODO: build a rule base grammar validator
-    const validateGrammar = (geom) => {
-      if (!coordinationType || coordinationType == 'rect' || coordinationType == 'polar') {
+    const validateGrammar = geom => {
+      if (
+        !coordinationType ||
+        coordinationType == 'rect' ||
+        coordinationType == 'polar' ||
+        coordinationType == 'helix'
+      ) {
         if (geom.position && geom.position.length == 2) {
           return true;
         }
+      } else if (coordinationType == 'theta') {
+        if (geom.position && geom.position.length >= 1) {
+          return true;
+        }
       }
-
       return false;
     };
 
-    const buildGeom = (geom) => {
+    const buildGeom = geom => {
       const geomType = geom.geometry;
       let position = '';
       if (geom.position) {
@@ -102,38 +110,84 @@ class VisualizationPanel extends PureComponent {
       );
     };
 
-    const buildSingeChart = () => {
-      
-      if ( !grammar.geom ) {
-        return <div />;
+    const buildGeomList = () => {
+      if (!grammar.geom) {
+        return;
       }
-
       let geometryList = [];
 
-      Object.entries(grammar.geom).map( item => {
-        const value  = item[1];
+      Object.entries(grammar.geom).map(item => {
+        const value = item[1];
         if (!validateGrammar(value)) {
-          return <div />;
+          return;
         }
         geometryList.push(buildGeom(value));
-      })
+      });
 
-      if ( geometryList.length === 0) {
-        return <div />;
+      return geometryList;
+    };
+
+    const buildAxis = () => {
+      if (grammar && grammar.geom && grammar.geom.Geom_0 && grammar.geom.Geom_0.position) {
+        return Object.entries(grammar.geom.Geom_0.position).map(item => {
+          const pos = item[1];
+          return <Axis name={pos} />;
+        });
+      } else {
+        return null;
       }
+    };
+
+    const buildSingeChart = () => {
+      const geomList = buildGeomList();
+
+      if (geomList.length === 0) {
+        return <Empty />;
+      }
+
+      const axis = buildAxis();
 
       return (
         <div>
           <Chart height={600} data={data} forceFit>
+            <Legend />
+            <Tooltip />
+            {axis}
             {coordination}
-            {geometryList}
+            {geomList}
           </Chart>
         </div>
       );
     };
 
-    const chart = buildSingeChart();
-    return chart;
+    const buildFacad = () => {
+      const geomList = buildGeomList();
+      return (
+        <Facet type="rect" fields={grammar.facad}>
+          <View>{geomList}</View>
+        </Facet>
+      );
+    };
+
+    if (grammar.facad && grammar.facad.length > 0) {
+      let facad = null;
+      if (grammar.facad.length == 1 || grammar.facad.length == 2) {
+        facad = buildFacad();
+      } else {
+        return <Empty />;
+      }
+      return (
+        <div>
+          <Chart height={600} data={data} forceFit>
+            <Legend />
+            <Tooltip />
+            {facad}
+          </Chart>
+        </div>
+      );
+    } else {
+      return buildSingeChart();
+    }
   }
 }
 

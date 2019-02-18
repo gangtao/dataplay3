@@ -4,10 +4,10 @@ import iris from './data/iris.json';
 import diabetes from './data/diabetes.json';
 import app_usage from './data/app_usage.json';
 import churn from './data/churn.json';
-import disk_failures from './data/disk_failures.json';
+import logins from './data/logins.json';
 
 
-const database = [iris,diabetes,app_usage,churn,disk_failures]
+const database = [iris,diabetes,app_usage,churn,logins]
 
 const NOTFOUND = {
   message: 'Not Found',

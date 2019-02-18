@@ -5,7 +5,7 @@ export default {
 
   state: {
     list: [],
-    grammar: { facad: null, coordination: null, geom: { Geom_0 :{}} },
+    grammar: { facad: null, coordination: null, geom: { Geom_0: {} } },
     currentDataset: {},
   },
 

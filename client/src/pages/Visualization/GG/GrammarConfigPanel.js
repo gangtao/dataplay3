@@ -18,8 +18,8 @@ class GrammarConfigPanel extends PureComponent {
     this.newTabIndex = 0;
     const panes = [];
 
-    const {gg} = this.props;
-    this.buildPanel(gg.grammar.geom,panes);
+    const { gg } = this.props;
+    this.buildPanel(gg.grammar.geom, panes);
 
     this.state = {
       activeKey: panes[0].key,
@@ -28,11 +28,11 @@ class GrammarConfigPanel extends PureComponent {
   }
 
   buildPanel = (geom, panes) => {
-    Object.entries(geom).map( item => {
+    Object.entries(geom).map(item => {
       const activeKey = item[0];
       panes.push({ title: item[0], content: '', key: item[0] });
-    })
-  }
+    });
+  };
 
   onTabChange = activeKey => {
     this.setState({ activeKey });
@@ -118,9 +118,9 @@ class GrammarConfigPanel extends PureComponent {
       });
     }
 
-    const facadValue = gg.grammar.facad ? gg.grammar.facad:[];
-    const coordinationValue = gg.grammar.coordination ? gg.grammar.coordination:[];
-    const getGeom = function(key){
+    const facadValue = gg.grammar.facad ? gg.grammar.facad : [];
+    const coordinationValue = gg.grammar.coordination ? gg.grammar.coordination : [];
+    const getGeom = function(key) {
       return gg.grammar.geom[key];
     };
 

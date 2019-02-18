@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 class GeomConfigPanel extends PureComponent {
   render() {
-    const { geomKey, cols, handleUpdate , geomValues} = this.props;
+    const { geomKey, cols, handleUpdate, geomValues } = this.props;
     const fields = [];
     if (cols) {
       cols.map(col => fields.push(col.key));
@@ -23,6 +23,7 @@ class GeomConfigPanel extends PureComponent {
       'line',
       'area',
       'interval',
+      'intervalStack',
       'polygon',
       'schema',
       'edge',
@@ -53,11 +54,11 @@ class GeomConfigPanel extends PureComponent {
       );
     };
 
-    const geomTypeSelected = (geomValues && geomValues.geometry) ? geomValues.geometry:[];
+    const geomTypeSelected = geomValues && geomValues.geometry ? geomValues.geometry : [];
     const geomTypeSelector = buildSelect('geometry', geomTypeList, true, geomTypeSelected);
 
     const geomAttributesSelectors = geomAttributes.map(attr => {
-      const selected = (geomValues && geomValues[attr]) ? geomValues[attr]:[];
+      const selected = geomValues && geomValues[attr] ? geomValues[attr] : [];
       const content = buildSelect(attr, fieldsList, false, selected);
       return (
         <li key={attr}>
