@@ -5,7 +5,7 @@ export default {
 
   state: {
     list: [],
-    grammar: { facad: null, coordination: null, geom: { Geom_0: {} } },
+    grammar: { facat: null, coordination: null, geom: { Geom_0: {} } },
     currentDataset: {},
   },
 
@@ -24,9 +24,9 @@ export default {
         payload: response,
       });
     },
-    *facadUpdate({ payload }, { call, put }) {
+    *facatUpdate({ payload }, { call, put }) {
       yield put({
-        type: 'updateFacad',
+        type: 'updatefacat',
         payload: payload,
       });
     },
@@ -90,11 +90,11 @@ export default {
       return {
         ...state,
         currentDataset: convertedDataset,
-        grammar: { facad: null, coordination: null, geom: {} },
+        grammar: { facat: null, coordination: null, geom: {} },
       };
     },
-    updateFacad(state, action) {
-      state.grammar.facad = action.payload;
+    updatefacat(state, action) {
+      state.grammar.facat = action.payload;
       return {
         ...state,
       };

@@ -26,10 +26,6 @@ class VisualizationPanel extends PureComponent {
   render() {
     const { grammar, currentDataset } = this.props.gg;
     const dataset = currentDataset;
-    console.log('render Viz');
-    console.log(grammar);
-    console.log(dataset);
-
     const data = dataset.dataSource;
 
     const coordinationType = grammar.coordination;
@@ -160,19 +156,19 @@ class VisualizationPanel extends PureComponent {
       );
     };
 
-    const buildFacad = () => {
+    const buildfacat = () => {
       const geomList = buildGeomList();
       return (
-        <Facet type="rect" fields={grammar.facad}>
+        <Facet type="rect" fields={grammar.facat}>
           <View>{geomList}</View>
         </Facet>
       );
     };
 
-    if (grammar.facad && grammar.facad.length > 0) {
-      let facad = null;
-      if (grammar.facad.length == 1 || grammar.facad.length == 2) {
-        facad = buildFacad();
+    if (grammar.facat && grammar.facat.length > 0) {
+      let facat = null;
+      if (grammar.facat.length == 1 || grammar.facat.length == 2) {
+        facat = buildfacat();
       } else {
         return <Empty />;
       }
@@ -181,7 +177,7 @@ class VisualizationPanel extends PureComponent {
           <Chart height={600} data={data} forceFit>
             <Legend />
             <Tooltip />
-            {facad}
+            {facat}
           </Chart>
         </div>
       );

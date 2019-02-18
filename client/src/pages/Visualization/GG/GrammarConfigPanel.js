@@ -80,7 +80,7 @@ class GrammarConfigPanel extends PureComponent {
   render() {
     const { gg, dispatch } = this.props;
     const { currentDataset } = gg;
-    const facadOptions = [];
+    const facatOptions = [];
 
     const handleGeomUpdate = (type, value, key) => {
       let payload = {};
@@ -93,9 +93,9 @@ class GrammarConfigPanel extends PureComponent {
       });
     };
 
-    const handleFacadUpdate = value => {
+    const handlefacatUpdate = value => {
       dispatch({
-        type: 'gg/facadUpdate',
+        type: 'gg/facatUpdate',
         payload: value,
       });
     };
@@ -114,11 +114,11 @@ class GrammarConfigPanel extends PureComponent {
 
     if (currentDataset && currentDataset.columns) {
       currentDataset.columns.map(col => {
-        facadOptions.push(<Option key={col.key}>{col.key}</Option>);
+        facatOptions.push(<Option key={col.key}>{col.key}</Option>);
       });
     }
 
-    const facadValue = gg.grammar.facad ? gg.grammar.facad : [];
+    const facatValue = gg.grammar.facat ? gg.grammar.facat : [];
     const coordinationValue = gg.grammar.coordination ? gg.grammar.coordination : [];
     const getGeom = function(key) {
       return gg.grammar.geom[key];
@@ -127,15 +127,15 @@ class GrammarConfigPanel extends PureComponent {
     return (
       <div className={styles.grammarConfigPanel}>
         <Row gutter={16}>
-          Facad:
+          facat:
           <Select
             mode="tags"
             style={{ width: '100%' }}
-            placeholder="Please select facad"
-            onChange={handleFacadUpdate}
-            value={facadValue}
+            placeholder="Please select facat"
+            onChange={handlefacatUpdate}
+            value={facatValue}
           >
-            {facadOptions}
+            {facatOptions}
           </Select>
         </Row>
 
