@@ -36,8 +36,21 @@ function getDataset(req, res) {
     }
 }
 
+function queryDataset(req, res) {
+    const { id } = req.params;
+    const { body } = req;
+    const { dataset, type, query } = body;
+    const result = {};
+    result.dataset = dataset;
+    result.type = type;
+    result.query = query;
+    result.id = id;
+    res.status(200).json(result);
+}
+
 
 export default {
     'GET /api/datasets': getDatasets,
     'GET /api/datasets/:id': getDataset,
+    'POST /api/datasets/:id/query': queryDataset,
 };

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col , Select, Input, Button, Divider} from 'antd';
+import { Row, Col , Select, Input, Button, Divider, Modal} from 'antd';
 import { connect } from 'dva';
 
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
@@ -9,8 +9,8 @@ import styles from './QueryBuilder.less';
 const Option = Select.Option;
 const { TextArea } = Input;
 
-@connect(({ dataset}) => ({
-  dataset
+@connect(({ dataset , query}) => ({
+  dataset, query
 }))
 class QueryBuilder extends PureComponent {
   componentDidMount() {
@@ -21,22 +21,51 @@ class QueryBuilder extends PureComponent {
   }
 
   render() {
-    const { dataset, dispatch,  handleChange } = this.props;
+    const { dataset, query, dispatch, onQuery } = this.props;
+    const { currentQuery } = query;
     const queryTypes = ['query','sql'];
 
     const queryOptions = queryTypes.map(item => {
       return (<Option value={item}>{item}</Option>);
     });
 
+    const handleNameChange = event => {
+      currentQuery.name = event.target.value;
+    }
+
     const handleDatasetChange = value => {
-      console.log("dataset selected!");
+      currentQuery.dataset = value;
+    }
+
+    const handleQueryTypeChange = value => {
+      currentQuery.type = value;
+    }
+
+    const handleQueryChange = event => {
+      console.log("query changed!");
+      currentQuery.query = event.target.value;
+    }
+
+    const handleQuery = () => {
+      // TODO : validate query
+      if ( !currentQuery.dataset || !currentQuery.type) {
+        Modal.error({
+          title: 'invalide query',
+          content: 'dataset and query type must not be empty!',
+        });
+      } else {
+        if ( !currentQuery.query ) {
+          currentQuery.query = ''
+        }
+        onQuery();
+      }
     }
 
     return (
       <div className={styles.queryBuilder}>
         <Row>
           Query Name:
-          <Input placeholder="Query Name" />
+          <Input placeholder="Query Name" onChange={handleNameChange}/>
         </Row>
         <Row>
           Select Dataset:
@@ -44,20 +73,21 @@ class QueryBuilder extends PureComponent {
         </Row>
         <Row>
           Select Query Type:
-          <Select style={{ width: '100%' }}>
+          <Select style={{ width: '100%' }} onChange={handleQueryTypeChange}>
             {queryOptions}
           </Select>
         </Row>
         <Row>
           Input Query:
-          <TextArea placeholder="Query" rows={10} />
+          <TextArea placeholder="Query" rows={10} onChange={handleQueryChange} />
+        </Row>
+        <Row>
+          Query:
+        </Row>
+        <Row>
+          <Button icon="search" onClick={handleQuery}/>
         </Row>
         <Divider/>
-        <Row>
-          <Button icon="save" />
-          <Button icon="export" />
-          <Button icon="delete" />
-        </Row>
       </div>
     );
   }

@@ -16,13 +16,12 @@ class QueryPage extends PureComponent {
     const { query, dispatch } = this.props;
     const { currentQuery, currentQueryResult } = query
 
-    const handleQueryChange = value => {
-      const payload = {};
-      payload.dataset = value;
-      payload.query = query.query;
+    const handleQuery = () => {
+      console.log("do query");
+      console.log(currentQuery);
       dispatch({
         type: 'query/fetchQuery',
-        payload: value,
+        payload: currentQuery,
       });
     };
 
@@ -31,7 +30,7 @@ class QueryPage extends PureComponent {
         <div className={styles.getDataIn}>
           <Row gutter={16}>
             <Col span={8}>
-              <QueryBuilder/>
+              <QueryBuilder onQuery={handleQuery}/>
             </Col>
             <Col span={16}>
               <Row>
