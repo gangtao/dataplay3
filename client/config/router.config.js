@@ -52,6 +52,12 @@ export default [
             name: 'viewDataset',
             component: './Dataset/View',
           },
+          {
+            path: '/dataset/query',
+            icon: 'search',
+            name: 'queryDataset',
+            component: './Dataset/Query',
+          },
         ],
       },
       // Analysis
