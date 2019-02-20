@@ -173,7 +173,7 @@ class GGChart extends PureComponent {
         return <Empty />;
       }
       return (
-        <div className={styles.ggchart} >
+        <div className={styles.ggchart}>
           <Chart height={600} data={data} forceFit>
             <Legend />
             <Tooltip />

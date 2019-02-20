@@ -90,7 +90,7 @@ export default {
       return {
         ...state,
         currentDataset: convertedDataset,
-        grammar: { facat: null, coordination: null, geom: {Geom_0: {}} },
+        grammar: { facat: null, coordination: null, geom: { Geom_0: {} } },
       };
     },
     updatefacat(state, action) {

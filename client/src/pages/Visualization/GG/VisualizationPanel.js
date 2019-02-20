@@ -17,12 +17,9 @@ import {
 } from 'bizcharts';
 import { connect } from 'dva';
 
-
 import gchartChart from '@/components/Visualization/GGChart';
 import styles from './VisualizationPanel.less';
 
 export default connect(({ gchart }) => ({
-    model:gchart,
+  model: gchart,
 }))(gchartChart);
-
-

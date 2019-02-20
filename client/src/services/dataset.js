@@ -9,8 +9,8 @@ export async function queryDataset(id) {
 }
 
 export async function runDatasetQuery(params) {
-  const { dataset , ...restParams } = params;
-  return request(`/api/datasets/${dataset}/query`,{
+  const { dataset, ...restParams } = params;
+  return request(`/api/datasets/${dataset}/query`, {
     method: 'POST',
     body: restParams,
   });

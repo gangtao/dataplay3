@@ -34,12 +34,12 @@ class TypeDrivenChart extends PureComponent {
       <PageHeaderWrapper>
         <div className={styles.td}>
           <Row gutter={16}>
-              <Col span={6}>
-                <Row>
-                  Dataset:
-                  <DatasetListSelector list={tchart.list} handleChange={handleChange} />
-                </Row>
-              </Col>
+            <Col span={6}>
+              <Row>
+                Dataset:
+                <DatasetListSelector list={tchart.list} handleChange={handleChange} />
+              </Row>
+            </Col>
           </Row>
         </div>
       </PageHeaderWrapper>

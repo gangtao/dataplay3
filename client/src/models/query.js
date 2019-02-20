@@ -6,7 +6,7 @@ export default {
   state: {
     list: [],
     currentQuery: {},
-    currentQueryResult: { dataSource: null, columns:null},
+    currentQueryResult: { dataSource: null, columns: null },
   },
 
   effects: {

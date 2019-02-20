@@ -18,8 +18,8 @@ class GrammarConfigPanel extends PureComponent {
     const panes = [];
     this.newTabIndex = 0;
     this.buildPanel(gchart.grammar.geom, panes);
-    
-    if ( panes.length > 0 ) {
+
+    if (panes.length > 0) {
       this.state = {
         activeKey: panes[0].key,
         panes,
