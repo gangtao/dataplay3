@@ -18,7 +18,6 @@ class QueryPage extends PureComponent {
 
     const handleQuery = () => {
       console.log("do query");
-      console.log(currentQuery);
       dispatch({
         type: 'query/fetchQuery',
         payload: currentQuery,
@@ -34,7 +33,7 @@ class QueryPage extends PureComponent {
             </Col>
             <Col span={16}>
               <Row>
-                <DatasetTable dataSource={currentQueryResult.data} columns={currentQueryResult.columns} />
+                <DatasetTable dataSource={currentQueryResult.dataSource} columns={currentQueryResult.columns} />
               </Row>
             </Col>
           </Row>

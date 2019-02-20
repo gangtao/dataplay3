@@ -36,15 +36,50 @@ function getDataset(req, res) {
     }
 }
 
+function fakeQuery(dataset) {
+    const result = {};
+    const rColThreshold = Math.random();
+    const rRawThreshold = Math.random();
+    const colsIndex = [];
+    const cols = [];
+    const rows = [];
+
+    for (let i = 0; i < dataset.cols.length; i++) {
+        const col = dataset.cols[i];
+        const r = Math.random();
+        if ( r > rColThreshold ) {
+            colsIndex.push(i);
+            cols.push(col);
+        }
+    }
+
+    for (let i = 0; i < dataset.rows.length; i++) {
+        const row = dataset.rows[i];
+        const r = Math.random();
+        if ( r > rRawThreshold ) {
+            const newRow = row.filter( (o, index) => {
+                return colsIndex.indexOf(index) >=0;
+            });
+            rows.push(newRow);
+        }
+    }
+    result.cols = cols;
+    result.rows = rows;
+    return result;
+}
+
 function queryDataset(req, res) {
     const { id } = req.params;
     const { body } = req;
-    const { dataset, type, query } = body;
+    const { type, query } = body;
     const result = {};
-    result.dataset = dataset;
+
+    let newData = database.find(item => item.id == id);
+
     result.type = type;
     result.query = query;
     result.id = id;
+    result.result = fakeQuery(newData)
     res.status(200).json(result);
 }
 
