@@ -3,7 +3,7 @@ VERSION ?= 0.1
 IMAGE_NAME ?= $(BIN_NAME):$(VERSION)
 DOCKER_ID_USER ?= naughtytao
 
-docker: Dockerfile, build
+docker: Dockerfile build
 	docker build --no-cache -t $(IMAGE_NAME) .
 
 push:
@@ -13,7 +13,7 @@ push:
 	docker push ${DOCKER_ID_USER}/$(BIN_NAME):latest
 
 run: 
-	docker run -p 5000:5000 $(IMAGE_NAME)
+	docker run -p 8000:8000 $(IMAGE_NAME)
 
 build: 
 	cd client; \
