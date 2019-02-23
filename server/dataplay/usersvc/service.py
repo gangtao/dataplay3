@@ -1,34 +1,32 @@
-from flask import Blueprint
-from flask import request
-from flask_api import status
-import json
+from sanic import Blueprint
+from sanic import response
 
 from .user import get_user, get_routes
 
-user_svc = Blueprint('user_svc', __name__)
+user_svc = Blueprint('user_svc')
 
 
-@user_svc.route('currentUser', methods=['GET'])
-def user():
+@user_svc.route('/currentUser', methods=['GET'])
+def user(request):
     try:
         if request.method == 'GET':
             # TODO: Check if user logged in
             user = get_user()
-            return json.dumps(user), status.HTTP_200_OK
+            return response.json(user, status=200)
         else:
-            return json.dumps({}), status.HTTP_405_METHOD_NOT_ALLOWED
+            return response.json({}, status=405)
     except Exception:
-        return json.dumps({}), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response.json({}, status=500)
 
 
-@user_svc.route('auth_routes', methods=['GET'])
-def routes():
+@user_svc.route('/auth_routes', methods=['GET'])
+def routes(request):
     try:
         if request.method == 'GET':
             # TODO: Check if user logged in
             routes = get_routes()
-            return json.dumps(routes), status.HTTP_200_OK
+            return response.json(routes, 200)
         else:
-            return json.dumps({}), status.HTTP_405_METHOD_NOT_ALLOWED
+            return response.json({}, status=405)
     except Exception:
-        return json.dumps({}), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response.json({}, status=500)

@@ -1,38 +1,36 @@
-from flask import Blueprint
-from flask import request
-from flask import current_app
-from flask_api import status
-import json
+from sanic import Blueprint
+from sanic import response
+from sanic.log import logger
 
 from .csv import CVSDataset
 
-dataset_svc = Blueprint('dataset_svc', __name__)
+dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.route('/datasets', methods=['GET', 'POST'])
-def datasets():
+async def datasets(request):
     try:
         if request.method == 'GET':
             files = CVSDataset.list_csv()
-            return json.dumps(files), status.HTTP_200_OK
+            return response.json(files, status=200)
         elif request.method == 'POST':
-            return json.dumps({}), status.HTTP_201_CREATED
+            return response.json({}, status=201)
         else:
-            return json.dumps({}), status.HTTP_405_METHOD_NOT_ALLOWED
+            return response.json({}, status=405)
     except Exception:
-        return json.dumps({}), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response.json({}, status=500)
 
 
 @dataset_svc.route('/datasets/<id>', methods=['GET'])
-def dataset(id):
+async def dataset(request, id):
     try:
         if request.method == 'GET':
-            current_app.logger.info('GET dataset')
+            logger.info('GET dataset')
             csv = CVSDataset(id)
-            current_app.logger.info('GET dataset {}'.format(csv.payload()))
-            return json.dumps(csv.payload()), status.HTTP_200_OK
+            logger.info('GET dataset {}'.format(csv.payload()))
+            return response.json(csv.payload(), status=200)
         else:
-            return json.dumps({}), status.HTTP_405_METHOD_NOT_ALLOWED
+            return response.json({}, status=405)
     except Exception as e:
-        current_app.logger.error(e)
-        return json.dumps({}), status.HTTP_500_INTERNAL_SERVER_ERROR
+        logger.error(e)
+        return response.json({}, status=500)

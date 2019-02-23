@@ -3,7 +3,7 @@ VERSION ?= 0.1
 IMAGE_NAME ?= $(BIN_NAME):$(VERSION)
 DOCKER_ID_USER ?= naughtytao
 
-docker: Dockerfile
+docker: Dockerfile, build
 	docker build --no-cache -t $(IMAGE_NAME) .
 
 push:
@@ -15,5 +15,6 @@ push:
 run: 
 	docker run -p 5000:5000 $(IMAGE_NAME)
 
-build_demo:
-	cp -r client/dist demo/dist
+build: 
+	cd client; \
+	npm run build

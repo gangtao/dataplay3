@@ -1,0 +1,8 @@
+build/*
+client/*
+client/**/*
+demo/*
+server/.venv
+server/.pytest_cache
+server/common
+server/tests

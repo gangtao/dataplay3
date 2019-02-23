@@ -31,6 +31,10 @@ export default [
     routes: [
       // root
       {
+        path: '/ui',
+        redirect: '/dataset/getDataIn',
+      },
+      {
         path: '/',
         redirect: '/dataset/getDataIn',
       },

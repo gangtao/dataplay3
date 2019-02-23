@@ -1,22 +1,20 @@
-from flask import Flask
+import os
+from sanic import Sanic
+from sanic.log import logger
 from .datasvc.service import dataset_svc
 from .usersvc.service import user_svc
+from .filesvc import file_svc
 
-app = Flask(__name__, static_url_path="")
+PREFIX = '/api'
 
-PREFIX = '/api/'
-
-
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
-
+app = Sanic(__name__)
 
 def init():
-    app.register_blueprint(dataset_svc, url_prefix=PREFIX)
-    app.register_blueprint(user_svc, url_prefix=PREFIX)
+    app.blueprint(file_svc)
+    app.blueprint(dataset_svc, url_prefix=PREFIX)
+    app.blueprint(user_svc, url_prefix=PREFIX)
 
 
 if __name__ == '__main__':
     init()
-    app.run(host='0.0.0.0', threaded=True)
+    app.run(host='0.0.0.0', port=8000, debug=False, workers=3)

@@ -30,6 +30,7 @@ class CVSDataset(BaseDataset):
     def _load(self):
         df = pd.read_csv(self._path)
         # null fill
+        # TODO : check to_dict(orient='list')
         self._df = df.where(pd.notnull(df), None)
         self._payload["id"] = self._name
         self._payload["name"] = self._name
