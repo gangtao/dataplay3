@@ -9,6 +9,7 @@ PREFIX = '/api'
 
 app = Sanic(__name__)
 
+
 def init():
     app.blueprint(file_svc)
     app.blueprint(dataset_svc, url_prefix=PREFIX)
@@ -17,4 +18,4 @@ def init():
 
 if __name__ == '__main__':
     init()
-    app.run(host='0.0.0.0', port=8000, debug=False, workers=3)
+    app.run(host='0.0.0.0', port=8000, debug=True, workers=3)

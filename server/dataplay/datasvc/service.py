@@ -1,3 +1,5 @@
+import json
+
 from sanic import Blueprint
 from sanic import response
 from sanic.log import logger
@@ -27,8 +29,26 @@ async def dataset(request, id):
         if request.method == 'GET':
             logger.info('GET dataset')
             csv = CVSDataset(id)
-            logger.info('GET dataset {}'.format(csv.payload()))
-            return response.json(csv.payload(), status=200)
+            logger.info(f'GET dataset {csv}')
+            payload = csv.get_payload()
+            return response.json(payload, status=200)
+        else:
+            return response.json({}, status=405)
+    except Exception as e:
+        logger.error(e)
+        return response.json({}, status=500)
+
+
+@dataset_svc.route('/datasets/<id>/query', methods=['POST', ])
+async def dataset_query(request, id):
+    logger.debug(f'get dataset query request {request.body} on {id}')
+    try:
+        if request.method == 'POST':
+            request_body = json.loads(request.body)
+            dataset = CVSDataset(id)
+            query_result = dataset.query(
+                request_body['query'], request_body['type'])
+            return response.json(query_result, status=200)
         else:
             return response.json({}, status=405)
     except Exception as e:

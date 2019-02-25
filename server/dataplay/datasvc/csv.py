@@ -1,44 +1,29 @@
 import os
 from pathlib import Path
 import pandas as pd
+from sanic.log import logger
 
 from .base import BaseDataset
-
-
-csv_path = os.path.join(os.path.dirname(
-    os.path.realpath(__file__)), '..', 'dataset')
+from .constant import CSV_DATASET_PATH
 
 
 class CVSDataset(BaseDataset):
     def __init__(self, name):
-        BaseDataset.__init__(self)
-        self._name = name
-        self._payload = {}
-        self._path = os.path.join(csv_path, f'{name}.csv')
-        self._load()
+        BaseDataset.__init__(self, name)
+        self.id = name
+        self.path = os.path.join(CSV_DATASET_PATH, f'{name}.csv')
 
     @staticmethod
     def list_csv():
         flist = [
             Path(f).stem
-            for f in os.listdir(csv_path)
-            if os.path.isfile(os.path.join(csv_path, f)) and Path(f).suffix == '.csv'
+            for f in os.listdir(CSV_DATASET_PATH)
+            if os.path.isfile(os.path.join(CSV_DATASET_PATH, f)) and Path(f).suffix == '.csv'
         ]
 
         return [{"id": f, "name": f} for f in flist]
 
     def _load(self):
-        df = pd.read_csv(self._path)
-        # null fill
-        # TODO : check to_dict(orient='list')
-        self._df = df.where(pd.notnull(df), None)
-        self._payload["id"] = self._name
-        self._payload["name"] = self._name
-        self._payload["cols"] = list(self._df.columns.values)
-        self._payload["rows"] = self._df.get_values().tolist()
-
-    def save(self):
-        pass
-
-    def payload(self):
-        return self._payload
+        logger.debug(f'load csv from {self.path}')
+        self.df = pd.read_csv(self.path)
+        logger.debug(f'load csv from {self.path} success')
