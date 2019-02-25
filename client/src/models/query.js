@@ -14,7 +14,7 @@ export default {
       const response = yield call(runDatasetQuery, payload);
       yield put({
         type: 'getQuery',
-        payload: response.result,
+        payload: response,
       });
     },
   },

@@ -29,7 +29,10 @@ class BaseDataset(ABC):
     def query(self, query_str, query_type=QUERY_TYPE_NORMAL):
         if self.df is None:
             self._load()
-            
+
+        if query_str == '':
+            return self.get_payload()
+
         if query_type == QUERY_TYPE_NORMAL:
             # http://jose-coto.com/query-method-pandas
             df = self.df.query(query_str)

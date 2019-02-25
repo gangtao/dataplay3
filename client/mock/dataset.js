@@ -72,15 +72,10 @@ function queryDataset(req, res) {
     const { id } = req.params;
     const { body } = req;
     const { type, query } = body;
-    const result = {};
 
     let newData = database.find(item => item.id == id);
 
-    result.type = type;
-    result.query = query;
-    result.id = id;
-    result.result = fakeQuery(newData)
-    res.status(200).json(result);
+    res.status(200).json(fakeQuery(newData));
 }
 
 
