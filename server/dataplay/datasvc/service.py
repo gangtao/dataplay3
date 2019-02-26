@@ -4,16 +4,17 @@ from sanic import Blueprint
 from sanic import response
 from sanic.log import logger
 
-from .csv import CVSDataset
+from .registry import get_dataset_class
 
 dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.route('/datasets', methods=['GET', 'POST'])
 async def datasets(request):
+    dataset_class = get_dataset_class('CSV')
     try:
         if request.method == 'GET':
-            files = CVSDataset.list_csv()
+            files = dataset_class.list_datasets()
             return response.json(files, status=200)
         elif request.method == 'POST':
             return response.json({}, status=201)
@@ -25,10 +26,11 @@ async def datasets(request):
 
 @dataset_svc.route('/datasets/<id>', methods=['GET'])
 async def dataset(request, id):
+    dataset_class = get_dataset_class('CSV')
     try:
         if request.method == 'GET':
             logger.info('GET dataset')
-            csv = CVSDataset(id)
+            csv = dataset_class(id)
             logger.info(f'GET dataset {csv}')
             payload = csv.get_payload()
             return response.json(payload, status=200)
@@ -42,10 +44,11 @@ async def dataset(request, id):
 @dataset_svc.route('/datasets/<id>/query', methods=['POST', ])
 async def dataset_query(request, id):
     logger.debug(f'get dataset query request {request.body} on {id}')
+    dataset_class = get_dataset_class('CSV')
     try:
         if request.method == 'POST':
             request_body = json.loads(request.body)
-            dataset = CVSDataset(id)
+            dataset = dataset_class(id)
             query_result = dataset.query(
                 request_body['query'], request_body['type'])
             return response.json(query_result, status=200)

@@ -7,10 +7,9 @@ from .constant import CSV_DATASET_PATH, QUERY_TYPE_NORMAL, QUERY_TYPE_SQL
 
 
 class BaseDataset(ABC):
-    def __init__(self, name):
-        # Generate an random UUID to reference this model
-        self.name = name
-        self.id = None
+    def __init__(self, id):
+        self.id = id
+        self.name = None
         self.df = None
         self.payload = None
         self.description = ''
@@ -18,6 +17,10 @@ class BaseDataset(ABC):
     @abstractmethod
     def _load(self):
         return self.df
+
+    @staticmethod
+    def list_datasets():
+        return None
 
     def save(self):
         if self.df is None:

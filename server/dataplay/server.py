@@ -1,7 +1,6 @@
-import os
 from sanic import Sanic
-from sanic.log import logger
 from .datasvc.service import dataset_svc
+from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
 from .filesvc import file_svc
 
@@ -11,6 +10,9 @@ app = Sanic(__name__)
 
 
 def init():
+    dataset_registry = DatasetTypeRegistry()
+    dataset_registry.register('CSV', 'dataplay.datasvc.csv')
+
     app.blueprint(file_svc)
     app.blueprint(dataset_svc, url_prefix=PREFIX)
     app.blueprint(user_svc, url_prefix=PREFIX)
