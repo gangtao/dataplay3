@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from pandasql import sqldf
 from abc import ABC, abstractmethod
 from sanic.log import logger
 
@@ -36,21 +37,23 @@ class BaseDataset(ABC):
         if query_str == '':
             return self.get_payload()
 
+        payload = {}
+        query_result = None
+
         if query_type == QUERY_TYPE_NORMAL:
             # http://jose-coto.com/query-method-pandas
-            df = self.df.query(query_str)
-            payload = {}
-            payload["cols"] = list(df.columns.values)
-            payload["rows"] = df.get_values().tolist()
-            return payload
+            query_result = self.df.query(query_str)
         elif query_type == QUERY_TYPE_SQL:
-            # does not support yet,
             # TODO: integrate with https://github.com/yhat/pandasql/
-            logger.warning(f'query type {query_type} is not supported')
-            return None
+            df = self.df
+            query_result = sqldf(query_str, locals())
         else:
             logger.warning(f'query type {query_type} is not supported')
             return None
+
+        payload["cols"] = list(query_result.columns.values)
+        payload["rows"] = query_result.get_values().tolist()
+        return payload
 
     def get_payload(self):
         # lazy load dataset

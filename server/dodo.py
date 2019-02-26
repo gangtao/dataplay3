@@ -91,7 +91,7 @@ def task_update_dependencies() -> DoitReturn:
 
 
 def task_install() -> DoitReturn:
-    """ Installs requirements-{darwin/linux}.txt & requirements-local.txt of packages """
+    """ Installs requirements-{darwin/linux}.txt  """
 
     return {
         "actions": [f"pip install -r requirements-{sys.platform}.txt . --no-deps"],
