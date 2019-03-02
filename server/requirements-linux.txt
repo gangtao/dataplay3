@@ -12,6 +12,7 @@ pandas==0.24.1
 pandasql==0.7.3
 python-dateutil==2.8.0    # via pandas
 pytz==2018.9              # via pandas
+sanic-openapi==0.4.0
 sanic==18.12.0
 six==1.12.0               # via python-dateutil
 sqlalchemy==1.2.18        # via pandasql

@@ -21,16 +21,16 @@ export default {
 
   reducers: {
     getQuery(state, action) {
-      let convertedDataset = {};
+      const convertedDataset = {};
       if (action.payload) {
-        let dataSource = [];
-        let columns = [];
+        const dataSource = [];
+        const columns = [];
 
         // update source and columns based on dataset model
         if (action.payload.rows) {
           const { cols, rows } = action.payload;
           dataSource = rows.map(function(row) {
-            let rowObj = {};
+            const rowObj = {};
             for (let i = 0; i < cols.length; i++) {
               rowObj[cols[i]] = row[i];
             }

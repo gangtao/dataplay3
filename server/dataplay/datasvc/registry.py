@@ -10,14 +10,12 @@ def is_valid_identifier(name):
 
 def get_dataset_class(name):
     if not is_valid_identifier(name):
-        raise RuntimeError(
-            "Failed to load dataset with an invalid name: %s" % name)
+        raise RuntimeError("Failed to load dataset with an invalid name: %s" % name)
 
     dataset_module = DatasetTypeRegistry().get(name)
 
     if dataset_module is None:
-        raise RuntimeError(
-            "Failed to find dataset name: %s in registry" % name)
+        raise RuntimeError("Failed to find dataset name: %s in registry" % name)
 
     try:
         dataset_module = importlib.import_module(dataset_module)
@@ -40,23 +38,18 @@ class DatasetTypeRegistry:
             DatasetTypeRegistry.instance = dict()
 
     def register(self, name, module):
-        logger.debug("DatasetTypeRegistry registered name=%s, module=%s" %
-                     (name, module))
+        logger.debug("DatasetTypeRegistry registered name=%s, module=%s" % (name, module))
 
         if not isinstance(module, str):
-            logger.exception(
-                "Wrong module provided, %s is not a module." % (module))
-            raise RuntimeError(
-                'Error while register dataset type "%s %s"' % (name, module))
+            logger.exception("Wrong module provided, %s is not a module." % (module))
+            raise RuntimeError('Error while register dataset type "%s %s"' % (name, module))
 
         try:
             importlib.import_module(module)
         except Exception as e:
-            logger.exception(
-                "Wrong module provided, failed to load %s as a module." % (module))
+            logger.exception("Wrong module provided, failed to load %s as a module." % (module))
             raise RuntimeError(
-                'Error while register dataset type "%s %s":%s' % (
-                    name, module, str(e))
+                'Error while register dataset type "%s %s":%s' % (name, module, str(e))
             )
         DatasetTypeRegistry.instance[name] = module
 

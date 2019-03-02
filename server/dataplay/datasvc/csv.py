@@ -21,7 +21,7 @@ class CSV(BaseDataset):
             if os.path.isfile(os.path.join(CSV_DATASET_PATH, f)) and Path(f).suffix == '.csv'
         ]
 
-        return [{'id': f, 'name': f, 'type':'CSV'} for f in flist]
+        return [{'id': f, 'name': f, 'type': 'CSV'} for f in flist]
 
     def _load(self):
         logger.debug(f'load csv from {self.path}')

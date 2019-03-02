@@ -1,4 +1,5 @@
 from sanic import Sanic
+from sanic_openapi import swagger_blueprint, openapi_blueprint
 from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
@@ -7,6 +8,14 @@ from .filesvc import file_svc
 PREFIX = '/api'
 
 app = Sanic(__name__)
+app.blueprint(openapi_blueprint)
+app.blueprint(swagger_blueprint)
+
+app.config.API_VERSION = '1.0.0'
+app.config.API_TITLE = 'Dataplay API'
+app.config.API_DESCRIPTION = 'Dataplay API'
+app.config.API_PRODUCES_CONTENT_TYPES = ['application/json']
+app.config.API_CONTACT_EMAIL = 'gang.tao@outlook.com'
 
 
 def init():

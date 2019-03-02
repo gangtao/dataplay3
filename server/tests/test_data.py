@@ -5,7 +5,7 @@ from dataplay.datasvc.csv import CSV
 def is_json(content):
     try:
         json.loads(content)
-    except ValueError as e:
+    except ValueError:
         return False
     return True
 
@@ -14,10 +14,12 @@ def test_data_list():
     files = CSV.list_datasets()
     assert len(files) == 25
 
+
 def test_query():
     dataset = CSV('iris')
     query_result = dataset.query('sepal_length > sepal_width')
     assert query_result is not None
+
 
 def test_sqlquery():
     dataset = CSV('iris')
@@ -25,6 +27,7 @@ def test_sqlquery():
     assert query_result is not None
     assert query_result['rows'] is not None
     assert len(query_result['rows']) == 10
+
 
 def test_dataset_to_json():
     files = CSV.list_datasets()

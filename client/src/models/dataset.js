@@ -34,7 +34,7 @@ export default {
     },
     getDataset(state, action) {
       // Convert the array datamodel to object data model
-      let convertedDataset = {};
+      const convertedDataset = {};
       if (action.payload) {
         let dataSource = [];
         let columns = [];
@@ -43,7 +43,7 @@ export default {
         if (action.payload.rows) {
           const { cols, rows } = action.payload;
           dataSource = rows.map(function(row) {
-            let rowObj = {};
+            const rowObj = {};
             for (let i = 0; i < cols.length; i++) {
               rowObj[cols[i]] = row[i];
             }
