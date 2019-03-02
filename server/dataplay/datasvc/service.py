@@ -11,12 +11,13 @@ dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.get('/datasets', strict_slashes=True)
+@doc.produces([{"name": str, "id": str, "type": str}])
 @doc.summary('list all datasets')
 async def list_datasets(request):
     dataset_class = get_dataset_class('CSV')
     try:
-        files = dataset_class.list_datasets()
-        return response.json(files, status=200)
+        datasets = dataset_class.list_datasets()
+        return response.json(datasets, status=200)
     except Exception:
         return response.json({}, status=500)
 
@@ -53,7 +54,8 @@ async def query_dataset(request, id):
     try:
         request_body = json.loads(request.body)
         dataset = dataset_class(id)
-        query_result = dataset.query(request_body['query'], request_body['type'])
+        query_result = dataset.query(
+            request_body['query'], request_body['type'])
         return response.json(query_result, status=200)
     except Exception as e:
         logger.error(e)
