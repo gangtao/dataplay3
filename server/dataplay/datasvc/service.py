@@ -11,8 +11,10 @@ dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.get('/datasets', strict_slashes=True)
-@doc.produces([{"name": str, "id": str, "type": str}])
-@doc.summary('list all datasets')
+@doc.route(
+    summary='list all datasets',
+    produces=[{"name": str, "id": str, "type": str}]
+)
 async def list_datasets(request):
     dataset_class = get_dataset_class('CSV')
     try:
@@ -23,16 +25,23 @@ async def list_datasets(request):
 
 
 @dataset_svc.post('/datasets', strict_slashes=True)
-@doc.summary('creat a dataset')
+@doc.route(
+    summary='creat a dataset',
+    produces={"name": str, "id": str, "type": str}
+)
 async def create_datasets(request):
     try:
+        # TODO: not implemented yet
         return response.json({}, status=201)
     except Exception:
         return response.json({}, status=500)
 
 
 @dataset_svc.get('/datasets/<id>', strict_slashes=True)
-@doc.summary('get one dataset')
+@doc.route(
+    summary='get one dataset',
+    produces={"name": str, "id": str, "cols": [str], "rows": [[object]]}
+)
 async def get_dataset(request, id):
     dataset_class = get_dataset_class('CSV')
     try:
@@ -47,7 +56,10 @@ async def get_dataset(request, id):
 
 
 @dataset_svc.post('/datasets/<id>/query', strict_slashes=True)
-@doc.summary('run a dataset query')
+@doc.route(
+    summary='run a dataset query',
+    produces={"cols": [str], "rows": [[object]]}
+)
 async def query_dataset(request, id):
     logger.debug(f'get dataset query request {request.body} on {id}')
     dataset_class = get_dataset_class('CSV')
