@@ -45,7 +45,7 @@ class BaseDataset(ABC):
             query_result = self.df.query(query_str)
         elif query_type == QUERY_TYPE_SQL:
             # TODO: integrate with https://github.com/yhat/pandasql/
-            df = self.df
+            dataset = self.df
             query_result = sqldf(query_str, locals())
         else:
             logger.warning(f'query type {query_type} is not supported')

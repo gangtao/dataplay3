@@ -26,29 +26,48 @@ class QueryBuilder extends PureComponent {
     const { currentQuery } = query;
     const queryTypes = ['query', 'sql'];
 
-    const queryOptions = queryTypes.map(item => {
-      return <Option value={item}>{item}</Option>;
-    });
-
-    const handleNameChange = event => {
-      currentQuery.name = event.target.value;
-    };
-
-    const handleDatasetChange = value => {
-      currentQuery.dataset = value;
-    };
-
-    const handleQueryTypeChange = value => {
-      currentQuery.type = value;
-    };
-
     const handleQueryChange = event => {
-      console.log('query changed!');
-      currentQuery.query = event.target.value;
+      currentQuery.query = event.target.value
     };
+
+    const queryParser = query => {
+      const pipe = '|';
+      const equal = '=';
+      if (!query) {
+        return;
+      }
+      const commands = query.split(pipe)
+      console.log(commands);
+
+      if ( commands.length == 1 ) {
+        currentQuery.query = '';
+      } else if ( commands.length == 2 ) {
+        currentQuery.query = commands[1];
+      } else {
+        Modal.error({
+          title: 'invalide query',
+          content: 'query is not valid',
+        });
+        return;
+      }
+
+      const regex = /(\w*=\w*)/g;
+      const properties = commands[0].match(regex)
+
+      properties.map( property => {
+        console.log(property);
+        const [key, value] = property.split(equal);
+        if ( key === 'type') {
+          currentQuery.type = value;
+        } else if ( key === 'dataset') {
+          currentQuery.dataset = value;
+        } 
+      })
+    }
 
     const handleQuery = () => {
       // TODO : validate query
+      queryParser(currentQuery.query)
       if (!currentQuery.dataset || !currentQuery.type) {
         Modal.error({
           title: 'invalide query',
@@ -65,26 +84,12 @@ class QueryBuilder extends PureComponent {
     return (
       <div className={styles.queryBuilder}>
         <Row>
-          Query Name:
-          <Input placeholder="Query Name" onChange={handleNameChange} />
-        </Row>
-        <Row>
-          Select Dataset:
-          <DatasetListSelector list={dataset.list} handleChange={handleDatasetChange} />
-        </Row>
-        <Row>
-          Select Query Type:
-          <Select style={{ width: '100%' }} onChange={handleQueryTypeChange}>
-            {queryOptions}
-          </Select>
-        </Row>
-        <Row>
-          Input Query:
-          <TextArea placeholder="Query" rows={10} onChange={handleQueryChange} />
-        </Row>
-        <Row>Query:</Row>
-        <Row>
-          <Button icon="search" onClick={handleQuery} />
+          <Col span={16}>
+            <TextArea placeholder="Query : type=sql dataset={dataset} | querystr" rows={3} onChange={handleQueryChange} />
+          </Col>
+          <Col span={8}>
+            <Button icon="search" onClick={handleQuery} />
+          </Col>
         </Row>
         <Divider />
       </div>

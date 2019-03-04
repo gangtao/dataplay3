@@ -22,9 +22,12 @@ export default {
   reducers: {
     getQuery(state, action) {
       const convertedDataset = {};
+
+      // TODO: this conversion is duplicate and should be considered
+      // to do some other way
       if (action.payload) {
-        const dataSource = [];
-        const columns = [];
+        let dataSource = [];
+        let columns = [];
 
         // update source and columns based on dataset model
         if (action.payload.rows) {

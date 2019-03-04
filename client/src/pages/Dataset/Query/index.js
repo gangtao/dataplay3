@@ -28,17 +28,15 @@ class QueryPage extends PureComponent {
       <PageHeaderWrapper>
         <div className={styles.getDataIn}>
           <Row gutter={16}>
-            <Col span={8}>
+            <Col>
               <QueryBuilder onQuery={handleQuery} />
             </Col>
-            <Col span={16}>
-              <Row>
-                <DatasetTable
-                  dataSource={currentQueryResult.dataSource}
-                  columns={currentQueryResult.columns}
-                />
-              </Row>
-            </Col>
+          </Row>
+          <Row>
+            <DatasetTable
+              dataSource={currentQueryResult.dataSource}
+              columns={currentQueryResult.columns}
+            />
           </Row>
         </div>
       </PageHeaderWrapper>
