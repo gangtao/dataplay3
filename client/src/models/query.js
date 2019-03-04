@@ -5,15 +5,16 @@ export default {
   namespace: 'query',
 
   state: {
-    savedQuery: {} ,
+    savedQuery: {},
     currentQuery: {},
     currentQueryResult: { dataSource: null, columns: null },
+    canExport: false,
   },
 
   effects: {
     *fetchQuery({ payload }, { call, put }) {
       const response = yield call(runDatasetQuery, payload);
-      console.log("fetchQuery");
+      console.log('fetchQuery');
       console.log(payload);
       yield put({
         type: 'getQuery',
@@ -40,7 +41,7 @@ export default {
     pushQuery(state, action) {
       return {
         ...state,
-        savedQuery: {...state.savedQuery, ...action.payload},
+        savedQuery: { ...state.savedQuery, ...action.payload },
       };
     },
   },

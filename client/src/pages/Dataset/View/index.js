@@ -24,21 +24,20 @@ class Dataset extends PureComponent {
 
   render() {
     const { dataset, query, dispatch } = this.props;
-    const { dataSource, columns } = dataset.currentDataset;
-
+    const { dataSource, columns, name } = dataset.currentDataset;
     let savedQueryList = [];
     for (const p in query.savedQuery) {
-      savedQueryList.push({ name:query.savedQuery[p].name});
+      savedQueryList.push({ name: query.savedQuery[p].name });
     }
 
     const handleChange = (value, type) => {
       console.log(`selected ${value}`);
-      if ( type === 'dataset'){
+      if (type === 'dataset') {
         dispatch({
           type: 'dataset/fetchSelected',
           payload: value,
         });
-      } else if ( type === 'query') {
+      } else if (type === 'query') {
         const selectedQuery = query.savedQuery[value];
         dispatch({
           type: 'dataset/updateSelected',
@@ -53,7 +52,12 @@ class Dataset extends PureComponent {
           <Row gutter={16}>
             <Col span={8}>
               <Row>
-                <DatasetListSelector datasetList={dataset.list} queryList={savedQueryList} handleChange={handleChange} />
+                <DatasetListSelector
+                  datasetList={dataset.list}
+                  queryList={savedQueryList}
+                  handleChange={handleChange}
+                  selected={name}
+                />
               </Row>
             </Col>
           </Row>

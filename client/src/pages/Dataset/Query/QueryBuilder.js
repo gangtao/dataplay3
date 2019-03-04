@@ -21,6 +21,7 @@ class QueryBuilder extends PureComponent {
     const { query, dispatch, onQuery } = this.props;
     const { currentQuery } = query;
 
+    const rawQuery = currentQuery.rawQuery ? currentQuery.rawQuery : '';
 
     // Question: derectly update model should not be done?
     // Should dispach an action instead
@@ -33,9 +34,9 @@ class QueryBuilder extends PureComponent {
       const commands = queryStr.split(pipe);
 
       if (commands.length === 1) {
-        currentQuery.query = ''
+        currentQuery.query = '';
       } else if (commands.length === 2) {
-        [,currentQuery.query] = commands;
+        [, currentQuery.query] = commands;
       } else {
         Modal.error({
           title: 'invalide query',
@@ -46,6 +47,7 @@ class QueryBuilder extends PureComponent {
 
       const regex = /(\w*=\w*)/g;
       const properties = commands[0].match(regex);
+      currentQuery.type = 'sql';
 
       properties.map(property => {
         const [key, value] = property.split(equal);
@@ -76,7 +78,7 @@ class QueryBuilder extends PureComponent {
     };
 
     const handleSave = () => {
-      if (!currentQuery.name ) {
+      if (!currentQuery.name) {
         Modal.error({
           title: 'invalid query',
           content: 'the query must have a name to save',
@@ -84,8 +86,8 @@ class QueryBuilder extends PureComponent {
         return;
       }
       const saveResult = {};
-      saveResult[currentQuery.name] = {...query.currentQuery, ...query.currentQueryResult};
-      console.log("save query");
+      saveResult[currentQuery.name] = { ...query.currentQuery, ...query.currentQueryResult };
+      console.log('save query');
       console.log(saveResult);
       dispatch({
         type: 'query/addQueryResult',
@@ -108,7 +110,9 @@ class QueryBuilder extends PureComponent {
               placeholder="Query : type=sql dataset={dataset} | querystr"
               rows={3}
               onChange={handleQueryChange}
-            />
+            >
+              {rawQuery}
+            </TextArea>
           </Col>
           <Col span={8}>
             <Tooltip placement="top" title="run dataset query">

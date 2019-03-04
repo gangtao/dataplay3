@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Select , Icon} from 'antd';
+import { Select, Icon } from 'antd';
 
 import styles from './index.less';
 
@@ -7,33 +7,39 @@ const { Option } = Select;
 
 class DatasetListSelector extends PureComponent {
   render() {
-    const { datasetList, queryList, handleChange, size } = this.props;
+    const { datasetList, queryList, selected, handleChange, size } = this.props;
 
-    let optionContents = datasetList.map(item => {
+    const buildOption = (item, type) => {
+      let icon = 'table';
+      if (type === 'query') {
+        icon = 'search';
+      }
       return (
-        <Option key={item.id} value={item.id} type="dataset" >
-          <span className={styles.datasetType}>{item.name} <Icon type="table" /> </span>
+        <Option key={item.name} value={item.name} type={type}>
+          <span className={styles.datasetType}>
+            {item.name} <Icon type={icon} />{' '}
+          </span>
         </Option>
       );
+    };
+
+    let optionContents = datasetList.map(item => {
+      return buildOption(item, 'dataset');
     });
 
     queryList.map(item => {
-      optionContents.push (
-        <Option key={item.name} value={item.name} type="query" >
-          <span className={styles.datasetType}>{item.name} <Icon type="search" /> </span>
-        </Option>
-      );
+      optionContents.push(buildOption(item, 'query'));
     });
 
     const handleFilter = (input, option) => {
-      return option.props.children.props.children[0].toLowerCase().indexOf(input.toLowerCase()) >= 0
+      return (
+        option.props.children.props.children[0].toLowerCase().indexOf(input.toLowerCase()) >= 0
+      );
     };
 
     const handleSelectionChange = (value, option) => {
-      console.log(value);
-      console.log(option);
       handleChange(value, option.props.type);
-    }
+    };
 
     return (
       <div className={styles.datasetListSelector}>
@@ -45,6 +51,7 @@ class DatasetListSelector extends PureComponent {
           optionFilterProp="children"
           onChange={handleSelectionChange}
           filterOption={handleFilter}
+          value={selected}
         >
           {optionContents}
         </Select>

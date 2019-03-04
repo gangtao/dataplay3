@@ -19,9 +19,10 @@ export default {
     },
     *fetchSelected({ payload }, { call, put }) {
       const response = yield call(queryDataset, payload);
+      const responseWithName = { ...response, ...{ name: payload } };
       yield put({
         type: 'getDataset',
-        payload: response,
+        payload: responseWithName,
       });
     },
     *updateSelected({ payload }, { put }) {
@@ -42,7 +43,9 @@ export default {
     getDataset(state, action) {
       // Convert the array datamodel to object data model
       const convertedDataset = convertDataset(action.payload);
-
+      if (action.payload.name) {
+        convertedDataset.name = action.payload.name;
+      }
       return {
         ...state,
         currentDataset: convertedDataset,
