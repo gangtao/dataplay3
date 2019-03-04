@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Select, Tabs } from 'antd';
+import { Row, Select, Tabs } from 'antd';
 import { connect } from 'dva';
 
 import GeomConfigPanel from './GeomConfigPanel';
 import styles from './GrammarConfigPanel.less';
 
-const Option = Select.Option;
-const TabPane = Tabs.TabPane;
+const { Option } = Select;
+const { TabPane } = Tabs;
 
 @connect(({ gchart }) => ({
   gchart,
@@ -16,7 +16,7 @@ class GrammarConfigPanel extends PureComponent {
     super(props);
     const { gchart } = this.props;
     const panes = [];
-    this.newTabIndex = 0;
+    this.newTabIndex = 1;
     this.buildPanel(gchart.grammar.geom, panes);
 
     if (panes.length > 0) {
@@ -35,7 +35,7 @@ class GrammarConfigPanel extends PureComponent {
   buildPanel = (geom, panes) => {
     Object.entries(geom).map(item => {
       const activeKey = item[0];
-      panes.push({ title: item[0], content: '', key: item[0] });
+      panes.push({ title: activeKey, content: '', key: activeKey });
     });
   };
 
@@ -48,15 +48,15 @@ class GrammarConfigPanel extends PureComponent {
   };
 
   add = () => {
-    const panes = this.state.panes;
-    const activeKey = `Geom_${this.newTabIndex++}`;
+    const { panes } = this.state;
+    const activeKey = `Geom_${(this.newTabIndex += 1)}`;
     panes.push({ title: `Geom${this.newTabIndex}`, content: '', key: activeKey });
     this.setState({ panes, activeKey });
   };
 
   remove = targetKey => {
     const { dispatch } = this.props;
-    let activeKey = this.state.activeKey;
+    let { activeKey } = this.state;
     let lastIndex;
     this.state.panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
@@ -75,7 +75,7 @@ class GrammarConfigPanel extends PureComponent {
     }
 
     this.setState({ panes, activeKey });
-    this.newTabIndex--;
+    this.newTabIndex -= 1;
     dispatch({
       type: 'gchart/geomDelete',
       payload: targetKey,
@@ -88,13 +88,13 @@ class GrammarConfigPanel extends PureComponent {
     const facatOptions = [];
 
     const handleGeomUpdate = (type, value, key) => {
-      let payload = {};
+      const payload = {};
       payload.key = key;
       payload.value = {};
       payload.value[type] = value;
       dispatch({
         type: 'gchart/geomUpdate',
-        payload: payload,
+        payload,
       });
     };
 
@@ -162,7 +162,7 @@ class GrammarConfigPanel extends PureComponent {
             type="editable-card"
             onEdit={this.onTabEdit}
             tabPosition="top"
-            style={{ 'margin-top': '10px' }}
+            style={{ marginTop: '10px' }}
           >
             {this.state.panes.map(pane => (
               <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>

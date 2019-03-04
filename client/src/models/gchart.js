@@ -5,7 +5,7 @@ export default {
 
   state: {
     list: [],
-    grammar: { facat: null, coordination: null, geom: { Geom_0: {} } },
+    grammar: { facat: null, coordination: null, geom: { Geom1: {} } },
     currentDataset: {},
   },
 
@@ -24,28 +24,28 @@ export default {
         payload: response,
       });
     },
-    *facatUpdate({ payload }, { call, put }) {
+    *facatUpdate({ payload }, { put }) {
       yield put({
         type: 'updatefacat',
-        payload: payload,
+        payload,
       });
     },
-    *coordUpdate({ payload }, { call, put }) {
+    *coordUpdate({ payload }, { put }) {
       yield put({
         type: 'updateCoord',
-        payload: payload,
+        payload,
       });
     },
-    *geomUpdate({ payload }, { call, put }) {
+    *geomUpdate({ payload }, { put }) {
       yield put({
         type: 'updateGeom',
-        payload: payload,
+        payload,
       });
     },
-    *geomDelete({ payload }, { call, put }) {
+    *geomDelete({ payload }, { put }) {
       yield put({
         type: 'deleteGeom',
-        payload: payload,
+        payload,
       });
     },
   },
@@ -59,7 +59,7 @@ export default {
     },
     getDataset(state, action) {
       // Convert the array datamodel to object data model
-      let convertedDataset = {};
+      const convertedDataset = {};
       if (action.payload) {
         let dataSource = [];
         let columns = [];
@@ -68,8 +68,8 @@ export default {
         if (action.payload.rows) {
           const { cols, rows } = action.payload;
           dataSource = rows.map(function(row) {
-            let rowObj = {};
-            for (let i = 0; i < cols.length; i++) {
+            const rowObj = {};
+            for (let i = 0; i < cols.length; i += 1) {
               rowObj[cols[i]] = row[i];
             }
             return rowObj;

@@ -1,27 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Empty } from 'antd';
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util,
-} from 'bizcharts';
+import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Facet } from 'bizcharts';
 
 import styles from './index.less';
 
 class GGChart extends PureComponent {
   render() {
-    console.log('render chart');
-    const { grammar, currentDataset } = this.props.model;
+    const { model } = this.props;
+    const { grammar, currentDataset } = model;
     if (!currentDataset) {
       return <Empty />;
     }
@@ -32,23 +18,23 @@ class GGChart extends PureComponent {
     const buildCoordination = () => {
       if (coordinationType) {
         return <Coord type={coordinationType} />;
-      } else {
-        return null;
       }
+
+      return null;
     };
     const coordination = buildCoordination();
 
     const validateGrammar = geom => {
       if (
         !coordinationType ||
-        coordinationType == 'rect' ||
-        coordinationType == 'polar' ||
-        coordinationType == 'helix'
+        coordinationType === 'rect' ||
+        coordinationType === 'polar' ||
+        coordinationType === 'helix'
       ) {
-        if (geom.position && geom.position.length == 2) {
+        if (geom.position && geom.position.length === 2) {
           return true;
         }
-      } else if (coordinationType == 'theta') {
+      } else if (coordinationType === 'theta') {
         if (geom.position && geom.position.length >= 1) {
           return true;
         }
@@ -65,31 +51,31 @@ class GGChart extends PureComponent {
 
       let color = '';
       if (geom.color && geom.color.length > 0) {
-        color = geom.color[0];
+        [color] = geom.color;
       }
 
       let size = '';
       if (geom.size && geom.size.length > 0) {
-        size = geom.size[0];
+        [size] = geom.size;
       }
 
       let shape = '';
       if (geom.shape && geom.shape.length > 0) {
-        shape = geom.shape[0];
+        [shape] = geom.shape;
       }
 
       let opacity = '';
       if (geom.opacity && geom.opacity.length > 0) {
-        opacity = geom.opacity[0];
+        [opacity] = geom.opacity;
       }
 
       const buildLable = () => {
         if (geom.label && geom.label.length > 0) {
           const lable = geom.label.join('*');
           return <Label content={lable} />;
-        } else {
-          return null;
         }
+
+        return null;
       };
       const label = buildLable();
       return (
@@ -108,14 +94,14 @@ class GGChart extends PureComponent {
 
     const buildGeomList = () => {
       if (!grammar.geom) {
-        return;
+        return [];
       }
-      let geometryList = [];
+      const geometryList = [];
 
       Object.entries(grammar.geom).map(item => {
         const value = item[1];
         if (!validateGrammar(value)) {
-          return;
+          return [];
         }
         geometryList.push(buildGeom(value));
       });
@@ -129,9 +115,9 @@ class GGChart extends PureComponent {
           const pos = item[1];
           return <Axis name={pos} />;
         });
-      } else {
-        return null;
       }
+
+      return null;
     };
 
     const buildSingeChart = () => {
@@ -167,7 +153,7 @@ class GGChart extends PureComponent {
 
     if (grammar.facat && grammar.facat.length > 0) {
       let facat = null;
-      if (grammar.facat.length == 1 || grammar.facat.length == 2) {
+      if (grammar.facat.length === 1 || grammar.facat.length === 2) {
         facat = buildfacat();
       } else {
         return <Empty />;
@@ -181,9 +167,9 @@ class GGChart extends PureComponent {
           </Chart>
         </div>
       );
-    } else {
-      return buildSingeChart();
     }
+
+    return buildSingeChart();
   }
 }
 

@@ -22,7 +22,7 @@ class Dataset extends PureComponent {
   }
 
   render() {
-    const { dataset, loading, dispatch } = this.props;
+    const { dataset, dispatch } = this.props;
     const { dataSource, columns } = dataset.currentDataset;
 
     const handleChange = value => {

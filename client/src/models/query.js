@@ -34,7 +34,7 @@ export default {
           const { cols, rows } = action.payload;
           dataSource = rows.map(function(row) {
             const rowObj = {};
-            for (let i = 0; i < cols.length; i++) {
+            for (let i = 0; i < cols.length; i += 1) {
               rowObj[cols[i]] = row[i];
             }
             return rowObj;

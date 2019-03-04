@@ -1,16 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Select, Input, Button, Divider, Modal } from 'antd';
+import { Row, Col, Input, Button, Divider, Modal } from 'antd';
 import { connect } from 'dva';
-
-import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 
 import styles from './QueryBuilder.less';
 
-const Option = Select.Option;
 const { TextArea } = Input;
 
-@connect(({ dataset, query }) => ({
-  dataset,
+@connect(({ query }) => ({
   query,
 }))
 class QueryBuilder extends PureComponent {
@@ -22,27 +18,25 @@ class QueryBuilder extends PureComponent {
   }
 
   render() {
-    const { dataset, query, dispatch, onQuery } = this.props;
+    const { query, onQuery } = this.props;
     const { currentQuery } = query;
-    const queryTypes = ['query', 'sql'];
 
     const handleQueryChange = event => {
-      currentQuery.query = event.target.value
+      currentQuery.query = event.target.value;
     };
 
-    const queryParser = query => {
+    const queryParser = queryStr => {
       const pipe = '|';
       const equal = '=';
-      if (!query) {
+      if (!queryStr) {
         return;
       }
-      const commands = query.split(pipe)
-      console.log(commands);
+      const commands = queryStr.split(pipe);
 
-      if ( commands.length == 1 ) {
+      if (commands.length === 1) {
         currentQuery.query = '';
-      } else if ( commands.length == 2 ) {
-        currentQuery.query = commands[1];
+      } else if (commands.length === 2) {
+        [currentQuery.query] = commands;
       } else {
         Modal.error({
           title: 'invalide query',
@@ -52,22 +46,21 @@ class QueryBuilder extends PureComponent {
       }
 
       const regex = /(\w*=\w*)/g;
-      const properties = commands[0].match(regex)
+      const properties = commands[0].match(regex);
 
-      properties.map( property => {
-        console.log(property);
+      properties.map(property => {
         const [key, value] = property.split(equal);
-        if ( key === 'type') {
+        if (key === 'type') {
           currentQuery.type = value;
-        } else if ( key === 'dataset') {
+        } else if (key === 'dataset') {
           currentQuery.dataset = value;
-        } 
-      })
-    }
+        }
+      });
+    };
 
     const handleQuery = () => {
       // TODO : validate query
-      queryParser(currentQuery.query)
+      queryParser(currentQuery.query);
       if (!currentQuery.dataset || !currentQuery.type) {
         Modal.error({
           title: 'invalide query',
@@ -81,14 +74,28 @@ class QueryBuilder extends PureComponent {
       }
     };
 
+    const handleSave = () => {
+      console.log('query save');
+    };
+
+    const handleExport = () => {
+      console.log('query export');
+    };
+
     return (
       <div className={styles.queryBuilder}>
         <Row>
           <Col span={16}>
-            <TextArea placeholder="Query : type=sql dataset={dataset} | querystr" rows={3} onChange={handleQueryChange} />
+            <TextArea
+              placeholder="Query : type=sql dataset={dataset} | querystr"
+              rows={3}
+              onChange={handleQueryChange}
+            />
           </Col>
           <Col span={8}>
             <Button icon="search" onClick={handleQuery} />
+            <Button icon="save" onClick={handleSave} />
+            <Button icon="export" onClick={handleExport} />
           </Col>
         </Row>
         <Divider />

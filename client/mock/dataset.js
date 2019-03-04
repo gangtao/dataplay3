@@ -1,13 +1,10 @@
-import Mock from 'mockjs';
-
 import iris from './data/iris.json';
 import diabetes from './data/diabetes.json';
-import app_usage from './data/app_usage.json';
+import appUsage from './data/app_usage.json';
 import churn from './data/churn.json';
 import logins from './data/logins.json';
 
-
-const database = [iris,diabetes,app_usage,churn,logins]
+const database = [iris,diabetes,appUsage,churn,logins]
 
 const NOTFOUND = {
   message: 'Not Found',
@@ -15,7 +12,7 @@ const NOTFOUND = {
 };
 
 function getDatasets(req, res) {
-    let newData = database.map(function(item) {
+    const newData = database.map(function(item) {
         return {
             id: item.id,
             name: item.name
@@ -27,7 +24,7 @@ function getDatasets(req, res) {
 function getDataset(req, res) {
     const { id } = req.params;
 
-    let newData = database.find(item => item.id == id);
+    const newData = database.find(item => item.id === id);
     if (newData) {
         res.status(200).json(newData);
     } else {
@@ -44,7 +41,7 @@ function fakeQuery(dataset) {
     const cols = [];
     const rows = [];
 
-    for (let i = 0; i < dataset.cols.length; i++) {
+    for (let i = 0; i < dataset.cols.length; i+=1) {
         const col = dataset.cols[i];
         const r = Math.random();
         if ( r > rColThreshold ) {
@@ -53,7 +50,7 @@ function fakeQuery(dataset) {
         }
     }
 
-    for (let i = 0; i < dataset.rows.length; i++) {
+    for (let i = 0; i < dataset.rows.length; i+=1) {
         const row = dataset.rows[i];
         const r = Math.random();
         if ( r > rRawThreshold ) {
@@ -70,10 +67,7 @@ function fakeQuery(dataset) {
 
 function queryDataset(req, res) {
     const { id } = req.params;
-    const { body } = req;
-    const { type, query } = body;
-
-    let newData = database.find(item => item.id == id);
+    const newData = database.find(item => item.id === id);
 
     res.status(200).json(fakeQuery(newData));
 }

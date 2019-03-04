@@ -7,14 +7,7 @@ const { Option } = Select;
 
 class DatasetListSelector extends PureComponent {
   render() {
-    const { list, dispatch, handleChange, size } = this.props;
-
-    const handleBlur = value => {
-      console.log('blur');
-    };
-    const handleFocus = value => {
-      console.log('focus');
-    };
+    const { list, handleChange, size } = this.props;
 
     const optionContents = list.map(item => {
       return (
@@ -33,8 +26,6 @@ class DatasetListSelector extends PureComponent {
           placeholder="Select a dataset"
           optionFilterProp="children"
           onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           filterOption={(input, option) =>
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }

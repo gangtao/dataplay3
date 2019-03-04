@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Select } from 'antd';
+import { Select } from 'antd';
 
 import styles from './GeomConfigPanel.less';
 
-const Option = Select.Option;
+const { Option } = Select;
 
 class GeomConfigPanel extends PureComponent {
   render() {

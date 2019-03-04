@@ -23,8 +23,7 @@ class GrammerGraph extends PureComponent {
   }
 
   render() {
-    const { gchart, loading, dispatch } = this.props;
-    const { dataSource, columns } = gchart.currentDataset;
+    const { gchart, dispatch } = this.props;
 
     const handleChange = value => {
       dispatch({

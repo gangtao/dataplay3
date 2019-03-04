@@ -20,8 +20,7 @@ class TypeDrivenChart extends PureComponent {
   }
 
   render() {
-    const { tchart, loading, dispatch } = this.props;
-    const { dataSource, columns } = tchart.currentDataset;
+    const { tchart, dispatch } = this.props;
 
     const handleChange = value => {
       dispatch({

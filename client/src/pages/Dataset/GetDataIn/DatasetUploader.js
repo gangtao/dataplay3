@@ -3,7 +3,7 @@ import { Upload, Icon, message } from 'antd';
 
 import styles from './DatasetUploader.less';
 
-const Dragger = Upload.Dragger;
+const { Dragger } = Upload;
 
 class DatasetUploader extends PureComponent {
   render() {
@@ -12,7 +12,7 @@ class DatasetUploader extends PureComponent {
       multiple: false,
       action: '//jsonplaceholder.typicode.com/posts/',
       onChange(info) {
-        const status = info.file.status;
+        const { status } = info.file;
         if (status !== 'uploading') {
           console.log(info.file, info.fileList);
         }
