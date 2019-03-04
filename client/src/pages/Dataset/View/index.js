@@ -9,8 +9,9 @@ import DatasetTable from '@/components/Dataset/DatasetTable';
 
 import styles from './index.less';
 
-@connect(({ dataset, loading }) => ({
+@connect(({ dataset, query, loading }) => ({
   dataset,
+  query,
   loading: loading.effects['dataset/fetch'],
 }))
 class Dataset extends PureComponent {
@@ -22,15 +23,28 @@ class Dataset extends PureComponent {
   }
 
   render() {
-    const { dataset, dispatch } = this.props;
+    const { dataset, query, dispatch } = this.props;
     const { dataSource, columns } = dataset.currentDataset;
 
-    const handleChange = value => {
+    let savedQueryList = [];
+    for (const p in query.savedQuery) {
+      savedQueryList.push({ name:query.savedQuery[p].name});
+    }
+
+    const handleChange = (value, type) => {
       console.log(`selected ${value}`);
-      dispatch({
-        type: 'dataset/fetchSelected',
-        payload: value,
-      });
+      if ( type === 'dataset'){
+        dispatch({
+          type: 'dataset/fetchSelected',
+          payload: value,
+        });
+      } else if ( type === 'query') {
+        const selectedQuery = query.savedQuery[value];
+        dispatch({
+          type: 'dataset/updateSelected',
+          payload: selectedQuery,
+        });
+      }
     };
 
     return (
@@ -39,7 +53,7 @@ class Dataset extends PureComponent {
           <Row gutter={16}>
             <Col span={8}>
               <Row>
-                <DatasetListSelector list={dataset.list} handleChange={handleChange} />
+                <DatasetListSelector datasetList={dataset.list} queryList={savedQueryList} handleChange={handleChange} />
               </Row>
             </Col>
           </Row>

@@ -10,8 +10,9 @@ import VisualizationPanel from './VisualizationPanel';
 
 import styles from './index.less';
 
-@connect(({ gchart, loading }) => ({
+@connect(({ gchart, query, loading }) => ({
   gchart,
+  query,
   loading: loading.effects['gchart/fetch'],
 }))
 class GrammerGraph extends PureComponent {
@@ -23,13 +24,26 @@ class GrammerGraph extends PureComponent {
   }
 
   render() {
-    const { gchart, dispatch } = this.props;
+    const { gchart, query, dispatch } = this.props;
 
-    const handleChange = value => {
-      dispatch({
-        type: 'gchart/fetchSelected',
-        payload: value,
-      });
+    let savedQueryList = [];
+    for (const p in query.savedQuery) {
+      savedQueryList.push({ name:query.savedQuery[p].name});
+    }
+
+    const handleChange = (value, type) => {
+      if (type === 'dataset') {
+        dispatch({
+          type: 'gchart/fetchSelected',
+          payload: value,
+        });
+      } else if (type === 'query') {
+        const selectedQuery = query.savedQuery[value];
+        dispatch({
+          type: 'gchart/updateSelected',
+          payload: selectedQuery,
+        });
+      }
     };
 
     return (
@@ -39,7 +53,7 @@ class GrammerGraph extends PureComponent {
             <Col span={6}>
               <Row>
                 Dataset:
-                <DatasetListSelector list={gchart.list} handleChange={handleChange} />
+                <DatasetListSelector datasetList={gchart.list} queryList={savedQueryList} handleChange={handleChange} />
               </Row>
             </Col>
           </Row>

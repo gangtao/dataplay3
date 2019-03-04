@@ -1,4 +1,5 @@
 import { queryDatasets, queryDataset } from '@/services/dataset';
+import { convertDataset } from '@/utils/dataset';
 
 export default {
   namespace: 'dataset',
@@ -23,6 +24,12 @@ export default {
         payload: response,
       });
     },
+    *updateSelected({ payload }, { put }) {
+      yield put({
+        type: 'updateDataset',
+        payload: payload,
+      });
+    },
   },
 
   reducers: {
@@ -34,37 +41,17 @@ export default {
     },
     getDataset(state, action) {
       // Convert the array datamodel to object data model
-      const convertedDataset = {};
-      if (action.payload) {
-        let dataSource = [];
-        let columns = [];
-
-        // update source and columns based on dataset model
-        if (action.payload.rows) {
-          const { cols, rows } = action.payload;
-          dataSource = rows.map(row => {
-            const rowObj = {};
-            for (let i = 0; i < cols.length; i += 1) {
-              rowObj[cols[i]] = row[i];
-            }
-            return rowObj;
-          });
-          columns = cols.map(col => {
-            return {
-              title: col,
-              dataIndex: col,
-              key: col,
-            };
-          });
-        }
-
-        convertedDataset.dataSource = dataSource;
-        convertedDataset.columns = columns;
-      }
+      const convertedDataset = convertDataset(action.payload);
 
       return {
         ...state,
         currentDataset: convertedDataset,
+      };
+    },
+    updateDataset(state, action) {
+      return {
+        ...state,
+        currentDataset: action.payload,
       };
     },
   },
