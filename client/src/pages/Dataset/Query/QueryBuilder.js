@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Input, Button, Tooltip, Divider, Modal } from 'antd';
+import { Row, Col, Input, Button, Tooltip, Divider, Modal, message } from 'antd';
 import { connect } from 'dva';
 
 import styles from './QueryBuilder.less';
@@ -19,11 +19,11 @@ class QueryBuilder extends PureComponent {
 
   render() {
     const { query, dispatch, onQuery } = this.props;
-    const { currentQuery } = query;
+    const { currentQuery, canSave, canExport } = query;
 
     const rawQuery = currentQuery.rawQuery ? currentQuery.rawQuery : '';
 
-    // Question: derectly update model should not be done?
+    // Question: directly update model should not be done?
     // Should dispach an action instead
     const parseQuery = queryStr => {
       const pipe = '|';
@@ -87,12 +87,11 @@ class QueryBuilder extends PureComponent {
       }
       const saveResult = {};
       saveResult[currentQuery.name] = { ...query.currentQuery, ...query.currentQueryResult };
-      console.log('save query');
-      console.log(saveResult);
       dispatch({
         type: 'query/addQueryResult',
         payload: saveResult,
       });
+      message.success(`saving query ${currentQuery.name} success`);
     };
 
     const handleExport = () => {
@@ -119,10 +118,20 @@ class QueryBuilder extends PureComponent {
               <Button icon="search" className={styles.qurtyAction} onClick={handleQuery} />
             </Tooltip>
             <Tooltip placement="top" title="save dataset query">
-              <Button icon="save" className={styles.qurtyAction} onClick={handleSave} />
+              <Button
+                icon="save"
+                className={styles.qurtyAction}
+                disabled={!canSave}
+                onClick={handleSave}
+              />
             </Tooltip>
             <Tooltip placement="top" title="export query as dataset">
-              <Button icon="export" className={styles.qurtyAction} onClick={handleExport} />
+              <Button
+                icon="export"
+                className={styles.qurtyAction}
+                disabled={!canExport}
+                onClick={handleExport}
+              />
             </Tooltip>
           </Col>
         </Row>

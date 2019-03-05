@@ -5,10 +5,15 @@ import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 
+import ChartTypeSelector from './ChartTypeSelector';
+import VisualizationPanel from './VisualizationPanel';
+import ChartFeedPanel from './ChartFeedPanel';
+
 import styles from './index.less';
 
-@connect(({ tchart, loading }) => ({
+@connect(({ tchart, query, loading }) => ({
   tchart,
+  query,
   loading: loading.effects['tchart/fetch'],
 }))
 class TypeDrivenChart extends PureComponent {
@@ -20,11 +25,33 @@ class TypeDrivenChart extends PureComponent {
   }
 
   render() {
-    const { tchart, dispatch } = this.props;
+    const { tchart, query, dispatch } = this.props;
+    const { currentDataset } = tchart;
+    const { name, chartType } = currentDataset;
 
-    const handleChange = value => {
+    let savedQueryList = [];
+    for (const p in query.savedQuery) {
+      savedQueryList.push({ name: query.savedQuery[p].name });
+    }
+
+    const handleChange = (value, type) => {
+      if (type === 'dataset') {
+        dispatch({
+          type: 'tchart/fetchSelected',
+          payload: value,
+        });
+      } else if (type === 'query') {
+        const selectedQuery = query.savedQuery[value];
+        dispatch({
+          type: 'tchart/updateSelected',
+          payload: selectedQuery,
+        });
+      }
+    };
+
+    const handleChartSelected = value => {
       dispatch({
-        type: 'tchart/fetchSelected',
+        type: 'tchart/updateType',
         payload: value,
       });
     };
@@ -36,8 +63,23 @@ class TypeDrivenChart extends PureComponent {
             <Col span={6}>
               <Row>
                 Dataset:
-                <DatasetListSelector list={tchart.list} handleChange={handleChange} />
+                <DatasetListSelector
+                  datasetList={tchart.list}
+                  queryList={savedQueryList}
+                  handleChange={handleChange}
+                  selected={name}
+                />
               </Row>
+              <Row>
+                Chart Type:
+                <ChartTypeSelector handleChange={handleChartSelected} />
+              </Row>
+              <Row>
+                <ChartFeedPanel />
+              </Row>
+            </Col>
+            <Col span={16}>
+              <VisualizationPanel />
             </Col>
           </Row>
         </div>

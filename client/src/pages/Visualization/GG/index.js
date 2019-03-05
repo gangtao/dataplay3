@@ -25,6 +25,7 @@ class GrammerGraph extends PureComponent {
 
   render() {
     const { gchart, query, dispatch } = this.props;
+    const { name } = gchart.currentDataset;
 
     let savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -57,6 +58,7 @@ class GrammerGraph extends PureComponent {
                   datasetList={gchart.list}
                   queryList={savedQueryList}
                   handleChange={handleChange}
+                  selected={name}
                 />
               </Row>
             </Col>

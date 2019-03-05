@@ -49,7 +49,7 @@ class GrammarConfigPanel extends PureComponent {
 
   add = () => {
     const { panes } = this.state;
-    const activeKey = `Geom_${(this.newTabIndex += 1)}`;
+    const activeKey = `Geom${(this.newTabIndex += 1)}`;
     panes.push({ title: `Geom${this.newTabIndex}`, content: '', key: activeKey });
     this.setState({ panes, activeKey });
   };

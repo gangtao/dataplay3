@@ -8,6 +8,7 @@ export default {
     savedQuery: {},
     currentQuery: {},
     currentQueryResult: { dataSource: null, columns: null },
+    canSave: false,
     canExport: false,
   },
 
@@ -36,12 +37,14 @@ export default {
       return {
         ...state,
         currentQueryResult: convertedDataset,
+        canSave: true,
       };
     },
     pushQuery(state, action) {
       return {
         ...state,
         savedQuery: { ...state.savedQuery, ...action.payload },
+        canSave: false,
       };
     },
   },

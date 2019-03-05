@@ -6,8 +6,10 @@ export default {
 
   state: {
     list: [],
-    grammar: { facat: null, coordination: null, geom: { Geom_0: {} } },
+    grammar: {},
     currentDataset: {},
+    chartType: null,
+    chartConfig: {},
   },
 
   effects: {
@@ -20,9 +22,22 @@ export default {
     },
     *fetchSelected({ payload }, { call, put }) {
       const response = yield call(queryDataset, payload);
+      const responseWithName = { ...response, ...{ name: payload } };
       yield put({
         type: 'getDataset',
-        payload: response,
+        payload: responseWithName,
+      });
+    },
+    *updateSelected({ payload }, { put }) {
+      yield put({
+        type: 'updateDataset',
+        payload: payload,
+      });
+    },
+    *updateType({ payload }, { put }) {
+      yield put({
+        type: 'updateChartType',
+        payload: payload,
       });
     },
   },
@@ -37,11 +52,24 @@ export default {
     getDataset(state, action) {
       // Convert the array datamodel to object data model
       const convertedDataset = convertDataset(action.payload);
-
+      if (action.payload.name) {
+        convertedDataset.name = action.payload.name;
+      }
       return {
         ...state,
         currentDataset: convertedDataset,
-        grammar: { facat: null, coordination: null, geom: {} },
+      };
+    },
+    updateDataset(state, action) {
+      return {
+        ...state,
+        currentDataset: action.payload,
+      };
+    },
+    updateChartType(state, action) {
+      return {
+        ...state,
+        chartType: action.payload,
       };
     },
   },
