@@ -9,7 +9,7 @@ export default {
     grammar: {},
     currentDataset: {},
     chartType: null,
-    chartConfig: {},
+    feeds: {},
   },
 
   effects: {
@@ -37,6 +37,18 @@ export default {
     *updateType({ payload }, { put }) {
       yield put({
         type: 'updateChartType',
+        payload: payload,
+      });
+    },
+    *updateFeeds({ payload }, { put }) {
+      yield put({
+        type: 'updateChartFeeds',
+        payload: payload,
+      });
+    },
+    *updateGrammar({ payload }, { put }) {
+      yield put({
+        type: 'updateChartGrammar',
         payload: payload,
       });
     },
@@ -70,6 +82,21 @@ export default {
       return {
         ...state,
         chartType: action.payload,
+      };
+    },
+    updateChartFeeds(state, action) {
+      return {
+        ...state,
+        feeds: {
+          ...state.feeds,
+          ...action.payload,
+        },
+      };
+    },
+    updateChartGrammar(state, action) {
+      return {
+        ...state,
+        grammar: action.payload,
       };
     },
   },

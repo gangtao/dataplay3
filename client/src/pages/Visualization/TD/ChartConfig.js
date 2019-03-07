@@ -50,8 +50,8 @@ const pieChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'intervalStack';
-    geom.position = feeds.position;
-    geom.color = feeds.color;
+    geom.position = [feeds.position];
+    geom.color = [feeds.color];
     grammar.geom.Geom1 = geom;
     return grammar;
   },

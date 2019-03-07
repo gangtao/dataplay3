@@ -8,7 +8,7 @@ const { Option } = Select;
 
 class ChartTypeSelector extends PureComponent {
   render() {
-    const { handleChange, size } = this.props;
+    const { handleChange, size, value } = this.props;
 
     const buildOption = chart => {
       return (
@@ -40,6 +40,7 @@ class ChartTypeSelector extends PureComponent {
           optionFilterProp="children"
           onChange={handleChange}
           filterOption={handleFilter}
+          value={value}
         >
           {optionContents}
         </Select>

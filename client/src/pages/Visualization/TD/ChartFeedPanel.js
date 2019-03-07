@@ -13,7 +13,7 @@ const { Option } = Select;
 class ChartFeedPanel extends PureComponent {
   render() {
     const { tchart, dispatch } = this.props;
-    const { chartType, currentDataset } = tchart;
+    const { chartType, currentDataset, feeds } = tchart;
     const chartConfig = chartConfigs.find(chartType);
     const fields = [];
 
@@ -27,8 +27,25 @@ class ChartFeedPanel extends PureComponent {
 
     const buildSelect = (type, children, single) => {
       const hint = `please select ${type}`;
+      const value = feeds[type];
       const handleChange = value => {
         console.log(`binding ${value} to ${type}`);
+        const feed = {};
+        feed[type] = value;
+        dispatch({
+          type: 'tchart/updateFeeds',
+          payload: feed,
+        });
+        const newFeeds = { ...tchart.feeds, ...feed };
+        console.log(newFeeds);
+        if (chartConfig && chartConfig.length > 0) {
+          const grammar = chartConfig[0].build(newFeeds);
+          console.log(grammar);
+          dispatch({
+            type: 'tchart/updateGrammar',
+            payload: grammar,
+          });
+        }
       };
       return (
         <Select
@@ -37,6 +54,7 @@ class ChartFeedPanel extends PureComponent {
           placeholder={hint}
           onChange={handleChange}
           style={{ width: '100%' }}
+          value={value}
         >
           {children}
         </Select>

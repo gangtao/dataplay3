@@ -26,8 +26,8 @@ class TypeDrivenChart extends PureComponent {
 
   render() {
     const { tchart, query, dispatch } = this.props;
-    const { currentDataset } = tchart;
-    const { name, chartType } = currentDataset;
+    const { currentDataset, chartType } = tchart;
+    const { name } = currentDataset;
 
     let savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -72,7 +72,7 @@ class TypeDrivenChart extends PureComponent {
               </Row>
               <Row>
                 Chart Type:
-                <ChartTypeSelector handleChange={handleChartSelected} />
+                <ChartTypeSelector handleChange={handleChartSelected} value={chartType} />
               </Row>
               <Row>
                 <ChartFeedPanel />

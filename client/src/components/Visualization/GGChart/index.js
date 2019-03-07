@@ -51,22 +51,22 @@ class GGChart extends PureComponent {
 
       let color = '';
       if (geom.color && geom.color.length > 0) {
-        [color] = geom.color;
+        color = geom.color.join('*');
       }
 
       let size = '';
       if (geom.size && geom.size.length > 0) {
-        [size] = geom.size;
+        size = geom.size.join('*');
       }
 
       let shape = '';
       if (geom.shape && geom.shape.length > 0) {
-        [shape] = geom.shape;
+        shape = geom.shape.join('*');
       }
 
       let opacity = '';
       if (geom.opacity && geom.opacity.length > 0) {
-        [opacity] = geom.opacity;
+        opacity = geom.opacity.join('*');
       }
 
       const buildLable = () => {
@@ -110,8 +110,9 @@ class GGChart extends PureComponent {
     };
 
     const buildAxis = () => {
-      if (grammar && grammar.geom && grammar.geom.Geom_0 && grammar.geom.Geom_0.position) {
-        return Object.entries(grammar.geom.Geom_0.position).map(item => {
+      // Using Geom1 to buld Axis, May need configuration in the future
+      if (grammar && grammar.geom && grammar.geom.Geom1 && grammar.geom.Geom1.position) {
+        return Object.entries(grammar.geom.Geom1.position).map(item => {
           const pos = item[1];
           return <Axis name={pos} />;
         });
