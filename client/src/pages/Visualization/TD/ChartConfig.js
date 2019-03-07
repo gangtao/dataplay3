@@ -20,9 +20,104 @@ const areaChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'area';
-    geom.position = [];
-    geom.position.push(feeds.x);
-    geom.position.push(feeds.y);
+    geom.position = [feeds.x, feeds.y];
+    grammar.geom.Geom1 = geom;
+    return grammar;
+  },
+};
+
+const barChart = {
+  name: 'bar',
+  icon: 'bar-chart',
+  feeds: [
+    {
+      name: 'x',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'y',
+      min: 1,
+      max: 1,
+    },
+  ],
+  build: function(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'rect';
+    grammar.geom = {};
+    const geom = {};
+    geom.geometry = 'interval';
+    geom.position = [feeds.x, feeds.y];
+    grammar.geom.Geom1 = geom;
+    return grammar;
+  },
+};
+
+const lineChart = {
+  name: 'line',
+  icon: 'line-chart',
+  feeds: [
+    {
+      name: 'x',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'y',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'color',
+      min: 1,
+      max: 1,
+    },
+  ],
+  build: function(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'rect';
+    grammar.geom = {};
+    const geom = {};
+    geom.geometry = 'line';
+    geom.position = [feeds.x, feeds.y];
+    geom.color = [feeds.color];
+    grammar.geom.Geom1 = geom;
+    return grammar;
+  },
+};
+
+const scatterChart = {
+  name: 'scatter',
+  icon: 'dot-chart',
+  feeds: [
+    {
+      name: 'x',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'y',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'color',
+      min: 1,
+      max: 1,
+    },
+  ],
+  build: function(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'rect';
+    grammar.geom = {};
+    const geom = {};
+    geom.geometry = 'point';
+    geom.shape = ['circle'];
+    geom.position = [feeds.x, feeds.y];
+    geom.color = [feeds.color];
     grammar.geom.Geom1 = geom;
     return grammar;
   },
@@ -57,7 +152,41 @@ const pieChart = {
   },
 };
 
-const chartList = [areaChart, pieChart];
+const radarChart = {
+  name: 'radar',
+  icon: 'radar-chart',
+  feeds: [
+    {
+      name: 'theta',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'r',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'color',
+      min: 1,
+      max: 1,
+    },
+  ],
+  build: function(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'polar';
+    grammar.geom = {};
+    const geom = {};
+    geom.geometry = 'line';
+    geom.position = [feeds.theta, feeds.r];
+    geom.color = [feeds.color];
+    grammar.geom.Geom1 = geom;
+    return grammar;
+  },
+};
+
+const chartList = [areaChart, pieChart, barChart, scatterChart, lineChart, radarChart];
 
 export const chartConfigs = {
   value: chartList,

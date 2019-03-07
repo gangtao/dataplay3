@@ -54,6 +54,11 @@ class TypeDrivenChart extends PureComponent {
         type: 'tchart/updateType',
         payload: value,
       });
+      dispatch({
+        type: 'tchart/updateGrammar',
+        payload: {},
+      });
+      // TODO : update the grammar to update the chart when switch type
     };
 
     return (
