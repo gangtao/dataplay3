@@ -23,7 +23,7 @@ class DatasetListSelector extends PureComponent {
       );
     };
 
-    let optionContents = datasetList.map(item => {
+    const optionContents = datasetList.map(item => {
       return buildOption(item, 'dataset');
     });
 

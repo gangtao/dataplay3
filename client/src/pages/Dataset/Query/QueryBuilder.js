@@ -109,8 +109,8 @@ class QueryBuilder extends PureComponent {
               placeholder="Query : type=sql dataset={dataset} | querystr"
               rows={3}
               onChange={handleQueryChange}
+              defaultValue={rawQuery}
             >
-              {rawQuery}
             </TextArea>
           </Col>
           <Col span={8}>

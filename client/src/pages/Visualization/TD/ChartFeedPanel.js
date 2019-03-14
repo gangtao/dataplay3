@@ -63,7 +63,7 @@ class ChartFeedPanel extends PureComponent {
 
     if (chartConfig && chartConfig.length > 0) {
       const feedSelectors = chartConfig[0].feeds.map(feed => {
-        const single = feed.max > 1 ? false : true;
+        const single = !(feed.max > 1);
         const content = buildSelect(feed.name, fieldsList, single);
         return (
           <li key={feed.name}>

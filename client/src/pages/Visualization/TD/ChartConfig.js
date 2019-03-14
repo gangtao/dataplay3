@@ -13,7 +13,7 @@ const areaChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'rect';
@@ -41,7 +41,7 @@ const barChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'rect';
@@ -74,7 +74,7 @@ const lineChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'rect';
@@ -108,7 +108,7 @@ const scatterChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'rect';
@@ -138,7 +138,7 @@ const pieChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'theta';
@@ -172,7 +172,7 @@ const radarChart = {
       max: 1,
     },
   ],
-  build: function(feeds) {
+  build(feeds) {
     const grammar = {};
     grammar.facat = null;
     grammar.coordination = 'polar';
@@ -190,7 +190,7 @@ const chartList = [areaChart, pieChart, barChart, scatterChart, lineChart, radar
 
 export const chartConfigs = {
   value: chartList,
-  find: function(name) {
+  find(name) {
     return chartList.filter(chart => chart.name === name);
   },
 };

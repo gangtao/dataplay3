@@ -25,7 +25,7 @@ class Dataset extends PureComponent {
   render() {
     const { dataset, query, dispatch } = this.props;
     const { dataSource, columns, name } = dataset.currentDataset;
-    let savedQueryList = [];
+    const savedQueryList = [];
     for (const p in query.savedQuery) {
       savedQueryList.push({ name: query.savedQuery[p].name });
     }

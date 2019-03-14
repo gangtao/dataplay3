@@ -29,7 +29,7 @@ class TypeDrivenChart extends PureComponent {
     const { currentDataset, chartType } = tchart;
     const { name } = currentDataset;
 
-    let savedQueryList = [];
+    const savedQueryList = [];
     for (const p in query.savedQuery) {
       savedQueryList.push({ name: query.savedQuery[p].name });
     }

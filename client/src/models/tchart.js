@@ -31,25 +31,25 @@ export default {
     *updateSelected({ payload }, { put }) {
       yield put({
         type: 'updateDataset',
-        payload: payload,
+        payload,
       });
     },
     *updateType({ payload }, { put }) {
       yield put({
         type: 'updateChartType',
-        payload: payload,
+        payload,
       });
     },
     *updateFeeds({ payload }, { put }) {
       yield put({
         type: 'updateChartFeeds',
-        payload: payload,
+        payload,
       });
     },
     *updateGrammar({ payload }, { put }) {
       yield put({
         type: 'updateChartGrammar',
-        payload: payload,
+        payload,
       });
     },
   },

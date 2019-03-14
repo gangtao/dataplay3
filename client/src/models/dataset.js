@@ -28,7 +28,7 @@ export default {
     *updateSelected({ payload }, { put }) {
       yield put({
         type: 'updateDataset',
-        payload: payload,
+        payload,
       });
     },
   },

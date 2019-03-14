@@ -81,11 +81,11 @@ class GGChart extends PureComponent {
       return (
         <Geom
           type={geomType}
-          {...position && { position: position }}
-          {...color && { color: color }}
-          {...size && { size: size }}
-          {...shape && { shape: shape }}
-          {...opacity && { opacity: opacity }}
+          {...position && { position }}
+          {...color && { color }}
+          {...size && { size }}
+          {...shape && { shape }}
+          {...opacity && { opacity }}
         >
           {label}
         </Geom>

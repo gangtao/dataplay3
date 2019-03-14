@@ -27,7 +27,7 @@ class GrammerGraph extends PureComponent {
     const { gchart, query, dispatch } = this.props;
     const { name } = gchart.currentDataset;
 
-    let savedQueryList = [];
+    const savedQueryList = [];
     for (const p in query.savedQuery) {
       savedQueryList.push({ name: query.savedQuery[p].name });
     }

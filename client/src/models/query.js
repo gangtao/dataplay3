@@ -15,8 +15,6 @@ export default {
   effects: {
     *fetchQuery({ payload }, { call, put }) {
       const response = yield call(runDatasetQuery, payload);
-      console.log('fetchQuery');
-      console.log(payload);
       yield put({
         type: 'getQuery',
         payload: response,
@@ -25,7 +23,7 @@ export default {
     *addQueryResult({ payload }, { put }) {
       yield put({
         type: 'pushQuery',
-        payload: payload,
+        payload,
       });
     },
   },
