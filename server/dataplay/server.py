@@ -3,7 +3,9 @@ from sanic_openapi import swagger_blueprint, openapi_blueprint
 from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
+from .dashboardsvc.service import dashboard_svc
 from .filesvc import file_svc
+
 
 PREFIX = '/api'
 
@@ -24,6 +26,7 @@ def init():
     app.blueprint(file_svc)
     app.blueprint(dataset_svc, url_prefix=PREFIX)
     app.blueprint(user_svc, url_prefix=PREFIX)
+    app.blueprint(dashboard_svc, url_prefix=PREFIX)
 
 
 if __name__ == '__main__':
