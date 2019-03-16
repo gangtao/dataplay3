@@ -32,11 +32,18 @@ export default [
       // root
       {
         path: '/ui',
-        redirect: '/dataset/getDataIn',
+        redirect: '/dashboard',
       },
       {
         path: '/',
-        redirect: '/dataset/getDataIn',
+        redirect: '/dashboard',
+      },
+      // Dashboard
+      {
+        path: '/dashboard',
+        icon: 'dashboard',
+        name: 'dashboard',
+        component: './Dashboard',
       },
       // dataset
       {

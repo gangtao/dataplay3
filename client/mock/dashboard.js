@@ -1,6 +1,25 @@
 import uuid from 'uuid'
 
-let dashboards = {}
+let dashboards = {
+    '1': {
+        title: 'sample1',
+        decription: 'sample1',
+        dataset: 'iris',
+        query: 'select * from dataset',
+        queryType: 'sql',
+        grammar: {},
+        queryResult: null
+    },
+    '2': {
+        title: 'sample2',
+        decription: 'sample2',
+        dataset: 'diabetes',
+        query: 'select * from dataset',
+        queryType: 'sql',
+        grammar: {},
+        queryResult: null
+    }
+}
 
 function getDashboards(req, res) {
     res.status(200).json(dashboards);
