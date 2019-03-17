@@ -1,5 +1,5 @@
 import { listDashboards, queryDashboard, createDashboard, deleteDashboard } from '@/services/dashboard';
-import { runDatasetQuery } from '@/services/dataset';
+import { queryDataset, runDatasetQuery } from '@/services/dataset';
 import { convertDataset } from '@/utils/dataset';
 
 export default {
@@ -12,12 +12,27 @@ export default {
   effects: {
     *fetchAll(_, { call, put }) {
       const response = yield call(listDashboards);
-      console.log('fetch all return');
-      console.log(response);
       yield put({
         type: 'queryAll',
         payload: response,
       });
+
+      for( const key in response ){
+        const dashboardObj = response[key];
+        const { dataset, queryType, query } = dashboardObj;
+        if ( !queryType ) {
+          const queryResponse = yield call(queryDataset, dataset);
+          const convertedDataset = convertDataset(queryResponse);
+          dashboardObj = {...dashboardObj, ...convertedDataset};
+          console.log(dashboardObj);
+        } else {
+          const payload = {...dashboardObj};
+          const queryResponse = yield call(runDatasetQuery, payload);
+          const convertedDataset = convertDataset(queryResponse);
+          dashboardObj = {...dashboardObj, ...convertedDataset};
+          console.log(dashboardObj);
+        }
+      }
     },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryDashboard, payload);

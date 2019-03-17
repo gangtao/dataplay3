@@ -6,12 +6,30 @@ let dashboards = {
         decription: 'sample1',
         dataset: 'iris',
         query: 'select * from dataset',
-        queryType: 'sql',
+        queryType: undefined,
         grammar: {},
         queryResult: null
     },
     '2': {
         title: 'sample2',
+        decription: 'sample2',
+        dataset: 'diabetes',
+        query: 'select * from dataset',
+        queryType: undefined,
+        grammar: {},
+        queryResult: null
+    },
+    '3': {
+        title: 'sample3',
+        decription: 'sample2',
+        dataset: 'iris',
+        query: 'select * from dataset',
+        queryType: 'sql',
+        grammar: {},
+        queryResult: null
+    },
+    '4': {
+        title: 'sample4',
         decription: 'sample2',
         dataset: 'diabetes',
         query: 'select * from dataset',

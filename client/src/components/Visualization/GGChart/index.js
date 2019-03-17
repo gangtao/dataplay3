@@ -7,6 +7,7 @@ import styles from './index.less';
 class GGChart extends PureComponent {
   render() {
     const { model } = this.props;
+    // TODO : rename currentDataset
     const { grammar, currentDataset } = model;
     if (!currentDataset) {
       return <Empty />;

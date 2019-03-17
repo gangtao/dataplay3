@@ -34,6 +34,9 @@ function getDataset(req, res) {
 }
 
 function fakeQuery(dataset) {
+    if ( !dataset) {
+        return {};
+    }
     const result = {};
     const rColThreshold = Math.random();
     const rRawThreshold = Math.random();
