@@ -36,7 +36,7 @@ class GeomConfigPanel extends PureComponent {
     const geomAttributes = ['position', 'color', 'size', 'shape', 'opacity', 'label'];
 
     const buildSelect = (type, children, single, selected) => {
-      const hint = `please select ${type}`;
+      const hint = `Select ${type}`;
       const handleChange = value => {
         handleUpdate(type, value, geomKey);
       };

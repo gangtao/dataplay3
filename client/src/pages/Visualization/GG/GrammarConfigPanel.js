@@ -136,7 +136,7 @@ class GrammarConfigPanel extends PureComponent {
           <Select
             mode="tags"
             style={{ width: '100%' }}
-            placeholder="Please select facat"
+            placeholder="Select facat"
             onChange={handlefacatUpdate}
             value={facatValue}
           >
@@ -148,7 +148,7 @@ class GrammarConfigPanel extends PureComponent {
           Coordination:
           <Select
             style={{ width: '100%' }}
-            placeholder="Please select coordination"
+            placeholder="Select coordination"
             onChange={handleCoordinationUpdate}
             value={coordinationValue}
           >
