@@ -21,10 +21,11 @@ class Dashboards extends PureComponent {
 
   render() {
     const { dashboard, dispatch } = this.props;
-    const { dashboards } = dashboard;
+    const { dashboards, maximize } = dashboard;
     const colNumber = 4;
     const colSpan = 24 / colNumber;
     const rowHeight = 300;
+    const maxHeight = 800;
 
     let dashboardsContents = [];
 
@@ -48,13 +49,30 @@ class Dashboards extends PureComponent {
       dashboardsContents.push(buildDashboard(dashboards[key], key));
     }
 
-    return (
-      <PageHeaderWrapper>
-        <div className={styles.dashboard}>
-          <Row gutter={16}>{dashboardsContents}</Row>
-        </div>
-      </PageHeaderWrapper>
-    );
+    if (!maximize) {
+      return (
+        <PageHeaderWrapper>
+          <div className={styles.dashboard}>
+            <Row gutter={16}>{dashboardsContents}</Row>
+          </div>
+        </PageHeaderWrapper>
+      );
+    } else {
+      const maxDashboard = dashboards[maximize];
+      const { grammar, dataSource, title, description } = maxDashboard;
+      const isMax = true;
+      return (
+        <DashboardPanel
+          id={maximize}
+          grammar={grammar}
+          dataSource={dataSource}
+          title={title}
+          description={description}
+          height={maxHeight}
+          isMax={isMax}
+        />
+      );
+    }
   }
 }
 

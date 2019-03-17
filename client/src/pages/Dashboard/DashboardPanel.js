@@ -12,7 +12,17 @@ const confirm = Modal.confirm;
 }))
 class DashboardPanel extends PureComponent {
   render() {
-    const { dashboard, grammar, dataSource, title, description, dispatch, height, id } = this.props;
+    const {
+      dashboard,
+      grammar,
+      dataSource,
+      title,
+      description,
+      dispatch,
+      height,
+      id,
+      isMax,
+    } = this.props;
     const grammarUpdate = { ...grammar };
     if (!dataSource) {
       return <Empty />;
@@ -35,6 +45,41 @@ class DashboardPanel extends PureComponent {
       });
     };
 
+    const handleMaximize = () => {
+      dispatch({
+        type: 'dashboard/maximizeSelected',
+        payload: id,
+      });
+    };
+
+    const handleMinimize = () => {
+      dispatch({
+        type: 'dashboard/maximizeSelected',
+        payload: undefined,
+      });
+    };
+
+    const buildButtons = () => {
+      if (isMax) {
+        return (
+          <Tooltip placement="top" title="Minimize">
+            <Button icon="minus" size="small" onClick={handleMinimize} />
+          </Tooltip>
+        );
+      } else {
+        return (
+          <div>
+            <Tooltip placement="top" title="Maximize">
+              <Button icon="plus" size="small" onClick={handleMaximize} />
+            </Tooltip>
+            <Tooltip placement="top" title="Delete">
+              <Button icon="delete" size="small" onClick={handleDelete} />
+            </Tooltip>
+          </div>
+        );
+      }
+    };
+
     return (
       <div>
         <Row gutter={16}>
@@ -42,14 +87,7 @@ class DashboardPanel extends PureComponent {
             <span className={styles.dashboardTitle}>{title}</span>
           </Col>
           <Col span={12}>
-            <div className={styles.dashboardControl}>
-              <Tooltip placement="top" title="Maximize">
-                <Button icon="plus" size="small" />
-              </Tooltip>
-              <Tooltip placement="top" title="Delete">
-                <Button icon="delete" size="small" onClick={handleDelete} />
-              </Tooltip>
-            </div>
+            <div className={styles.dashboardControl}>{buildButtons()}</div>
           </Col>
         </Row>
         <Row gutter={16}>
