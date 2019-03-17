@@ -10,6 +10,11 @@ export default {
     currentDataset: {},
     chartType: null,
     feeds: {},
+    export: {
+      visible: false,
+      title: '',
+      description: '',
+    },
   },
 
   effects: {
@@ -49,6 +54,12 @@ export default {
     *updateGrammar({ payload }, { put }) {
       yield put({
         type: 'updateChartGrammar',
+        payload,
+      });
+    },
+    *exportUpdate({ payload }, { put }) {
+      yield put({
+        type: 'updateExport',
         payload,
       });
     },
@@ -97,6 +108,12 @@ export default {
       return {
         ...state,
         grammar: action.payload,
+      };
+    },
+    updateExport(state, action) {
+      return {
+        ...state,
+        export: { ...state.export, ...action.payload },
       };
     },
   },

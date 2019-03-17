@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Tooltip, message } from 'antd';
+import { Row, Col, Button, Tooltip, Modal, Input, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -28,6 +28,7 @@ class GrammerGraph extends PureComponent {
   render() {
     const { gchart, query, dispatch } = this.props;
     const { name } = gchart.currentDataset;
+    const { visible, title, description } = gchart.export;
 
     const savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -50,10 +51,23 @@ class GrammerGraph extends PureComponent {
     };
 
     const exportToDashboard = () => {
+      toggleExport(true);
+    };
+
+    const toggleExport = show => {
+      const payload = {
+        visible: show,
+      };
+      dispatch({
+        type: 'gchart/exportUpdate',
+        payload: payload,
+      });
+    };
+
+    const handleExportConfirm = () => {
       const restParams = {};
-      //TODO: add dialog to collect title
-      restParams.title = 'test';
-      restParams.description = 'test';
+      restParams.title = title;
+      restParams.description = description;
       if (gchart.currentDataset.type) {
         restParams.dataset = gchart.currentDataset.dataset;
         restParams.query = gchart.currentDataset.query;
@@ -66,8 +80,33 @@ class GrammerGraph extends PureComponent {
       restParams.grammar = gchart.grammar;
       const payload = { restParams };
       createDashboard(payload);
+      toggleExport(false);
       //TODO: handle rest failure;
       message.info('current visualization has been exported to dashboard!');
+    };
+
+    const handleExportCancel = () => {
+      toggleExport(false);
+    };
+
+    const handleTitleChange = e => {
+      const payload = {
+        title: e.target.value,
+      };
+      dispatch({
+        type: 'gchart/exportUpdate',
+        payload: payload,
+      });
+    };
+
+    const handleDescriptionChange = e => {
+      const payload = {
+        description: e.target.value,
+      };
+      dispatch({
+        type: 'gchart/exportUpdate',
+        payload: payload,
+      });
     };
 
     return (
@@ -104,6 +143,21 @@ class GrammerGraph extends PureComponent {
             </Col>
           </Row>
         </div>
+        <Modal
+          title="Export Visualization to Dashboard"
+          visible={visible}
+          onOk={handleExportConfirm}
+          onCancel={handleExportCancel}
+        >
+          <Input.Group>
+            <Input placeholder="Title" defaultValue={title} onChange={handleTitleChange} />
+            <Input
+              placeholder="Description"
+              defaultValue={description}
+              onChange={handleDescriptionChange}
+            />
+          </Input.Group>
+        </Modal>
       </PageHeaderWrapper>
     );
   }

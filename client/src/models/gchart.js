@@ -8,6 +8,11 @@ export default {
     list: [],
     grammar: { facat: null, coordination: null, geom: { Geom1: {} } },
     currentDataset: {},
+    export: {
+      visible: false,
+      title: '',
+      description: '',
+    },
   },
 
   effects: {
@@ -53,6 +58,12 @@ export default {
     *geomDelete({ payload }, { put }) {
       yield put({
         type: 'deleteGeom',
+        payload,
+      });
+    },
+    *exportUpdate({ payload }, { put }) {
+      yield put({
+        type: 'updateExport',
         payload,
       });
     },
@@ -105,6 +116,12 @@ export default {
       delete state.grammar.geom[action.payload];
       return {
         ...state,
+      };
+    },
+    updateExport(state, action) {
+      return {
+        ...state,
+        export: { ...state.export, ...action.payload },
       };
     },
   },

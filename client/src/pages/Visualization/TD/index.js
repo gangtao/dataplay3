@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Tooltip, message } from 'antd';
+import { Row, Col, Button, Tooltip, Modal, Input, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -30,6 +30,7 @@ class TypeDrivenChart extends PureComponent {
     const { tchart, query, dispatch } = this.props;
     const { currentDataset, chartType } = tchart;
     const { name } = currentDataset;
+    const { visible, title, description } = tchart.export;
 
     const savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -64,10 +65,23 @@ class TypeDrivenChart extends PureComponent {
     };
 
     const exportToDashboard = () => {
+      toggleExport(true);
+    };
+
+    const toggleExport = show => {
+      const payload = {
+        visible: show,
+      };
+      dispatch({
+        type: 'tchart/exportUpdate',
+        payload: payload,
+      });
+    };
+
+    const handleExportConfirm = () => {
       const restParams = {};
-      //TODO: add dialog to collect title
-      restParams.title = 'test';
-      restParams.description = 'test';
+      restParams.title = title;
+      restParams.description = description;
       if (tchart.currentDataset.type) {
         restParams.dataset = tchart.currentDataset.dataset;
         restParams.query = tchart.currentDataset.query;
@@ -81,7 +95,32 @@ class TypeDrivenChart extends PureComponent {
       const payload = { restParams };
       createDashboard(payload);
       //TODO: handle rest failure;
+      toggleExport(false);
       message.info('current visualization has been exported to dashboard!');
+    };
+
+    const handleExportCancel = () => {
+      toggleExport(false);
+    };
+
+    const handleTitleChange = e => {
+      const payload = {
+        title: e.target.value,
+      };
+      dispatch({
+        type: 'tchart/exportUpdate',
+        payload: payload,
+      });
+    };
+
+    const handleDescriptionChange = e => {
+      const payload = {
+        description: e.target.value,
+      };
+      dispatch({
+        type: 'tchart/exportUpdate',
+        payload: payload,
+      });
     };
 
     return (
@@ -120,6 +159,21 @@ class TypeDrivenChart extends PureComponent {
             </Col>
           </Row>
         </div>
+        <Modal
+          title="Export Visualization to Dashboard"
+          visible={visible}
+          onOk={handleExportConfirm}
+          onCancel={handleExportCancel}
+        >
+          <Input.Group>
+            <Input placeholder="Title" defaultValue={title} onChange={handleTitleChange} />
+            <Input
+              placeholder="Description"
+              defaultValue={description}
+              onChange={handleDescriptionChange}
+            />
+          </Input.Group>
+        </Modal>
       </PageHeaderWrapper>
     );
   }
