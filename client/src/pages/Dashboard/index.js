@@ -28,11 +28,12 @@ class Dashboards extends PureComponent {
 
     let dashboardsContents = [];
 
-    const buildDashboard = d => {
-      const { grammar, dataSource, title, description } = d;
+    const buildDashboard = (content, key) => {
+      const { grammar, dataSource, title, description } = content;
       return (
         <Col span={colSpan} key={title}>
           <DashboardPanel
+            id={key}
             grammar={grammar}
             dataSource={dataSource}
             title={title}
@@ -44,7 +45,7 @@ class Dashboards extends PureComponent {
     };
 
     for (const key in dashboards) {
-      dashboardsContents.push(buildDashboard(dashboards[key]));
+      dashboardsContents.push(buildDashboard(dashboards[key], key));
     }
 
     return (

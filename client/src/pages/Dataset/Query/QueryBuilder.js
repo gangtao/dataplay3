@@ -114,12 +114,12 @@ class QueryBuilder extends PureComponent {
           </Col>
           <Col span={8}>
             <Tooltip placement="top" title="run dataset query">
-              <Button icon="search" className={styles.qurtyAction} onClick={handleQuery} />
+              <Button icon="search" className={styles.queryAction} onClick={handleQuery} />
             </Tooltip>
             <Tooltip placement="top" title="save dataset query">
               <Button
                 icon="save"
-                className={styles.qurtyAction}
+                className={styles.queryAction}
                 disabled={!canSave}
                 onClick={handleSave}
               />
@@ -127,7 +127,7 @@ class QueryBuilder extends PureComponent {
             <Tooltip placement="top" title="export query as dataset">
               <Button
                 icon="export"
-                className={styles.qurtyAction}
+                className={styles.queryAction}
                 disabled={!canExport}
                 onClick={handleExport}
               />

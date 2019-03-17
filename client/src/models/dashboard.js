@@ -44,6 +44,14 @@ export default {
         });
       }
     },
+    *deleteSelected({ payload }, { call, put }) {
+      const response = yield call(deleteDashboard, payload);
+      //TODO: handle rest error
+      yield put({
+        type: 'delete',
+        payload: payload,
+      });
+    },
   },
 
   reducers: {
@@ -51,6 +59,13 @@ export default {
       return {
         ...state,
         dashboards: { ...state.dashboards, ...action.payload },
+      };
+    },
+    delete(state, action) {
+      delete state.dashboards[action.payload];
+      return {
+        ...state,
+        dashboards: { ...state.dashboards },
       };
     },
   },

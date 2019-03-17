@@ -116,7 +116,7 @@ class GrammerGraph extends PureComponent {
             <Col span={6}>
               <div className={styles.ggHeader}>
                 <Tooltip placement="top" title="export to dashboard">
-                  <Button icon="export" shape="circle" onClick={exportToDashboard} />
+                  <Button icon="export" onClick={exportToDashboard} />
                 </Tooltip>
               </div>
             </Col>
