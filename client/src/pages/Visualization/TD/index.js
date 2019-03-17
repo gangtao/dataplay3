@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Button, Tooltip, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -8,6 +8,8 @@ import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 import ChartTypeSelector from './ChartTypeSelector';
 import VisualizationPanel from './VisualizationPanel';
 import ChartFeedPanel from './ChartFeedPanel';
+
+import { createDashboard } from '@/services/dashboard';
 
 import styles from './index.less';
 
@@ -61,9 +63,39 @@ class TypeDrivenChart extends PureComponent {
       // TODO : update the grammar to update the chart when switch type
     };
 
+    const exportToDashboard = () => {
+      const restParams = {};
+      //TODO: add dialog to collect title
+      restParams.title = 'test';
+      restParams.description = 'test';
+      if (tchart.currentDataset.type) {
+        restParams.dataset = tchart.currentDataset.dataset;
+        restParams.query = tchart.currentDataset.query;
+        restParams.queryType = tchart.currentDataset.type;
+      } else {
+        restParams.dataset = tchart.currentDataset.name;
+        restParams.query = '';
+        restParams.queryType = undefined;
+      }
+      restParams.grammar = tchart.grammar;
+      const payload = { restParams };
+      createDashboard(payload);
+      //TODO: handle rest failure;
+      message.info('current visualization has been exported to dashboard!');
+    };
+
     return (
       <PageHeaderWrapper>
         <div className={styles.td}>
+          <Row gutter={16} type="flex" justify="end">
+            <Col span={6}>
+              <div className={styles.tdHeader}>
+                <Tooltip placement="top" title="export to dashboard">
+                  <Button icon="export" shape="circle" onClick={exportToDashboard} />
+                </Tooltip>
+              </div>
+            </Col>
+          </Row>
           <Row gutter={16}>
             <Col span={6}>
               <Row>

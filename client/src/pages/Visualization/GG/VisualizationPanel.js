@@ -10,10 +10,12 @@ class VisualizationPanel extends PureComponent {
   render() {
     const { gchart, dispatch } = this.props;
     const { grammar, currentDataset } = gchart;
+    // force update
     const grammarUpdate = { ...grammar };
     if (!currentDataset) {
       return <Empty />;
     }
+    console.log(JSON.stringify(grammarUpdate));
     const data = currentDataset.dataSource;
     return <GGChart grammar={grammarUpdate} data={data} />;
   }

@@ -72,7 +72,9 @@ function queryDataset(req, res) {
     const { id } = req.params;
     const newData = database.find(item => item.id === id);
 
-    res.status(200).json(fakeQuery(newData));
+    //res.status(200).json(fakeQuery(newData));
+    // return all dataset for any query
+    res.status(200).json(newData);
 }
 
 
