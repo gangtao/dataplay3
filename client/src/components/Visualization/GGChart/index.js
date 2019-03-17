@@ -6,14 +6,7 @@ import styles from './index.less';
 
 class GGChart extends PureComponent {
   render() {
-    const { model } = this.props;
-    // TODO : rename currentDataset
-    const { grammar, currentDataset } = model;
-    if (!currentDataset) {
-      return <Empty />;
-    }
-
-    const data = currentDataset.dataSource;
+    const { grammar, data } = this.props;
 
     const coordinationType = grammar.coordination;
     const buildCoordination = () => {

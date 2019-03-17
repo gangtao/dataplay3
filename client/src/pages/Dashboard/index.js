@@ -24,9 +24,7 @@ class Dashboards extends PureComponent {
       <PageHeaderWrapper>
         <div className={styles.dashboard}>
           <Row gutter={16}>
-            <Col span={8}>
-              This is Dashboards
-            </Col>
+            <Col span={8}>This is Dashboards</Col>
           </Row>
         </div>
       </PageHeaderWrapper>

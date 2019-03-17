@@ -1,4 +1,9 @@
-import { listDashboards, queryDashboard, createDashboard, deleteDashboard } from '@/services/dashboard';
+import {
+  listDashboards,
+  queryDashboard,
+  createDashboard,
+  deleteDashboard,
+} from '@/services/dashboard';
 import { queryDataset, runDatasetQuery } from '@/services/dataset';
 import { convertDataset } from '@/utils/dataset';
 
@@ -6,7 +11,7 @@ export default {
   namespace: 'dashboard',
 
   state: {
-    dashboards: {}
+    dashboards: {},
   },
 
   effects: {
@@ -17,19 +22,19 @@ export default {
         payload: response,
       });
 
-      for( const key in response ){
+      for (const key in response) {
         const dashboardObj = response[key];
         const { dataset, queryType, query } = dashboardObj;
-        if ( !queryType ) {
+        if (!queryType) {
           const queryResponse = yield call(queryDataset, dataset);
           const convertedDataset = convertDataset(queryResponse);
-          dashboardObj = {...dashboardObj, ...convertedDataset};
+          dashboardObj = { ...dashboardObj, ...convertedDataset };
           console.log(dashboardObj);
         } else {
-          const payload = {...dashboardObj};
+          const payload = { ...dashboardObj };
           const queryResponse = yield call(runDatasetQuery, payload);
           const convertedDataset = convertDataset(queryResponse);
-          dashboardObj = {...dashboardObj, ...convertedDataset};
+          dashboardObj = { ...dashboardObj, ...convertedDataset };
           console.log(dashboardObj);
         }
       }

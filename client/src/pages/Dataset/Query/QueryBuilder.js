@@ -110,8 +110,7 @@ class QueryBuilder extends PureComponent {
               rows={3}
               onChange={handleQueryChange}
               defaultValue={rawQuery}
-            >
-            </TextArea>
+            />
           </Col>
           <Col span={8}>
             <Tooltip placement="top" title="run dataset query">

@@ -5,8 +5,8 @@ export default {
   namespace: 'dataset',
 
   state: {
-    list: [],
-    currentDataset: {},
+    list: [], // list of datasets id
+    currentDataset: {}, // current selected dataset
   },
 
   effects: {
