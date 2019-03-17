@@ -29,7 +29,6 @@ class ChartFeedPanel extends PureComponent {
       const hint = `please select ${type}`;
       const value = feeds[type];
       const handleChange = value => {
-        console.log(`binding ${value} to ${type}`);
         const feed = {};
         feed[type] = value;
         dispatch({
@@ -37,10 +36,8 @@ class ChartFeedPanel extends PureComponent {
           payload: feed,
         });
         const newFeeds = { ...tchart.feeds, ...feed };
-        console.log(newFeeds);
         if (chartConfig && chartConfig.length > 0) {
           const grammar = chartConfig[0].build(newFeeds);
-          console.log(grammar);
           dispatch({
             type: 'tchart/updateGrammar',
             payload: grammar,

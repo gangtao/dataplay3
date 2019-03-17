@@ -25,40 +25,32 @@ export default {
       for (const key in response) {
         const dashboardObj = response[key];
         const { dataset, queryType, query } = dashboardObj;
+        const dashboardObjWithKey = {};
         if (!queryType) {
           const queryResponse = yield call(queryDataset, dataset);
           const convertedDataset = convertDataset(queryResponse);
           dashboardObj = { ...dashboardObj, ...convertedDataset };
-          console.log(dashboardObj);
+          dashboardObjWithKey[key] = dashboardObj;
         } else {
           const payload = { ...dashboardObj };
           const queryResponse = yield call(runDatasetQuery, payload);
           const convertedDataset = convertDataset(queryResponse);
           dashboardObj = { ...dashboardObj, ...convertedDataset };
-          console.log(dashboardObj);
+          dashboardObjWithKey[key] = dashboardObj;
         }
+        yield put({
+          type: 'update',
+          payload: dashboardObjWithKey,
+        });
       }
-    },
-    *fetch({ payload }, { call, put }) {
-      const response = yield call(queryDashboard, payload);
-      yield put({
-        type: 'query',
-        payload: response,
-      });
     },
   },
 
   reducers: {
-    queryAll(state, action) {
+    update(state, action) {
       return {
         ...state,
-        list: action.payload,
-      };
-    },
-    query(state, action) {
-      return {
-        ...state,
-        list: action.payload,
+        dashboards: { ...state.dashboards, ...action.payload },
       };
     },
   },

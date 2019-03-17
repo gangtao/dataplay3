@@ -2,8 +2,8 @@
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
-    name: 'Serati Ma',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
+    name: 'Gang Tao',
+    avatar: 'https://media.licdn.com/dms/image/C5603AQFMy-KsDSViMA/profile-displayphoto-shrink_100_100/0?e=1558569600&v=beta&t=Fy309Fn-5saRMdWuy4qAjnQS9vplgtkazglS4kusRnk',
     userid: '00000001',
     email: 'antdesign@alipay.com',
     signature: '海纳百川，有容乃大',

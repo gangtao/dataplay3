@@ -2,7 +2,7 @@ import json
 
 user_config = '''{
     "name": "Gang Tao",
-    "avatar": "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
+    "avatar": "https://media.licdn.com/dms/image/C5603AQFMy-KsDSViMA/profile-displayphoto-shrink_100_100/0?e=1558569600&v=beta&t=Fy309Fn-5saRMdWuy4qAjnQS9vplgtkazglS4kusRnk",
     "userid": "00000001",
     "email": "gang.tao@outlook.com",
     "signature": "hahaha",

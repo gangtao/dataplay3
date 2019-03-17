@@ -6,7 +6,8 @@ import styles from './index.less';
 
 class GGChart extends PureComponent {
   render() {
-    const { grammar, data } = this.props;
+    const { grammar, data, height } = this.props;
+    const defaultHeight = 600;
 
     const coordinationType = grammar.coordination;
     const buildCoordination = () => {
@@ -36,7 +37,7 @@ class GGChart extends PureComponent {
       return false;
     };
 
-    const buildGeom = geom => {
+    const buildGeom = (key, geom) => {
       const geomType = geom.geometry;
       let position = '';
       if (geom.position) {
@@ -74,6 +75,7 @@ class GGChart extends PureComponent {
       const label = buildLable();
       return (
         <Geom
+          key={key}
           type={geomType}
           {...position && { position }}
           {...color && { color }}
@@ -93,11 +95,11 @@ class GGChart extends PureComponent {
       const geometryList = [];
 
       Object.entries(grammar.geom).map(item => {
-        const value = item[1];
+        const [key, value] = item;
         if (!validateGrammar(value)) {
           return [];
         }
-        geometryList.push(buildGeom(value));
+        geometryList.push(buildGeom(key, value));
       });
 
       return geometryList;
@@ -107,8 +109,8 @@ class GGChart extends PureComponent {
       // Using Geom1 to buld Axis, May need configuration in the future
       if (grammar && grammar.geom && grammar.geom.Geom1 && grammar.geom.Geom1.position) {
         return Object.entries(grammar.geom.Geom1.position).map(item => {
-          const pos = item[1];
-          return <Axis name={pos} />;
+          const [key, pos] = item;
+          return <Axis key={key} name={pos} />;
         });
       }
 
@@ -126,7 +128,7 @@ class GGChart extends PureComponent {
 
       return (
         <div className={styles.ggchart}>
-          <Chart height={600} data={data} forceFit>
+          <Chart height={height ? height : defaultHeight} data={data} forceFit>
             <Legend />
             <Tooltip />
             {axis}
@@ -155,7 +157,7 @@ class GGChart extends PureComponent {
       }
       return (
         <div className={styles.ggchart}>
-          <Chart height={600} data={data} forceFit>
+          <Chart height={height ? height : defaultHeight} data={data} forceFit>
             <Legend />
             <Tooltip />
             {facat}
