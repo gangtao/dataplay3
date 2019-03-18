@@ -1,6 +1,6 @@
 import os
 
-CSV_DATASET_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'dataset')
+CSV_DATASET_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'dataset', 'csv')
 
 QUERY_TYPE_NORMAL = 'query'
 QUERY_TYPE_SQL = 'sql'

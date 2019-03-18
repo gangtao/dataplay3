@@ -18,6 +18,7 @@ async def list_datasets(request):
         datasets = dataset_class.list_datasets()
         return response.json(datasets, status=200)
     except Exception:
+        logger.exception('faile to list dataset')
         return response.json({}, status=500)
 
 
@@ -28,6 +29,7 @@ async def create_datasets(request):
         # TODO: not implemented yet
         return response.json({}, status=201)
     except Exception:
+        logger.exception('faile to create dataset')
         return response.json({}, status=500)
 
 
@@ -44,8 +46,8 @@ async def get_dataset(request, id):
         logger.info(f'GET dataset {csv}')
         payload = csv.get_payload()
         return response.json(payload, status=200)
-    except Exception as e:
-        logger.error(e)
+    except Exception:
+        logger.exception('faile to get dataset')
         return response.json({}, status=500)
 
 
@@ -59,6 +61,6 @@ async def query_dataset(request, id):
         dataset = dataset_class(id)
         query_result = dataset.query(request_body['query'], request_body['type'])
         return response.json(query_result, status=200)
-    except Exception as e:
-        logger.error(e)
+    except Exception:
+        logger.exception('faile to query dataset')
         return response.json({}, status=500)
