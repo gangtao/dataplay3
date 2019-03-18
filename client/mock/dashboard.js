@@ -5,48 +5,42 @@ let dashboards = {
         title: 'sample1',
         description: 'area',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"rect","geom":{"Geom1":{"geometry":"area","position":["species","sepal_length"]}}}
     },
     '2': {
         title: 'sample2',
         description: 'pie',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"theta","geom":{"Geom1":{"geometry":"intervalStack","position":["sepal_width"],"color":["species"]}}}
     },
     '3': {
         title: 'sample3',
         description: 'bar',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"rect","geom":{"Geom1":{"geometry":"interval","position":["species","sepal_width"]}}}
     },
     '4': {
         title: 'sample4',
         description: 'scatter',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"rect","geom":{"Geom1":{"geometry":"point","shape":["circle"],"position":["sepal_length","sepal_width"],"color":["species"]}}}
     },
     '5': {
         title: 'sample5',
         description: 'line',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"rect","geom":{"Geom1":{"geometry":"line","position":["sepal_width","sepal_length"],"color":["species"]}}}
     },
     '6': {
         title: 'sample6',
         description: 'polar',
         dataset: 'iris',
-        query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"polar","geom":{"Geom1":{"geometry":"line","position":["sepal_width","petal_width"],"color":["species"]}}}
     },
     '7': {
@@ -54,7 +48,7 @@ let dashboards = {
         description: 'polar with query',
         dataset: 'iris',
         query: 'select * from dataset',
-        queryType: 'sql',
+        type: 'sql',
         grammar: {"facat":null,"coordination":"polar","geom":{"Geom1":{"geometry":"line","position":["sepal_width","petal_width"],"color":["species"]}}}
     },
     '8': {
@@ -62,7 +56,7 @@ let dashboards = {
         description: 'pie with query',
         dataset: 'iris',
         query: 'select * from dataset',
-        queryType: undefined,
+        type: undefined,
         grammar: {"facat":null,"coordination":"theta","geom":{"Geom1":{"geometry":"intervalStack","position":["sepal_width"],"color":["species"]}}}
     },
 }

@@ -5,7 +5,6 @@ dashboard_config = '''{
         "title": "sample1",
         "description": "area",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "rect",
@@ -21,7 +20,6 @@ dashboard_config = '''{
         "title": "sample2",
         "description": "pie",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "theta",
@@ -38,7 +36,6 @@ dashboard_config = '''{
         "title": "sample3",
         "description": "bar",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "rect",
@@ -54,7 +51,6 @@ dashboard_config = '''{
         "title": "sample4",
         "description": "scatter",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "rect",
@@ -72,7 +68,6 @@ dashboard_config = '''{
         "title": "sample5",
         "description": "line",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "rect",
@@ -89,7 +84,6 @@ dashboard_config = '''{
         "title": "sample6",
         "description": "polar",
         "dataset": "iris",
-        "query": "select * from dataset",
         "grammar": {
             "facat": null,
             "coordination": "polar",
@@ -107,7 +101,7 @@ dashboard_config = '''{
         "description": "polar with query",
         "dataset": "iris",
         "query": "select * from dataset",
-        "queryType": "sql",
+        "type": "sql",
         "grammar": {
             "facat": null,
             "coordination": "polar",
@@ -125,6 +119,7 @@ dashboard_config = '''{
         "description": "pie with query",
         "dataset": "iris",
         "query": "select * from dataset",
+        "type": "sql",
         "grammar": {
             "facat": null,
             "coordination": "theta",

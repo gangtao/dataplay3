@@ -25,9 +25,9 @@ export default {
 
       for (const key in response) {
         const dashboardObj = response[key];
-        const { dataset, queryType, query } = dashboardObj;
+        const { dataset, type, query } = dashboardObj;
         const dashboardObjWithKey = {};
-        if (!queryType) {
+        if (!type) {
           const queryResponse = yield call(queryDataset, dataset);
           const convertedDataset = convertDataset(queryResponse);
           dashboardObj = { ...dashboardObj, ...convertedDataset };
