@@ -31,8 +31,9 @@ def init():
     dataset_type_config = ConfigurationManager.get_confs('dataset_type')
     dataset_registry = DatasetTypeRegistry()
     for section in dataset_type_config.sections():
+        module_name = dataset_type_config.get(section, 'module')
         class_name = dataset_type_config.get(section, 'class')
-        dataset_registry.register(section, class_name)
+        dataset_registry.register(section, class_name, module_name)
 
     app.blueprint(file_svc)
     app.blueprint(dataset_svc, url_prefix=PREFIX)
@@ -43,5 +44,9 @@ def init():
 
 if __name__ == '__main__':
     init()
-    app.run(host=app.config.HOST, port=app.config.PORT,
-            debug=app.config.DEBUG, workers=app.config.WORKERS)
+    app.run(
+        host=app.config.HOST,
+        port=app.config.PORT,
+        debug=app.config.DEBUG,
+        workers=app.config.WORKERS,
+    )

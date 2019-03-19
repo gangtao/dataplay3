@@ -46,5 +46,5 @@ class ConfigurationManager:
         for section in value:
             for option in value[section]:
                 cfg.set(section, option, value[section][option])
-
-        cfg.write(conf_file)
+        with open(conf_file,'w') as f:
+            cfg.write(f)

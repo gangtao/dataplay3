@@ -33,12 +33,12 @@ def get_confs(request, domain):
         return response.json({}, status=500)
 
 
-@conf_svc.patch('/confs/<domain>', strict_slashes=True)
+@conf_svc.post('/confs/<domain>', strict_slashes=True)
 @doc.summary('save content of configurations for specific domain')
 def save_confs(request, domain):
     try:
         request_body = json.loads(request.body)
-        ConfigurationManager.set_conf(request_body)
+        ConfigurationManager.set_conf(domain, request_body)
         return response.json({}, status=200)
     except Exception:
         logger.exception('failed to save configurations')

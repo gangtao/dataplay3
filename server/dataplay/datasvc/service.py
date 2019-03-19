@@ -13,7 +13,7 @@ dataset_svc = Blueprint('dataset_svc')
 @dataset_svc.get('/datasets', strict_slashes=True)
 @doc.route(summary='list all datasets', produces=[{"name": str, "id": str, "type": str}])
 async def list_datasets(request):
-    dataset_class = get_dataset_class('CSV')
+    dataset_class = get_dataset_class('csv')
     try:
         datasets = dataset_class.list_datasets()
         return response.json(datasets, status=200)
@@ -39,7 +39,7 @@ async def create_datasets(request):
     produces={"name": str, "id": str, "cols": [str], "rows": [[object]]},
 )
 async def get_dataset(request, id):
-    dataset_class = get_dataset_class('CSV')
+    dataset_class = get_dataset_class('csv')
     try:
         logger.info('GET dataset')
         csv = dataset_class(id)
@@ -55,7 +55,7 @@ async def get_dataset(request, id):
 @doc.route(summary='run a dataset query', produces={"cols": [str], "rows": [[object]]})
 async def query_dataset(request, id):
     logger.debug(f'get dataset query request {request.body} on {id}')
-    dataset_class = get_dataset_class('CSV')
+    dataset_class = get_dataset_class('csv')
     try:
         request_body = json.loads(request.body)
         dataset = dataset_class(id)

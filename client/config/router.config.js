@@ -91,6 +91,13 @@ export default [
           },
         ],
       },
+      // Config
+      {
+        path: '/config',
+        icon: 'area-chart',
+        name: 'configuration',
+        component: './Configuration',
+      },
     ],
   },
 ];
