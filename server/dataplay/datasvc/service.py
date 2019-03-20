@@ -5,7 +5,7 @@ from sanic import response
 from sanic.log import logger
 from sanic_openapi import doc
 
-from .registry import get_dataset_class
+from .manager import DatasetManager
 
 dataset_svc = Blueprint('dataset_svc')
 
@@ -13,9 +13,8 @@ dataset_svc = Blueprint('dataset_svc')
 @dataset_svc.get('/datasets', strict_slashes=True)
 @doc.route(summary='list all datasets', produces=[{"name": str, "id": str, "type": str}])
 async def list_datasets(request):
-    dataset_class = get_dataset_class('csv')
     try:
-        datasets = dataset_class.list_datasets()
+        datasets = DatasetManager.list_datasets()
         return response.json(datasets, status=200)
     except Exception:
         logger.exception('faile to list dataset')
@@ -39,12 +38,10 @@ async def create_datasets(request):
     produces={"name": str, "id": str, "cols": [str], "rows": [[object]]},
 )
 async def get_dataset(request, id):
-    dataset_class = get_dataset_class('csv')
+
     try:
-        logger.info('GET dataset')
-        csv = dataset_class(id)
-        logger.info(f'GET dataset {csv}')
-        payload = csv.get_payload()
+        dataset = DatasetManager.get_dataset(id)
+        payload = dataset.get_payload()
         return response.json(payload, status=200)
     except Exception:
         logger.exception('faile to get dataset')
@@ -55,10 +52,9 @@ async def get_dataset(request, id):
 @doc.route(summary='run a dataset query', produces={"cols": [str], "rows": [[object]]})
 async def query_dataset(request, id):
     logger.debug(f'get dataset query request {request.body} on {id}')
-    dataset_class = get_dataset_class('csv')
     try:
+        dataset = DatasetManager.get_dataset(id)
         request_body = json.loads(request.body)
-        dataset = dataset_class(id)
         query_result = dataset.query(request_body['query'], request_body['type'])
         return response.json(query_result, status=200)
     except Exception:

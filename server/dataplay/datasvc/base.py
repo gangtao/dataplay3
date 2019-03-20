@@ -1,34 +1,27 @@
-import os
 import pandas as pd
 from pandasql import sqldf
 from abc import ABC, abstractmethod
 from sanic.log import logger
 
-from .constant import CSV_DATASET_PATH, QUERY_TYPE_NORMAL, QUERY_TYPE_SQL
+from .constant import QUERY_TYPE_NORMAL, QUERY_TYPE_SQL
 
 
 class BaseDataset(ABC):
-    def __init__(self, id):
+    def __init__(self, id, name, file, description):
         self.id = id
-        self.name = None
+        self.name = name
+        self.file = file
+        self.description = description
         self.df = None
         self.payload = None
-        self.description = ''
 
     @abstractmethod
     def _load(self):
         return self.df
 
-    @staticmethod
-    def list_datasets():
-        return None
-
-    def save(self):
-        if self.df is None:
-            self._load()
-        file_name = f'{self.name}.csv'
-        file_path = os.path.join(CSV_DATASET_PATH, file_name)
-        self.df.to_csv(file_path)
+    @abstractmethod
+    def _save(self):
+        pass
 
     def query(self, query_str, query_type=QUERY_TYPE_NORMAL):
         if self.df is None:
