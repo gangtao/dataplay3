@@ -7,10 +7,10 @@ from .constant import QUERY_TYPE_NORMAL, QUERY_TYPE_SQL
 
 
 class BaseDataset(ABC):
-    def __init__(self, id, name, file, description):
+    def __init__(self, id, name, content, description):
         self.id = id
         self.name = name
-        self.file = file
+        self.content = content
         self.description = description
         self.df = None
         self.payload = None
@@ -20,7 +20,11 @@ class BaseDataset(ABC):
         return self.df
 
     @abstractmethod
-    def _save(self):
+    def save(self):
+        pass
+
+    @abstractmethod
+    def delete(self):
         pass
 
     def query(self, query_str, query_type=QUERY_TYPE_NORMAL):

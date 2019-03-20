@@ -38,7 +38,8 @@ class ConfigurationManager:
         return result
 
     @staticmethod
-    def set_conf(domain, value):
+    def save_conf(domain, value):
+        '''save the whole domain config with value'''
         conf_file = os.path.join(CONF_PATH, f'{domain}{CONF_SUFFIX}')
         cfg = ConfigParser()
         cfg.read(conf_file)
@@ -46,5 +47,29 @@ class ConfigurationManager:
         for section in value:
             for option in value[section]:
                 cfg.set(section, option, value[section][option])
+        with open(conf_file, 'w') as f:
+            cfg.write(f)
+
+    @staticmethod
+    def add_section(domain, section, value):
+        '''add one section to domain with value'''
+        conf_file = os.path.join(CONF_PATH, f'{domain}{CONF_SUFFIX}')
+        cfg = ConfigParser()
+        cfg.read(conf_file)
+
+        cfg.add_section(section)
+        for option in value:
+            cfg.set(section, option, value[option])
+        with open(conf_file, 'w') as f:
+            cfg.write(f)
+
+    @staticmethod
+    def remove_section(domain, section):
+        '''remove one section from domain'''
+        conf_file = os.path.join(CONF_PATH, f'{domain}{CONF_SUFFIX}')
+        cfg = ConfigParser()
+        cfg.read(conf_file)
+
+        cfg.remove_section(section)
         with open(conf_file, 'w') as f:
             cfg.write(f)

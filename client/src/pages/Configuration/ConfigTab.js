@@ -30,9 +30,9 @@ class ConfigTab extends PureComponent {
           key: 'section',
         },
         {
-          title: 'key',
-          dataIndex: 'key',
-          key: 'key',
+          title: 'item',
+          dataIndex: 'item',
+          key: 'item',
         },
         {
           title: 'value',
@@ -42,11 +42,12 @@ class ConfigTab extends PureComponent {
         },
       ];
       for (const section in val) {
-        for (const key in val[section]) {
+        for (const item in val[section]) {
           const content = {};
           content.section = section;
-          content.key = key;
-          content.value = val[section][key];
+          content.key = section+item;
+          content.item = item;
+          content.value = val[section][item];
           data.push(content);
         }
       }

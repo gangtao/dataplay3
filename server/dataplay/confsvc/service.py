@@ -39,7 +39,7 @@ async def get_confs(request, domain):
 async def save_confs(request, domain):
     try:
         request_body = json.loads(request.body)
-        ConfigurationManager.set_conf(domain, request_body)
+        ConfigurationManager.save_conf(domain, request_body)
         return response.json({}, status=200)
     except Exception:
         logger.exception('failed to save configurations')

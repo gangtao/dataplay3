@@ -22,10 +22,15 @@ async def list_datasets(request):
 
 
 @dataset_svc.post('/datasets', strict_slashes=True)
-@doc.route(summary='creat a dataset', produces={"name": str, "id": str, "type": str})
+@doc.route(summary='creat a dataset', produces={})
+@doc.consumes(
+    {"name": str, "id": str, "type": str, "file": str, "description": str}, location="body"
+)
 async def create_datasets(request):
+    logger.debug(f'get create dataset request {request.body}')
     try:
-        # TODO: not implemented yet
+        request_body = json.loads(request.body)
+        DatasetManager.add_dataset(request_body)
         return response.json({}, status=201)
     except Exception:
         logger.exception('faile to create dataset')
@@ -38,13 +43,23 @@ async def create_datasets(request):
     produces={"name": str, "id": str, "cols": [str], "rows": [[object]]},
 )
 async def get_dataset(request, id):
-
     try:
         dataset = DatasetManager.get_dataset(id)
         payload = dataset.get_payload()
         return response.json(payload, status=200)
     except Exception:
         logger.exception('faile to get dataset')
+        return response.json({}, status=500)
+
+
+@dataset_svc.delete('/datasets/<id>', strict_slashes=True)
+@doc.route(summary='delete one dataset')
+async def delete_dataset(request, id):
+    try:
+        DatasetManager.delete_dataset(id)
+        return response.json({}, status=204)
+    except Exception:
+        logger.exception('faile to delete dataset')
         return response.json({}, status=500)
 
 
