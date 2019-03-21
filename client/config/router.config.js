@@ -52,10 +52,10 @@ export default [
         name: 'dataset',
         routes: [
           {
-            path: '/dataset/getDataIn',
+            path: '/dataset/dataimport',
             icon: 'download',
             name: 'getDataIn',
-            component: './Dataset/GetdataIn',
+            component: './Dataset/DataImport',
           },
           {
             path: '/dataset/view',
@@ -94,7 +94,7 @@ export default [
       // Config
       {
         path: '/config',
-        icon: 'area-chart',
+        icon: 'profile',
         name: 'configuration',
         component: './Configuration',
       },

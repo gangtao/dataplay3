@@ -10,7 +10,7 @@ class DatasetUploader extends PureComponent {
     const props = {
       name: 'file',
       multiple: false,
-      action: '//jsonplaceholder.typicode.com/posts/',
+      action: '/api/dataset_upload',
       onChange(info) {
         const { status } = info.file;
         if (status !== 'uploading') {

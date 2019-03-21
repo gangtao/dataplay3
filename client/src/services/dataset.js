@@ -15,3 +15,16 @@ export async function runDatasetQuery(params) {
     body: restParams,
   });
 }
+
+export async function createDataset(id) {
+  return request(`/api/datasets`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function deleteDataset(id) {
+  return request(`/api/datasets/${id}`, {
+    method: 'DELETE'
+  });
+}

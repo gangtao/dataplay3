@@ -77,9 +77,13 @@ function queryDataset(req, res) {
     res.status(200).json(newData);
 }
 
+function uploadDataset(req, res) {
+    res.status(200).json({});
+}
 
 export default {
     'GET /api/datasets': getDatasets,
     'GET /api/datasets/:id': getDataset,
     'POST /api/datasets/:id/query': queryDataset,
+    'POST /api/dataset_upload': uploadDataset,
 };

@@ -75,3 +75,11 @@ async def query_dataset(request, id):
     except Exception:
         logger.exception('faile to query dataset')
         return response.json({}, status=500)
+
+@dataset_svc.post("/dataset_upload")
+@doc.route(summary='upload a dataset file')
+async def upload_dataset(request):
+    upload_dir = '/tmp'
+    with open(upload_dir+"/"+request.files["file"][0].name,"wb") as f:
+        f.write(request.files["file"][0].body)
+    return response.json({}, status=200)
