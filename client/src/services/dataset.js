@@ -16,7 +16,7 @@ export async function runDatasetQuery(params) {
   });
 }
 
-export async function createDataset(id) {
+export async function createDataset(params) {
   return request(`/api/datasets`, {
     method: 'POST',
     body: params,
@@ -25,6 +25,6 @@ export async function createDataset(id) {
 
 export async function deleteDataset(id) {
   return request(`/api/datasets/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   });
 }

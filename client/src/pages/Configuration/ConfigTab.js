@@ -45,7 +45,7 @@ class ConfigTab extends PureComponent {
         for (const item in val[section]) {
           const content = {};
           content.section = section;
-          content.key = section+item;
+          content.key = section + item;
           content.item = item;
           content.value = val[section][item];
           data.push(content);

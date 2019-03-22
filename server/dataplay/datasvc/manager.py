@@ -1,7 +1,11 @@
+import os
+
 from sanic.log import logger
 
 from ..confsvc.manager import ConfigurationManager
 from .registry import get_dataset_class
+
+from .csv import CSV_DATASET_PATH
 
 
 class DatasetManager:
@@ -54,3 +58,11 @@ class DatasetManager:
             dataset.delete()
         except Exception:
             logger.warning(f'faile to delete dataset {id}')
+
+    @staticmethod
+    def upload_dataset(name, content):
+        # TODO check dir based on file type
+        upload_dir = CSV_DATASET_PATH
+        filepath = os.path.join(upload_dir, name)
+        with open(filepath, "wb") as f:
+            f.write(content)

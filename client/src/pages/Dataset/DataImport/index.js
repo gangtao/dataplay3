@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Row, Col , Steps, Icon, Button, message} from 'antd';
+import { Row, Col, Steps, Icon, Button, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import DatasetUploader from './DatasetUploader';
+import DatasetReview from './DatasetReview';
+import DatasetInfo from './DatasetInfo';
 
 import styles from './index.less';
 
@@ -18,19 +20,38 @@ class GetDataIn extends PureComponent {
     const { dataimport, dispatch } = this.props;
     const { currentStep, dataset } = dataimport;
 
-    const steps = [1,2,3,4];
+    const handleUploadComplete = file => {
+      console.log(file);
+      const dataset = { name: file.name, type: file.type, size: file.size };
+      console.log(dataset);
+    };
 
-    const next = () =>  {
+    const next = () => {
       dispatch({
         type: 'dataimport/forward',
       });
-    }
+    };
 
     const prev = () => {
       dispatch({
         type: 'dataimport/backward',
       });
-    }
+    };
+
+    const steps = [
+      {
+        title: 'Upload Dataset',
+        content: <DatasetUploader />,
+      },
+      {
+        title: 'Input Dataset Information',
+        content: <DatasetInfo />,
+      },
+      {
+        title: 'Review Dataset',
+        content: <DatasetReview />,
+      },
+    ];
 
     return (
       <PageHeaderWrapper>
@@ -38,36 +59,34 @@ class GetDataIn extends PureComponent {
           <Row gutter={16}>
             <Col span={16}>
               <Steps current={currentStep} size="small">
-                <Step title="Upload Dataset" />
-                <Step title="Input Dataset Information" />
-                <Step title="Review Dataset" />
-                <Step title="Done" />
+                {steps.map(item => (
+                  <Step key={item.title} title={item.title} />
+                ))}
               </Steps>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={16}>
-              <DatasetUploader />
+              <div className={styles.content}>{steps[currentStep].content}</div>
             </Col>
           </Row>
           <Row gutter={16}>
-            <div className="steps-action">
-            {
-              currentStep < steps.length - 1
-              && <Button type="primary" onClick={() => next()}>Next</Button>
-            }
-            {
-              currentStep === steps.length - 1
-              && <Button type="primary" onClick={() => message.success('Processing complete!')}>Done</Button>
-            }
-            {
-              currentStep > 0
-              && (
-              <Button style={{ marginLeft: 8 }} onClick={() => prev()}>
-                Previous
-              </Button>
-              )
-            }
+            <div className={styles.action}>
+              {currentStep < steps.length - 1 && (
+                <Button type="primary" onClick={() => next()}>
+                  Next
+                </Button>
+              )}
+              {currentStep === steps.length - 1 && (
+                <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                  Done
+                </Button>
+              )}
+              {currentStep > 0 && (
+                <Button className={styles.actionButton} onClick={() => prev()}>
+                  Previous
+                </Button>
+              )}
             </div>
           </Row>
         </div>

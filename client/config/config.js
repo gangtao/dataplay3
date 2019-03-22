@@ -102,6 +102,6 @@ export default {
   manifest: {
     basePath: '/',
   },
-  //history: 'hash',
+  history: 'hash',
   chainWebpack: webpackPlugin,
 };
