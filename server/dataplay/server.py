@@ -1,4 +1,4 @@
-from sanic import Sanic
+from sanic import Sanic, response
 from sanic_openapi import swagger_blueprint, openapi_blueprint
 from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
@@ -40,6 +40,10 @@ def init():
     app.blueprint(user_svc, url_prefix=PREFIX)
     app.blueprint(dashboard_svc, url_prefix=PREFIX)
     app.blueprint(conf_svc, url_prefix=PREFIX)
+
+@app.route('/')
+def handle_request(request):
+    return response.redirect('/ui')
 
 
 if __name__ == '__main__':

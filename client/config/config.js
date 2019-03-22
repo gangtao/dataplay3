@@ -102,6 +102,7 @@ export default {
   manifest: {
     basePath: '/',
   },
+  publicPath: "/ui/",
   history: 'hash',
   chainWebpack: webpackPlugin,
 };

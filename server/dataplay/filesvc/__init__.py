@@ -13,7 +13,10 @@ logger.info(f'using static path {static_path}')
 file_svc.static('/ui', static_path)
 file_svc.static('/ui', static_file)
 
-
-for f in os.listdir(static_path):
+# TODO: check if following extension is required or not
+'''
+extension_files = ['service-worker.js']
+for f in extension_files:
     if os.path.isfile(os.path.join(static_path, f)):
         file_svc.static(f'/{f}', os.path.join(static_path, f))
+'''
