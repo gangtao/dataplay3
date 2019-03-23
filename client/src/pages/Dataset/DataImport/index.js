@@ -71,23 +71,25 @@ class GetDataIn extends PureComponent {
             </Col>
           </Row>
           <Row gutter={16}>
-            <div className={styles.action}>
-              {currentStep < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
-                  Next
-                </Button>
-              )}
-              {currentStep === steps.length - 1 && (
-                <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                  Done
-                </Button>
-              )}
-              {currentStep > 0 && (
-                <Button className={styles.actionButton} onClick={() => prev()}>
-                  Previous
-                </Button>
-              )}
-            </div>
+            <Col offset={12} span={4}>
+              <div className={styles.action}>
+                {currentStep < steps.length - 1 && (
+                  <Button type="primary" onClick={() => next()}>
+                    Next
+                  </Button>
+                )}
+                {currentStep === steps.length - 1 && (
+                  <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                    Done
+                  </Button>
+                )}
+                {currentStep > 0 && (
+                  <Button className={styles.actionButton} onClick={() => prev()}>
+                    Previous
+                  </Button>
+                )}
+              </div>
+            </Col>
           </Row>
         </div>
       </PageHeaderWrapper>

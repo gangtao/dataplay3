@@ -16,7 +16,10 @@ class DatasetReview extends PureComponent {
     const payload = { ...dataset };
     payload.id = payload.name;
 
-    const info = `following dataset will be added, ${datasetInfo} , click create button to create the dataset.`;
+    let info = [];
+    for ( const p in dataset ) {
+      info.push(<li>{p} : {dataset[p]}</li>);
+    }
 
     const handleCreate = () => {
       const response = createDataset(payload);
@@ -31,8 +34,11 @@ class DatasetReview extends PureComponent {
     };
     return (
       <div>
-        {info}
-        <Button onClick={handleCreate}>Create</Button>
+        <Row gutter={16}>
+          <p>following dataset will be added</p>
+          {info}
+          <p>click <Button size="small" type="primary" icon="save" onClick={handleCreate}></Button> button to create the dataset</p>
+        </Row>
       </div>
     );
   }
