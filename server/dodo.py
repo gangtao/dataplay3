@@ -30,7 +30,7 @@ DoitReturn = MutableMapping[str, Any]
 
 PYTHON_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-TESTING_IMAGE = "python:3.6-slim"
+#TESTING_IMAGE = "naughtytao/python-builder:0.1"
 
 DOIT_CONFIG: MutableMapping[str, List[str]] = {
     "default_tasks": ["formatcheck", "lint", "typecheck"]
@@ -76,16 +76,18 @@ def task_update_dependencies() -> DoitReturn:
     """ Updates the requirements-{mac,linux}.txt files for packages"""
     commands = []
 
-    pinner_template = "pip-compile requirements.txt --no-index --output-file {} "
-    darwin_pinner = pinner_template.format("requirements-darwin.txt")
+    pinner_template = "pip-compile requirements.in --no-index --output-file {} "
+    darwin_pinner = pinner_template.format("requirements.txt")
+    '''
     linux_pinner = pinner_template.format("requirements-linux.txt")
 
     linux_command = f"'cd /python && pip install pip-tools && {linux_pinner}'"
     docker_command = (
         f"docker run -it --rm -v $PWD:/python {TESTING_IMAGE} bash -c {linux_command}"
     )
+    '''
     commands.append(darwin_pinner)
-    commands.append(docker_command)
+    ##commands.append(docker_command)
 
     return {"actions": commands, "verbosity": 2}
 

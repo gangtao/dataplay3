@@ -2,20 +2,28 @@ FROM ubuntu:bionic as base
 
 FROM base as builder
 
-COPY server/requirements-linux.txt /home/
+COPY server/requirements.txt /home/
+
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apt-get update -q && \
     # Dependencies
     apt-get install --no-install-recommends -y -q \
         python3-dev \
         python3-pip \
+        build-essential \
         gcc \
+        swig \
+        curl \
         ca-certificates && \
     pip3 install setuptools pip --upgrade
 
+RUN curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip install
+
 RUN cd /home && \
     pip install --upgrade pip && \
-    pip install -r requirements-linux.txt
+    pip install -r requirements.txt
 
 
 FROM base
