@@ -15,8 +15,11 @@ class DatasetUploader extends PureComponent {
     const { dataset } = dataimport;
 
     const checkName = name => {
-      return name.split('.').slice(0, -1).join('.');
-    }
+      return name
+        .split('.')
+        .slice(0, -1)
+        .join('.');
+    };
 
     const checkType = type => {
       if (type === 'text/csv') {
@@ -26,7 +29,7 @@ class DatasetUploader extends PureComponent {
         message.error(`file type : ${type} is not supported.`);
         return undefined;
       }
-    }
+    };
 
     const props = {
       name: 'file',

@@ -33,36 +33,6 @@ export default {
         payload: responseWithName,
       });
     },
-    *updateSelected({ payload }, { put }) {
-      yield put({
-        type: 'updateDataset',
-        payload,
-      });
-    },
-    *updateType({ payload }, { put }) {
-      yield put({
-        type: 'updateChartType',
-        payload,
-      });
-    },
-    *updateFeeds({ payload }, { put }) {
-      yield put({
-        type: 'updateChartFeeds',
-        payload,
-      });
-    },
-    *updateGrammar({ payload }, { put }) {
-      yield put({
-        type: 'updateChartGrammar',
-        payload,
-      });
-    },
-    *exportUpdate({ payload }, { put }) {
-      yield put({
-        type: 'updateExport',
-        payload,
-      });
-    },
   },
 
   reducers: {
@@ -83,19 +53,19 @@ export default {
         currentDataset: convertedDataset,
       };
     },
-    updateDataset(state, action) {
+    updateSelected(state, action) {
       return {
         ...state,
         currentDataset: action.payload,
       };
     },
-    updateChartType(state, action) {
+    updateType(state, action) {
       return {
         ...state,
         chartType: action.payload,
       };
     },
-    updateChartFeeds(state, action) {
+    updateFeeds(state, action) {
       return {
         ...state,
         feeds: {
@@ -104,13 +74,13 @@ export default {
         },
       };
     },
-    updateChartGrammar(state, action) {
+    updateGrammar(state, action) {
       return {
         ...state,
         grammar: action.payload,
       };
     },
-    updateExport(state, action) {
+    exportUpdate(state, action) {
       return {
         ...state,
         export: { ...state.export, ...action.payload },

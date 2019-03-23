@@ -25,7 +25,7 @@ class DatasetInfo extends PureComponent {
       },
     };
 
-    const handleNameChange = (e) => {
+    const handleNameChange = e => {
       const payload = {};
       payload.name = e.target.value;
       dispatch({
@@ -34,7 +34,7 @@ class DatasetInfo extends PureComponent {
       });
     };
 
-    const handleDescriptionChange = (e) => {
+    const handleDescriptionChange = e => {
       const payload = {};
       payload.description = e.target.value;
       dispatch({
@@ -45,9 +45,9 @@ class DatasetInfo extends PureComponent {
 
     return (
       <div className={styles.datasetInfo}>
-        <Form {...formItemLayout} >
+        <Form {...formItemLayout}>
           <Form.Item label="Name">
-            <Input defaultValue={dataset.name} onChange={handleNameChange}/>
+            <Input defaultValue={dataset.name} onChange={handleNameChange} />
           </Form.Item>
           <Form.Item label="Type">
             <Input disabled={true} defaultValue={dataset.type} />
@@ -55,8 +55,8 @@ class DatasetInfo extends PureComponent {
           <Form.Item label="File">
             <Input disabled={true} defaultValue={dataset.content} />
           </Form.Item>
-          <Form.Item label="Description" >
-            <TextArea defaultValue={dataset.description} onChange={handleDescriptionChange}/>
+          <Form.Item label="Description">
+            <TextArea defaultValue={dataset.description} onChange={handleDescriptionChange} />
           </Form.Item>
         </Form>
       </div>

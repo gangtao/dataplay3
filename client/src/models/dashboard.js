@@ -53,12 +53,6 @@ export default {
         payload: payload,
       });
     },
-    *maximizeSelected({ payload }, { call, put }) {
-      yield put({
-        type: 'maximize',
-        payload: payload,
-      });
-    },
   },
 
   reducers: {
@@ -75,7 +69,7 @@ export default {
         dashboards: { ...state.dashboards },
       };
     },
-    maximize(state, action) {
+    maximizeSelected(state, action) {
       return {
         ...state,
         maximize: action.payload,

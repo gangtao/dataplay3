@@ -28,19 +28,19 @@ class Configuration extends PureComponent {
 
     const buildTabContent = (data, domain) => {
       const callback = row => {
-        if (config[domain][row.section][row.key] === row.value) {
+        if (config[domain][row.section][row.item] === row.value) {
           return;
         }
         confirm({
           title: 'Do you want to update configuration?',
           content: `When clicked the OK button, ${domain}.${row.section}.${
-            row.key
-          } will updated from ${config[domain][row.section][row.key]} to ${row.value}`,
+            row.item
+          } will updated from ${config[domain][row.section][row.item]} to ${row.value}`,
           onOk() {
             const payload = {};
             payload.domain = domain;
             payload.value = config[domain];
-            payload.value[row.section][row.key] = row.value;
+            payload.value[row.section][row.item] = row.value;
             dispatch({
               type: 'config/updateOne',
               payload: payload,

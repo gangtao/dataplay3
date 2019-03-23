@@ -20,12 +20,6 @@ export default {
         payload: response,
       });
     },
-    *addQueryResult({ payload }, { put }) {
-      yield put({
-        type: 'pushQuery',
-        payload,
-      });
-    },
   },
 
   reducers: {
@@ -38,7 +32,7 @@ export default {
         canSave: true,
       };
     },
-    pushQuery(state, action) {
+    addQueryResult(state, action) {
       return {
         ...state,
         savedQuery: { ...state.savedQuery, ...action.payload },

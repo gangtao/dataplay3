@@ -25,12 +25,6 @@ export default {
         payload: responseWithName,
       });
     },
-    *updateSelected({ payload }, { put }) {
-      yield put({
-        type: 'updateDataset',
-        payload,
-      });
-    },
   },
 
   reducers: {
@@ -51,7 +45,7 @@ export default {
         currentDataset: convertedDataset,
       };
     },
-    updateDataset(state, action) {
+    updateSelected(state, action) {
       return {
         ...state,
         currentDataset: action.payload,

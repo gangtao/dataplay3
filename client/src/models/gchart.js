@@ -31,42 +31,6 @@ export default {
         payload: responseWithName,
       });
     },
-    *updateSelected({ payload }, { put }) {
-      yield put({
-        type: 'updateDataset',
-        payload,
-      });
-    },
-    *facatUpdate({ payload }, { put }) {
-      yield put({
-        type: 'updatefacat',
-        payload,
-      });
-    },
-    *coordUpdate({ payload }, { put }) {
-      yield put({
-        type: 'updateCoord',
-        payload,
-      });
-    },
-    *geomUpdate({ payload }, { put }) {
-      yield put({
-        type: 'updateGeom',
-        payload,
-      });
-    },
-    *geomDelete({ payload }, { put }) {
-      yield put({
-        type: 'deleteGeom',
-        payload,
-      });
-    },
-    *exportUpdate({ payload }, { put }) {
-      yield put({
-        type: 'updateExport',
-        payload,
-      });
-    },
   },
 
   reducers: {
@@ -87,38 +51,38 @@ export default {
         currentDataset: convertedDataset,
       };
     },
-    updateDataset(state, action) {
+    updateSelected(state, action) {
       return {
         ...state,
         currentDataset: action.payload,
       };
     },
-    updatefacat(state, action) {
+    facatUpdate(state, action) {
       state.grammar.facat = action.payload;
       return {
         ...state,
       };
     },
-    updateCoord(state, action) {
+    coordUpdate(state, action) {
       state.grammar.coordination = action.payload;
       return {
         ...state,
       };
     },
-    updateGeom(state, action) {
+    geomUpdate(state, action) {
       const geomKey = action.payload.key;
       state.grammar.geom[geomKey] = { ...state.grammar.geom[geomKey], ...action.payload.value };
       return {
         ...state,
       };
     },
-    deleteGeom(state, action) {
+    geomDelete(state, action) {
       delete state.grammar.geom[action.payload];
       return {
         ...state,
       };
     },
-    updateExport(state, action) {
+    exportUpdate(state, action) {
       return {
         ...state,
         export: { ...state.export, ...action.payload },

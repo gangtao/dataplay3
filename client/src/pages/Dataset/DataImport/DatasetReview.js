@@ -16,21 +16,25 @@ class DatasetReview extends PureComponent {
     const payload = { ...dataset };
     payload.id = payload.name;
 
-    const info = `following dataset will be added, ${datasetInfo} , click create button to create the dataset.`
+    const info = `following dataset will be added, ${datasetInfo} , click create button to create the dataset.`;
 
     const handleCreate = () => {
-        const response = createDataset(payload);
-        response.then(function(value) {
-            message.success(`dataset ${dataset.name} has been created!`);
-        }, function(error) {
-            message.error(`failed to create ${dataset.name}`);
-        });
-    }
+      const response = createDataset(payload);
+      response.then(
+        function(value) {
+          message.success(`dataset ${dataset.name} has been created!`);
+        },
+        function(error) {
+          message.error(`failed to create ${dataset.name}`);
+        }
+      );
+    };
     return (
-        <div>
-            {info}
-            <Button onClick={handleCreate}>Create</Button>
-        </div>);
+      <div>
+        {info}
+        <Button onClick={handleCreate}>Create</Button>
+      </div>
+    );
   }
 }
 
