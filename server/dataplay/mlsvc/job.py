@@ -7,18 +7,21 @@ from sanic.log import logger
 from ..confsvc.manager import ConfigurationManager
 
 
-class MLJob(object):
+class MLJob(ABC):
     def __init__(self, name, df):
         self.id = str(uuid.uuid4())
         self.name = name
-        self.dataset = df
-        self.base_dir = ConfigurationManager.get_confs(
-            'mljob').get('job', 'dir')
+        self.df = df
+        self.base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
         self.job_dir = os.path.join(self.base_dir, self.id)
         self._init()
 
     @abstractmethod
     def train(self):
+        return NotImplemented
+
+    @abstractmethod
+    def predict(self, df):
         return NotImplemented
 
     def _init(self):

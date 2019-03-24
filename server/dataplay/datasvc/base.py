@@ -53,13 +53,7 @@ class BaseDataset(ABC):
         return payload
 
     def get_payload(self):
-        # lazy load dataset
-        if self.df is None:
-            self._load()
-
-        if self.df is None:
-            logger.warning('call payload with load is none')
-            return None
+        self.get_df()
 
         if self.payload is None:
             self.payload = {}
@@ -71,3 +65,13 @@ class BaseDataset(ABC):
             logger.debug('payload is filled ')
 
         return self.payload
+
+    def get_df(self):
+        if self.df is None:
+            self._load()
+
+        if self.df is None:
+            logger.warning('call payload with load is none')
+            return None
+
+        return self.df

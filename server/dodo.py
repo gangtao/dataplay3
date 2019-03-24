@@ -30,7 +30,7 @@ DoitReturn = MutableMapping[str, Any]
 
 PYTHON_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-#TESTING_IMAGE = "naughtytao/python-builder:0.1"
+# TESTING_IMAGE = "naughtytao/python-builder:0.1"
 
 DOIT_CONFIG: MutableMapping[str, List[str]] = {
     "default_tasks": ["formatcheck", "lint", "typecheck"]
@@ -95,10 +95,7 @@ def task_update_dependencies() -> DoitReturn:
 def task_install() -> DoitReturn:
     """ Installs requirements-{darwin/linux}.txt  """
 
-    return {
-        "actions": [f"pip install -r requirements-{sys.platform}.txt . --no-deps"],
-        "verbosity": 2,
-    }
+    return {"actions": [f"pip install -r requirements.txt . --no-deps"], "verbosity": 2}
 
 
 def task_tox() -> DoitReturn:

@@ -11,6 +11,7 @@ for section in dataset_type_config.sections():
     class_name = dataset_type_config.get(section, 'class')
     dataset_registry.register(section, class_name, module_name)
 
+
 def is_json(content):
     try:
         json.loads(content)
@@ -21,7 +22,7 @@ def is_json(content):
 
 def test_data_list():
     files = DatasetManager.list_datasets()
-    assert len(files) == 3
+    assert len(files) == 4
 
 
 def test_query():
@@ -44,7 +45,7 @@ def test_dataset_to_json():
         id = file['id']
         dataset = DatasetManager.get_dataset(id)
         assert dataset is not None
-        #assert type(dataset) == CSV
+        # assert type(dataset) == CSV
         payload = json.dumps(dataset.get_payload())
         '''
         with open(f'{id}.json', 'w') as f:
