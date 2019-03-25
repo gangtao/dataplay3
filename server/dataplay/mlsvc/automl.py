@@ -12,8 +12,8 @@ from ..confsvc.manager import ConfigurationManager
 
 
 class AutoMLJob(MLJob):
-    def __init__(self, name, df, features, targets, job_option, validation_option):
-        MLJob.__init__(self, name, df)
+    def __init__(self, name, dataset, features, targets, job_option, validation_option):
+        MLJob.__init__(self, name, dataset)
         self.job_option = job_option
         self.validation_option = validation_option
         self.features = features
@@ -165,8 +165,10 @@ class AutoMLJob(MLJob):
 
 
 class AutoClassificationJob(AutoMLJob):
-    def __init__(self, name, df, features, targets, job_option, validation_option):
-        AutoMLJob.__init__(self, name, df, features, targets, job_option, validation_option)
+    def __init__(self, name, dataset, features, targets, job_option, validation_option):
+        AutoMLJob.__init__(
+            self, name, dataset, features, targets, job_option, validation_option
+        )
         self.model = autosklearn.classification.AutoSklearnClassifier(**self.job_option)
 
     def _validate(self):
@@ -187,8 +189,10 @@ class AutoClassificationJob(AutoMLJob):
 
 
 class AutoRegressionJob(AutoMLJob):
-    def __init__(self, name, df, features, targets, job_option, validation_option):
-        AutoMLJob.__init__(self, name, df, features, targets, job_option, validation_option)
+    def __init__(self, name, dataset, features, targets, job_option, validation_option):
+        AutoMLJob.__init__(
+            self, name, dataset, features, targets, job_option, validation_option
+        )
         self.model = autosklearn.regression.AutoSklearnRegressor(**self.job_option)
 
     def _validate(self):

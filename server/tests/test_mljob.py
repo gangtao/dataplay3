@@ -1,7 +1,6 @@
 import os
 from dataplay.mlsvc.job import MLJob, MLJobStatus
 from dataplay.mlsvc.automl import AutoClassificationJob, AutoRegressionJob
-
 from dataplay.datasvc.manager import DatasetManager
 
 
@@ -17,14 +16,15 @@ class MyJob(MLJob):
 
 
 def test_job_create():
-    job = MyJob('testjob', None)
+    job = MyJob('testjob', 'iris')
     assert os.path.isdir(job.job_dir)
     job.clean()
     assert os.path.isdir(job.job_dir) is False
 
 
 def test_job_auto_classification():
-    dataset = DatasetManager.get_dataset('churn')
+    dataset_id = 'churn'
+    dataset = DatasetManager.get_dataset(dataset_id)
     assert dataset is not None
     df = dataset.get_df()
     assert df is not None
@@ -36,7 +36,9 @@ def test_job_auto_classification():
     job_option['time_left_for_this_task'] = 30
     job_option['per_run_time_limit'] = 10
 
-    job = AutoClassificationJob('testclassification', df, features, targets, job_option, None)
+    job = AutoClassificationJob(
+        'testclassification', dataset_id, features, targets, job_option, None
+    )
     job.train()
 
     predict_result = job.predict(df[features])
@@ -47,7 +49,8 @@ def test_job_auto_classification():
 
 
 def test_job_auto_regression():
-    dataset = DatasetManager.get_dataset('housing')
+    dataset_id = 'housing'
+    dataset = DatasetManager.get_dataset(dataset_id)
     assert dataset is not None
     df = dataset.get_df()
     assert df is not None
@@ -64,7 +67,7 @@ def test_job_auto_regression():
     job_option['time_left_for_this_task'] = 30
     job_option['per_run_time_limit'] = 10
 
-    job = AutoRegressionJob('testregression', df, features, targets, job_option, None)
+    job = AutoRegressionJob('testregression', dataset_id, features, targets, job_option, None)
     job.train()
 
     predict_result = job.predict(df[features])

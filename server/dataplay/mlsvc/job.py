@@ -9,6 +9,7 @@ from joblib import dump, load
 from sanic.log import logger
 
 from ..confsvc.manager import ConfigurationManager
+from ..datasvc.manager import DatasetManager
 from ..utils.filelock import FileLock
 
 
@@ -23,10 +24,12 @@ class MLJobStatus(Enum):
 class MLJob(ABC):
     base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
 
-    def __init__(self, name, df):
+    def __init__(self, name, dataset):
         self.id = str(uuid.uuid4())
         self.name = name
-        self.df = df
+        self.dataset_id = dataset
+        self.dataset = DatasetManager.get_dataset(dataset)
+        self.df = self.dataset.get_df()
         self.job_dir = os.path.join(MLJob.base_dir, self.id)
         self.metadata = {}
         self._init()
@@ -41,6 +44,7 @@ class MLJob(ABC):
 
     def _build_meta(self):
         self.metadata['name'] = self.name
+        self.metadata['dataset_id'] = self.dataset_id
 
     def _save_meta(self):
         self._build_meta()

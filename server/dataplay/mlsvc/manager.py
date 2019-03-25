@@ -5,7 +5,6 @@ import _thread
 from sanic.log import logger
 
 from ..confsvc.manager import ConfigurationManager
-from ..datasvc.manager import DatasetManager
 
 from .job import MLJob
 from .automl import AutoClassificationJob, AutoRegressionJob
@@ -51,10 +50,15 @@ class MLJobManager:
     @staticmethod
     def create_job(job_payload):
         job_type = job_payload['type']
-        dataset = DatasetManager.get_dataset(job_payload['dataset'])
         job_option = {}
-        job_option['df'] = dataset.get_df()
-        job_option_attrs = ['name', 'features', 'targets', 'job_option', 'validation_option']
+        job_option_attrs = [
+            'name',
+            'dataset',
+            'features',
+            'targets',
+            'job_option',
+            'validation_option',
+        ]
 
         for key in job_option_attrs:
             job_option[key] = job_payload[key]

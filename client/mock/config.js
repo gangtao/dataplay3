@@ -1,5 +1,3 @@
-import uuid from 'uuid'
-
 let configs = {
     'server': {
         "server": {
