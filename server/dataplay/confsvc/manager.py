@@ -38,6 +38,14 @@ class ConfigurationManager:
         return result
 
     @staticmethod
+    def get_section_json(domain, section):
+        cfg = ConfigurationManager.get_confs(domain)
+        result = {}
+        for option in cfg.options(section):
+            result[option] = cfg.get(section, option)
+        return result
+
+    @staticmethod
     def save_conf(domain, value):
         '''save the whole domain config with value'''
         conf_file = os.path.join(CONF_PATH, f'{domain}{CONF_SUFFIX}')

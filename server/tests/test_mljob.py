@@ -32,13 +32,18 @@ def test_job_auto_classification():
     features = ['Account Length', 'Area Code', 'Day Calls', 'State']
     targets = ['Churn?']
 
-    job = AutoClassificationJob('testclassification', df, features, targets, None, None)
+    job_option = {}
+    job_option['time_left_for_this_task'] = 30
+    job_option['per_run_time_limit'] = 10
+
+    job = AutoClassificationJob('testclassification', df, features, targets, job_option, None)
     job.train()
 
     predict_result = job.predict(df[features])
     predict_result[targets] = df[targets]
     assert df is not None
     predict_result.to_csv('/tmp/classification.csv', encoding='utf-8')
+    job.clean()
 
 
 def test_job_auto_regression():
@@ -55,10 +60,15 @@ def test_job_auto_regression():
     ]
     targets = ['median_house_value']
 
-    job = AutoRegressionJob('testregression', df, features, targets, None, None)
+    job_option = {}
+    job_option['time_left_for_this_task'] = 30
+    job_option['per_run_time_limit'] = 10
+
+    job = AutoRegressionJob('testregression', df, features, targets, job_option, None)
     job.train()
 
     predict_result = job.predict(df[features])
     predict_result[targets] = df[targets]
     assert df is not None
     predict_result.to_csv('/tmp/regression.csv', encoding='utf-8')
+    job.clean()
