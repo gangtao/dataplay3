@@ -45,6 +45,10 @@ class MLJobManager:
         return result
 
     @staticmethod
+    def delete_job(job_id):
+        MLJob.delete_job_by_id(job_id)
+
+    @staticmethod
     def create_job(job_payload):
         job_type = job_payload['type']
         dataset = DatasetManager.get_dataset(job_payload['dataset'])
@@ -62,19 +66,21 @@ class MLJobManager:
         else:
             raise RuntimeError(f'job type {job_type} not supported!')
 
-        is_multi_prorcess = ConfigurationManager.get_confs('mljob').getboolean('job', 'multi_processes')
-        if is_multi_prorcess :
+        is_multi_prorcess = ConfigurationManager.get_confs('mljob').getboolean(
+            'job', 'multi_processes'
+        )
+        if is_multi_prorcess:
             # run train in a new process
             try:
                 p = Process(target=job.train)
                 p.start()
                 p.join()
             except:
-               logger.exception(f'failed to run ml job process for job {job.id}')
+                logger.exception(f'failed to run ml job process for job {job.id}')
         else:
             try:
-               _thread.start_new_thread( job.train , ())
+                _thread.start_new_thread(job.train, ())
             except:
-               logger.exception(f'failed to run ml job thread for job {job.id}')
+                logger.exception(f'failed to run ml job thread for job {job.id}')
 
         return job

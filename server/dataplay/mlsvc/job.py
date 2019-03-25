@@ -104,10 +104,15 @@ class MLJob(ABC):
     def get_status(self):
         return MLJob.get_status_by_id(self.id)
 
-    def clean(self):
+    @staticmethod
+    def delete_job_by_id(job_id):
+        job_dir = os.path.join(MLJob.base_dir, job_id)
         try:
-            shutil.rmtree(self.job_dir)
+            shutil.rmtree(job_dir)
         except Exception:
-            logger.exception(f'failed to delete job dir {self.job_dir}')
+            logger.exception(f'failed to delete job dir {job_dir}')
         else:
-            logger.debug(f'successfully deleted the directory {self.job_dir}')
+            logger.debug(f'successfully deleted the directory {job_dir}')
+
+    def clean(self):
+        MLJob.delete_job_by_id(self.id)

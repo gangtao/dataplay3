@@ -14,7 +14,7 @@ ml_svc = Blueprint('ml_svc')
 @doc.route(
     summary='list all ml jobs', produces=[{"name": str, "id": str, "type": str, "status": str}]
 )
-async def list_ml_jobs(request):
+async def list_jobs(request):
     logger.debug('list ml jobs')
     try:
         jobs = MLJobManager.list_jobs()
@@ -29,12 +29,23 @@ async def list_ml_jobs(request):
     summary='get one ml job details',
     produces={"name": str, "id": str, "type": str, "status": str},
 )
-async def get_dataset(request, id):
+async def get_job(request, id):
     try:
         job = MLJobManager.get_job(id)
         return response.json(job, status=200)
     except Exception:
         logger.exception('faile to get ml job')
+        return response.json({}, status=500)
+
+
+@ml_svc.delete('/ml_jobs/<id>', strict_slashes=True)
+@doc.route(summary='delete one ml job by id')
+async def delete_job(request, id):
+    try:
+        MLJobManager.delete_job(id)
+        return response.json({}, status=204)
+    except Exception:
+        logger.exception('faile to delete ml job')
         return response.json({}, status=500)
 
 
@@ -52,7 +63,7 @@ async def get_dataset(request, id):
     },
     location="body",
 )
-async def create_datasets(request):
+async def create_job(request):
     logger.debug(f'get create ml job request {request.body}')
     try:
         request_body = json.loads(request.body)

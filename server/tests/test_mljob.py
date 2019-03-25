@@ -42,7 +42,7 @@ def test_job_auto_classification():
     predict_result = job.predict(df[features])
     predict_result[targets] = df[targets]
     assert job.get_status() == MLJobStatus.SUCCESS
-    #predict_result.to_csv('/tmp/classification.csv', encoding='utf-8')
+    # predict_result.to_csv('/tmp/classification.csv', encoding='utf-8')
     job.clean()
 
 
@@ -70,5 +70,5 @@ def test_job_auto_regression():
     predict_result = job.predict(df[features])
     predict_result[targets] = df[targets]
     assert job.get_status() == MLJobStatus.SUCCESS
-    #predict_result.to_csv('/tmp/regression.csv', encoding='utf-8')
+    # predict_result.to_csv('/tmp/regression.csv', encoding='utf-8')
     job.clean()

@@ -34,7 +34,7 @@ class AutoMLJob(MLJob):
             'features',
             'targets',
             'validation_result',
-            'training_error'
+            'training_error',
         ]:
             if hasattr(self, attribute):
                 self.metadata[attribute] = getattr(self, attribute)
@@ -174,12 +174,12 @@ class AutoClassificationJob(AutoMLJob):
         accuracy = sklearn.metrics.accuracy_score(self.y_test, predictions)
         self.validation_result['accuracy'] = accuracy
         # TODO : check if it is multi label classification
-        #f1 = sklearn.metrics.f1_score(self.y_test, predictions)
-        #precision = sklearn.metrics.precision_score(self.y_test, predictions)
-        #recall = sklearn.metrics.recall_score(self.y_test, predictions)
-        #self.validation_result['f1'] = f1
-        #self.validation_result['precision'] = precision
-        #self.validation_result['recall'] = recall
+        # f1 = sklearn.metrics.f1_score(self.y_test, predictions)
+        # precision = sklearn.metrics.precision_score(self.y_test, predictions)
+        # recall = sklearn.metrics.recall_score(self.y_test, predictions)
+        # self.validation_result['f1'] = f1
+        # self.validation_result['precision'] = precision
+        # self.validation_result['recall'] = recall
 
     def _build_meta(self):
         AutoMLJob._build_meta(self)
