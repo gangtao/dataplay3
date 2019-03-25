@@ -26,6 +26,19 @@ class AutoMLJob(MLJob):
         self._handle_job_option()
         self._handle_validation_option()
 
+    def _build_meta(self):
+        MLJob._build_meta(self)
+        for attribute in [
+            'job_option',
+            'validation_option',
+            'features',
+            'targets',
+            'validation_result',
+            'training_error'
+        ]:
+            if hasattr(self, attribute):
+                self.metadata[attribute] = getattr(self, attribute)
+
     def _prepare(self):
         '''encoding catagorical data'''
         self.train_dataset_X = self.df[self.features].copy()
@@ -108,6 +121,7 @@ class AutoMLJob(MLJob):
         logger.debug('start to train')
         self._update_status(MLJobStatus.TRAINING)
         try:
+            self._save_meta()
             self._prepare()
             logger.debug('prepare complete')
             self.model.fit(self.X_train, self.y_train)
@@ -115,11 +129,15 @@ class AutoMLJob(MLJob):
             self._update_status(MLJobStatus.VALIDATING)
             self.model_print = self.model.show_models()
             self.model_statistics = self.model.sprint_statistics()
+            self._save_model()
             self._validate()
             logger.debug('validation complete')
             self._update_status(MLJobStatus.SUCCESS)
-        except Exception:
+            self._save_meta()
+        except Exception as e:
             self._update_status(MLJobStatus.FAILED)
+            self.training_error = str(e)
+            self._save_meta()
 
     def predict(self, df):
         if not self.model:
@@ -154,13 +172,18 @@ class AutoClassificationJob(AutoMLJob):
     def _validate(self):
         predictions = self.model.predict(self.X_test)
         accuracy = sklearn.metrics.accuracy_score(self.y_test, predictions)
-        f1 = sklearn.metrics.f1_score(self.y_test, predictions)
-        precision = sklearn.metrics.precision_score(self.y_test, predictions)
-        recall = sklearn.metrics.recall_score(self.y_test, predictions)
         self.validation_result['accuracy'] = accuracy
-        self.validation_result['f1'] = f1
-        self.validation_result['precision'] = precision
-        self.validation_result['recall'] = recall
+        # TODO : check if it is multi label classification
+        #f1 = sklearn.metrics.f1_score(self.y_test, predictions)
+        #precision = sklearn.metrics.precision_score(self.y_test, predictions)
+        #recall = sklearn.metrics.recall_score(self.y_test, predictions)
+        #self.validation_result['f1'] = f1
+        #self.validation_result['precision'] = precision
+        #self.validation_result['recall'] = recall
+
+    def _build_meta(self):
+        AutoMLJob._build_meta(self)
+        self.metadata['type'] = 'AutoClassificationJob'
 
 
 class AutoRegressionJob(AutoMLJob):
@@ -178,3 +201,7 @@ class AutoRegressionJob(AutoMLJob):
         self.validation_result['mean_squared_error'] = mean_squared_error
         self.validation_result['mean_absolute_error'] = mean_absolute_error
         self.validation_result['median_absolute_error'] = median_absolute_error
+
+    def _build_meta(self):
+        AutoMLJob._build_meta(self)
+        self.metadata['type'] = 'AutoClassificationJob'
