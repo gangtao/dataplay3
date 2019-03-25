@@ -4,6 +4,7 @@ from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
 from .dashboardsvc.service import dashboard_svc
+from .mlsvc.service import ml_svc
 from .confsvc.service import conf_svc
 from .filesvc import file_svc
 
@@ -39,6 +40,7 @@ def init():
     app.blueprint(dataset_svc, url_prefix=PREFIX)
     app.blueprint(user_svc, url_prefix=PREFIX)
     app.blueprint(dashboard_svc, url_prefix=PREFIX)
+    app.blueprint(ml_svc, url_prefix=PREFIX)
     app.blueprint(conf_svc, url_prefix=PREFIX)
 
 

@@ -1,5 +1,3 @@
-from .job import MLJob, MLJobStatus
-
 import os
 import autosklearn.classification
 import autosklearn.regression
@@ -9,6 +7,7 @@ from sklearn import preprocessing
 
 from sanic.log import logger
 
+from .job import MLJob, MLJobStatus
 from ..confsvc.manager import ConfigurationManager
 
 

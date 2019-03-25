@@ -43,7 +43,7 @@ def test_job_auto_classification():
     predict_result[targets] = df[targets]
     assert df is not None
     predict_result.to_csv('/tmp/classification.csv', encoding='utf-8')
-    job.clean()
+    # job.clean()
 
 
 def test_job_auto_regression():
@@ -71,4 +71,4 @@ def test_job_auto_regression():
     predict_result[targets] = df[targets]
     assert df is not None
     predict_result.to_csv('/tmp/regression.csv', encoding='utf-8')
-    job.clean()
+    # job.clean()
