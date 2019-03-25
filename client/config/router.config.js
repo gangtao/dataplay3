@@ -91,6 +91,32 @@ export default [
           },
         ],
       },
+      // Prediction
+      {
+        path: '/prediction',
+        icon: 'area-chart',
+        name: 'prediction',
+        routes: [
+          {
+            path: '/prediction/numerical',
+            icon: 'bar-chart',
+            name: 'numerical',
+            component: './Prediction/Numerical',
+          },
+          {
+            path: '/prediction/categorical',
+            icon: 'pie-chart',
+            name: 'categorical',
+            component: './Prediction/Categorical',
+          },
+          {
+            path: '/prediction/timeserial',
+            icon: 'pie-chart',
+            name: 'timeserial',
+            component: './Prediction/TimeSerial',
+          },
+        ],
+      },
       // Config
       {
         path: '/config',
