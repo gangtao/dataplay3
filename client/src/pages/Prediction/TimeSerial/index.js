@@ -4,16 +4,12 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './index.less';
 
 class TimeSerial extends PureComponent {
-
   render() {
-    
     return (
       <PageHeaderWrapper>
-        <div className={styles.timeserial}>
-          TimeSerial
-        </div>
+        <div className={styles.timeserial}>TimeSerial</div>
       </PageHeaderWrapper>
-    )
+    );
   }
 }
 

@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Row, Col , Table, Divider} from 'antd';
+import { Row, Col, Table, Divider } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './index.less';
-
 
 @connect(({ classification, loading }) => ({
   classification,
@@ -22,29 +21,34 @@ class Categorical extends PureComponent {
 
     const { jobs } = classification;
 
-    const columns = [{
-          title: 'Id',
-          dataIndex: 'id',
-          key: 'id',
-        },{
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-          sorter: (a, b) => {
-            return ('' + a.name).localeCompare(b.name);
-          }
-        },{
-          title: 'Status',
-          dataIndex: 'status',
-          key: 'status',
-          sorter: (a, b) => {
-            return ('' + a.status).localeCompare(b.status);
-          }
-        },{
-          title: 'Type',
-          dataIndex: 'type',
-          key: 'type',
-        },{
+    const columns = [
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => {
+          return ('' + a.name).localeCompare(b.name);
+        },
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        sorter: (a, b) => {
+          return ('' + a.status).localeCompare(b.status);
+        },
+      },
+      {
+        title: 'Type',
+        dataIndex: 'type',
+        key: 'type',
+      },
+      {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
@@ -54,9 +58,10 @@ class Categorical extends PureComponent {
             <a href="javascript:;">Delete</a>
           </span>
         ),
-      }]
+      },
+    ];
 
-    const tableData = jobs.map( job => {
+    const tableData = jobs.map(job => {
       const item = {};
       item.id = job.id;
       item.name = job.name;
@@ -64,8 +69,8 @@ class Categorical extends PureComponent {
       item.type = job.type;
       item.key = job.id;
       return item;
-    })
-    
+    });
+
     return (
       <PageHeaderWrapper>
         <div className={styles.categorical}>
@@ -74,9 +79,8 @@ class Categorical extends PureComponent {
             <Table columns={columns} dataSource={tableData} />
           </Row>
         </div>
-
       </PageHeaderWrapper>
-    )
+    );
   }
 }
 

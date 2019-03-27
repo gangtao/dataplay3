@@ -4,16 +4,12 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './index.less';
 
 class Numerical extends PureComponent {
-
   render() {
-    
     return (
       <PageHeaderWrapper>
-        <div className={styles.numerical}>
-          Numerical
-        </div>
+        <div className={styles.numerical}>Numerical</div>
       </PageHeaderWrapper>
-    )
+    );
   }
 }
 
