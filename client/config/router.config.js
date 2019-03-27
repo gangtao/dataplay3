@@ -94,24 +94,24 @@ export default [
       // Prediction
       {
         path: '/prediction',
-        icon: 'area-chart',
+        icon: 'file-unknown',
         name: 'prediction',
         routes: [
           {
             path: '/prediction/numerical',
-            icon: 'bar-chart',
+            icon: 'fund',
             name: 'numerical',
             component: './Prediction/Numerical',
           },
           {
             path: '/prediction/categorical',
-            icon: 'pie-chart',
+            icon: 'gold',
             name: 'categorical',
             component: './Prediction/Categorical',
           },
           {
             path: '/prediction/timeserial',
-            icon: 'pie-chart',
+            icon: 'stock',
             name: 'timeserial',
             component: './Prediction/TimeSerial',
           },

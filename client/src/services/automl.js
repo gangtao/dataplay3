@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
-export async function queryJobs() {
-  return request('/api/ml_jobs');
+export async function queryJobs(params) {
+  return request('/api/ml_jobs?${stringify(params)}');
 }
 
 export async function queryJob(id) {

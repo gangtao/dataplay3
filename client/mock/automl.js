@@ -1,44 +1,50 @@
-import uuid from 'uuid'
+import uuid from 'uuid';
+import mockjs from 'mockjs';
+import { parse } from 'url';
 
-let jobs = [{
-    "id": "b835191f-0167-4744-8661-84604bc58a22",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "test_classification"
-}, {
-    "id": "3bc07ecb-a0c3-4065-ac7b-690cabc74894",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "testregression"
-}, {
-    "id": "d5a8e1a2-b082-4b78-9f8d-effba5710699",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "testclassification"
-}, {
-    "id": "3702c78c-98de-4c4a-86de-4d310a3f1318",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "test_classification"
-}, {
-    "id": "29682567-ae4e-4490-902b-48056792b326",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "test_classification"
-}, {
-    "id": "6e4e5065-428c-42ba-ae6c-3fd18ce9f6da",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "test_classification"
-}, {
-    "id": "9cb5521c-a89d-4841-a397-d899a663d26e",
-    "status": "SUCCESS",
-    "type": "AutoClassificationJob",
-    "name": "test_classification"
-}]
+const Random = mockjs.Random;
 
-function getJobs(req, res) {
-    res.status(200).json(jobs);
+Random.extend({
+    jobStatus: function(date) {
+        const status = ['INITIALIZED','TRAINING','VALIDATING','SUCCESS','FAILED'];
+        return this.pick(status);
+    },
+    jobType: function(date) {
+        const type = ['AutoClassificationJob','AutoRegressionJob'];
+        return this.pick(type);
+    }
+})
+
+function fakeJobList(count) {
+    const list = [];
+    for (let i = 0; i < count; i += 1) {
+        list.push({
+            id: uuid.v4(),
+            status: Random.jobStatus(),
+            type: Random.jobType(),
+            name: Random.word(),
+        })
+    }
+    return list;
+}
+
+const jobs = fakeJobList(10);
+
+function getJobs(req, res, u) {
+    let url = u;
+    if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+        url = req.url; // eslint-disable-line
+    }
+
+    const params = parse(url, true).query;
+    if ( params.type ) {
+        const job = jobs.filter(item => {
+            return item.type === params.type
+        });
+        res.status(200).json(job);
+    } else {
+        res.status(200).json(jobs);
+    } 
 }
 
 function getJob(req, res) {

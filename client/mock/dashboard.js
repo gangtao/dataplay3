@@ -69,8 +69,9 @@ function getDashboard(req, res) {
     const { id } = req.params;
     if (id in dashboards) {
         res.status(200).json(dashboards[id]);
+    } else {
+        res.status(404).json({});
     }
-    res.status(404).json({});
 }
 
 function createDashboards(req, res, u, b) {
@@ -89,8 +90,9 @@ function deleteDashboards(req, res) {
     if (id in dashboards) {
         delete dashboards[id]
         res.status(200).json({});
+    } else {
+        res.status(404).json({});
     }
-    res.status(404).json({});
 }
 
 
