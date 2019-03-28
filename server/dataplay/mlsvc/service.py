@@ -16,9 +16,14 @@ ml_svc = Blueprint('ml_svc')
 )
 async def list_jobs(request):
     logger.debug('list ml jobs')
+    args = request.args
     try:
         jobs = MLJobManager.list_jobs()
-        return response.json(jobs, status=200)
+        if args and 'type' in args:
+            query_jobs = [job for job in jobs if job['type'] in args['type']]
+            return response.json(query_jobs, status=200)
+        else:
+            return response.json(jobs, status=200)
     except Exception:
         logger.exception('failed to list ml jobs')
         return response.json({}, status=500)
@@ -30,6 +35,7 @@ async def list_jobs(request):
     produces={"name": str, "id": str, "type": str, "status": str},
 )
 async def get_job(request, id):
+    logger.debug(f'get ml jobs {id}')
     try:
         job = MLJobManager.get_job(id)
         return response.json(job, status=200)
@@ -41,6 +47,7 @@ async def get_job(request, id):
 @ml_svc.delete('/ml_jobs/<id>', strict_slashes=True)
 @doc.route(summary='delete one ml job by id')
 async def delete_job(request, id):
+    logger.debug(f'delete ml jobs {id}')
     try:
         MLJobManager.delete_job(id)
         return response.json({}, status=204)

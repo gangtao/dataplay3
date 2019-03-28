@@ -35,6 +35,7 @@ class AutoMLJob(MLJob):
             'targets',
             'validation_result',
             'training_error',
+            'type'
         ]:
             if hasattr(self, attribute):
                 self.metadata[attribute] = getattr(self, attribute)
@@ -169,6 +170,7 @@ class AutoClassificationJob(AutoMLJob):
         AutoMLJob.__init__(
             self, name, dataset, features, targets, job_option, validation_option
         )
+        self.type = 'AutoClassificationJob'
         self.model = autosklearn.classification.AutoSklearnClassifier(**self.job_option)
 
     def _validate(self):
@@ -183,16 +185,13 @@ class AutoClassificationJob(AutoMLJob):
         # self.validation_result['precision'] = precision
         # self.validation_result['recall'] = recall
 
-    def _build_meta(self):
-        AutoMLJob._build_meta(self)
-        self.metadata['type'] = 'AutoClassificationJob'
-
 
 class AutoRegressionJob(AutoMLJob):
     def __init__(self, name, dataset, features, targets, job_option, validation_option):
         AutoMLJob.__init__(
             self, name, dataset, features, targets, job_option, validation_option
         )
+        self.type = 'AutoRegressionJob'
         self.model = autosklearn.regression.AutoSklearnRegressor(**self.job_option)
 
     def _validate(self):
@@ -205,7 +204,3 @@ class AutoRegressionJob(AutoMLJob):
         self.validation_result['mean_squared_error'] = mean_squared_error
         self.validation_result['mean_absolute_error'] = mean_absolute_error
         self.validation_result['median_absolute_error'] = median_absolute_error
-
-    def _build_meta(self):
-        AutoMLJob._build_meta(self)
-        self.metadata['type'] = 'AutoClassificationJob'

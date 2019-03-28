@@ -8,7 +8,8 @@ export default {
   },
 
   effects: {
-    *fetchJobs({ payload }, { call, put }) {
+    *fetchJobs({ _ }, { call, put }) {
+      const payload = { type: 'AutoClassificationJob' };
       const response = yield call(queryJobs, payload);
       yield put({
         type: 'listJobs',

@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Table, Divider } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import MLJobTable from '@/components/Prediction/MLJobTable';
+import MLJobControlPanel from '@/components/Prediction/MLJobControlPanel';
 import styles from './index.less';
 
 @connect(({ classification, loading }) => ({
@@ -21,62 +23,30 @@ class Categorical extends PureComponent {
 
     const { jobs } = classification;
 
-    const columns = [
-      {
-        title: 'Id',
-        dataIndex: 'id',
-        key: 'id',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        sorter: (a, b) => {
-          return ('' + a.name).localeCompare(b.name);
-        },
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        sorter: (a, b) => {
-          return ('' + a.status).localeCompare(b.status);
-        },
-      },
-      {
-        title: 'Type',
-        dataIndex: 'type',
-        key: 'type',
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-            <a href="javascript:;">View</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
-          </span>
-        ),
-      },
-    ];
-
-    const tableData = jobs.map(job => {
-      const item = {};
-      item.id = job.id;
-      item.name = job.name;
-      item.status = job.status;
-      item.type = job.type;
-      item.key = job.id;
-      return item;
-    });
+    const onCreate = () => {};
+    const onList = () => {};
+    const onDelete = r => {
+      console.log('delete one job');
+      console.log(r);
+    };
+    const onView = r => {
+      console.log('view one job');
+      console.log(r);
+    };
 
     return (
       <PageHeaderWrapper>
         <div className={styles.categorical}>
-          Categorical
           <Row>
-            <Table columns={columns} dataSource={tableData} />
+            <MLJobControlPanel
+              canList={true}
+              canCreate={true}
+              onList={onList}
+              onCreate={onCreate}
+            />
+          </Row>
+          <Row>
+            <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} />
           </Row>
         </div>
       </PageHeaderWrapper>

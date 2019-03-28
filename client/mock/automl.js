@@ -28,7 +28,66 @@ function fakeJobList(count) {
     return list;
 }
 
-const jobs = fakeJobList(10);
+let jobs = fakeJobList(10);
+
+let regressionJobDetails = {
+    "name": "testregression",
+    "dataset_id": "housing",
+    "job_option": {
+        "time_left_for_this_task": 30,
+        "per_run_time_limit": 10,
+        "initial_configurations_via_metalearning": 25,
+        "ensemble_size": 50,
+        "ensemble_nbest": 50,
+        "ensemble_memory_limit": 1024,
+        "ml_memory_limit": 2048,
+        "tmp_folder": "\/tmp\/dataplay\/mljobs\/8205f310-8bf7-4a14-869b-1177b49f46cd\/tmp",
+        "output_folder": "\/tmp\/dataplay\/mljobs\/8205f310-8bf7-4a14-869b-1177b49f46cd\/output"
+    },
+    "validation_option": {
+        "test_size": 0.1,
+        "random_state": 42,
+        "shuffle": true
+    },
+    "features": ["crime_rate", "business_acres", "avg_rooms_per_dwelling", "distance_to_employment_center"],
+    "targets": ["median_house_value"],
+    "validation_result": {
+        "r2": 0.6618103002,
+        "mean_squared_error": 37.074986561,
+        "mean_absolute_error": 3.7652134675,
+        "median_absolute_error": 3.0310683823
+    },
+    "type": "AutoRegressionJob",
+    "status": "SUCCESS"
+}
+
+let classificationJobDetail = {
+    "name": "testclassification",
+    "dataset_id": "churn",
+    "job_option": {
+        "time_left_for_this_task": 30,
+        "per_run_time_limit": 10,
+        "initial_configurations_via_metalearning": 25,
+        "ensemble_size": 50,
+        "ensemble_nbest": 50,
+        "ensemble_memory_limit": 1024,
+        "ml_memory_limit": 2048,
+        "tmp_folder": "\/tmp\/dataplay\/mljobs\/8a57d51f-017b-442e-a2fe-54d3de851915\/tmp",
+        "output_folder": "\/tmp\/dataplay\/mljobs\/8a57d51f-017b-442e-a2fe-54d3de851915\/output"
+    },
+    "validation_option": {
+        "test_size": 0.1,
+        "random_state": 42,
+        "shuffle": true
+    },
+    "features": ["Account Length", "Area Code", "Day Calls", "State"],
+    "targets": ["Churn?"],
+    "validation_result": {
+        "accuracy": 0.8383233533
+    },
+    "type": "AutoClassificationJob",
+    "status": "SUCCESS"
+}
 
 function getJobs(req, res, u) {
     let url = u;
@@ -63,7 +122,7 @@ function createJob(req, res) {
 function deleteJob(req, res) {
     const { id } = req.params;
     jobs = jobs.filter(function(value, index, arr){
-        return value.id == id;
+        return value.id !== id;
     });
     res.status(200).json({});
 }
