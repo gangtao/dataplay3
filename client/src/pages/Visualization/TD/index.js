@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Tooltip, Modal, Input, message } from 'antd';
+import { Row, Col, Form, Button, Tooltip, Modal, Input, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -31,6 +31,17 @@ class TypeDrivenChart extends PureComponent {
     const { currentDataset, chartType } = tchart;
     const { name } = currentDataset;
     const { visible, title, description } = tchart.export;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 12 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     const savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -138,17 +149,19 @@ class TypeDrivenChart extends PureComponent {
           <Row gutter={16}>
             <Col span={6}>
               <Row>
-                Dataset:
-                <DatasetListSelector
-                  datasetList={tchart.list}
-                  queryList={savedQueryList}
-                  handleChange={handleChange}
-                  selected={name}
-                />
-              </Row>
-              <Row>
-                Chart Type:
-                <ChartTypeSelector handleChange={handleChartSelected} value={chartType} />
+                <Form {...formItemLayout}>
+                  <Form.Item label="Dataset">
+                    <DatasetListSelector
+                      datasetList={tchart.list}
+                      queryList={savedQueryList}
+                      handleChange={handleChange}
+                      selected={name}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Chart Type">
+                    <ChartTypeSelector handleChange={handleChartSelected} value={chartType} />
+                  </Form.Item>
+                </Form>
               </Row>
               <Row>
                 <ChartFeedPanel />

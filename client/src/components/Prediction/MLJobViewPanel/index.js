@@ -21,9 +21,8 @@ class MLJobViewPanel extends PureComponent {
 
     return (
       <div className={styles.jobview}>
-        <Row />
         <Row>
-          <Col span={20}>
+          <Col>
             {isCreation ? (
               <MLJobOptionCreationPanel
                 datasetList={datasetList}

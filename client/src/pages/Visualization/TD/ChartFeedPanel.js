@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Select } from 'antd';
+import { Select, Form } from 'antd';
 import { connect } from 'dva';
 
 import styles from './ChartFeedPanel.less';
@@ -16,6 +16,17 @@ class ChartFeedPanel extends PureComponent {
     const { chartType, currentDataset, feeds } = tchart;
     const chartConfig = chartConfigs.find(chartType);
     const fields = [];
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 12 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     if (currentDataset.columns) {
       currentDataset.columns.map(col => fields.push(col.key));
@@ -62,14 +73,14 @@ class ChartFeedPanel extends PureComponent {
       const feedSelectors = chartConfig[0].feeds.map(feed => {
         const single = !(feed.max > 1);
         const content = buildSelect(feed.name, fieldsList, single);
-        return (
-          <li key={feed.name}>
-            {feed.name}:{content}
-          </li>
-        );
+        return <Form.Item label={feed.name}>{content}</Form.Item>;
       });
 
-      return <div className={styles.chartFeed}>{feedSelectors}</div>;
+      return (
+        <div className={styles.chartFeed}>
+          <Form {...formItemLayout}>{feedSelectors}</Form>
+        </div>
+      );
     }
 
     return <div className={styles.chartFeed} />;
