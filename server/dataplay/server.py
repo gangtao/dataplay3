@@ -21,28 +21,25 @@ app.config.API_TITLE = 'Dataplay API'
 app.config.API_DESCRIPTION = 'Dataplay API'
 app.config.API_CONTACT_EMAIL = 'gang.tao@outlook.com'
 
+server_config = ConfigurationManager.get_confs('server')
+app.config.HOST = server_config.get('server', 'host')
+app.config.PORT = server_config.getint('server', 'port')
+app.config.DEBUG = server_config.getboolean('server', 'debug')
+app.config.WORKERS = server_config.getint('server', 'workers')
 
-def init():
-    server_config = ConfigurationManager.get_confs('server')
-    app.config.HOST = server_config.get('server', 'host')
-    app.config.PORT = server_config.getint('server', 'port')
-    app.config.DEBUG = server_config.getboolean('server', 'debug')
-    app.config.WORKERS = server_config.getint('server', 'workers')
+dataset_type_config = ConfigurationManager.get_confs('dataset_type')
+dataset_registry = DatasetTypeRegistry()
+for section in dataset_type_config.sections():
+    module_name = dataset_type_config.get(section, 'module')
+    class_name = dataset_type_config.get(section, 'class')
+    dataset_registry.register(section, class_name, module_name)
 
-    dataset_type_config = ConfigurationManager.get_confs('dataset_type')
-    dataset_registry = DatasetTypeRegistry()
-    for section in dataset_type_config.sections():
-        module_name = dataset_type_config.get(section, 'module')
-        class_name = dataset_type_config.get(section, 'class')
-        dataset_registry.register(section, class_name, module_name)
-
-    app.blueprint(file_svc)
-    app.blueprint(dataset_svc, url_prefix=PREFIX)
-    app.blueprint(user_svc, url_prefix=PREFIX)
-    app.blueprint(dashboard_svc, url_prefix=PREFIX)
-    app.blueprint(ml_svc, url_prefix=PREFIX)
-    app.blueprint(conf_svc, url_prefix=PREFIX)
-
+app.blueprint(file_svc)
+app.blueprint(dataset_svc, url_prefix=PREFIX)
+app.blueprint(user_svc, url_prefix=PREFIX)
+app.blueprint(dashboard_svc, url_prefix=PREFIX)
+app.blueprint(ml_svc, url_prefix=PREFIX)
+app.blueprint(conf_svc, url_prefix=PREFIX)
 
 @app.route('/')
 def handle_request(request):
