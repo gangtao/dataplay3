@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Select, Tabs } from 'antd';
+import { Row, Select, Tabs, Form } from 'antd';
 import { connect } from 'dva';
 
 import GeomConfigPanel from './GeomConfigPanel';
@@ -87,6 +87,17 @@ class GrammarConfigPanel extends PureComponent {
     const { currentDataset } = gchart;
     const facatOptions = [];
 
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 12 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
     const handleGeomUpdate = (type, value, key) => {
       const payload = {};
       payload.key = key;
@@ -132,29 +143,31 @@ class GrammarConfigPanel extends PureComponent {
     return (
       <div className={styles.grammarConfigPanel}>
         <Row gutter={16}>
-          facat:
-          <Select
-            mode="tags"
-            style={{ width: '100%' }}
-            placeholder="Select facat"
-            onChange={handlefacatUpdate}
-            value={facatValue}
-          >
-            {facatOptions}
-          </Select>
+          <Form {...formItemLayout}>
+            <Form.Item label="facat">
+              <Select
+                mode="tags"
+                style={{ width: '100%' }}
+                placeholder="Select facat"
+                onChange={handlefacatUpdate}
+                value={facatValue}
+              >
+                {facatOptions}
+              </Select>
+            </Form.Item>
+            <Form.Item label="Coordination">
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Select coordination"
+                onChange={handleCoordinationUpdate}
+                value={coordinationValue}
+              >
+                {coordList}
+              </Select>
+            </Form.Item>
+          </Form>
         </Row>
 
-        <Row gutter={16}>
-          Coordination:
-          <Select
-            style={{ width: '100%' }}
-            placeholder="Select coordination"
-            onChange={handleCoordinationUpdate}
-            value={coordinationValue}
-          >
-            {coordList}
-          </Select>
-        </Row>
         <Row gutter={16}>
           <Tabs
             onChange={this.onTabChange}

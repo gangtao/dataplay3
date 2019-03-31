@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Tooltip, Modal, Input, message } from 'antd';
+import { Row, Col, Form, Button, Tooltip, Modal, Input, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -29,6 +29,17 @@ class GrammerGraph extends PureComponent {
     const { gchart, query, dispatch } = this.props;
     const { name } = gchart.currentDataset;
     const { visible, title, description } = gchart.export;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 12 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     const savedQueryList = [];
     for (const p in query.savedQuery) {
@@ -124,13 +135,16 @@ class GrammerGraph extends PureComponent {
           <Row gutter={16}>
             <Col span={6}>
               <Row>
-                Dataset:
-                <DatasetListSelector
-                  datasetList={gchart.list}
-                  queryList={savedQueryList}
-                  handleChange={handleChange}
-                  selected={name}
-                />
+                <Form {...formItemLayout}>
+                  <Form.Item label="Dataset">
+                    <DatasetListSelector
+                      datasetList={gchart.list}
+                      queryList={savedQueryList}
+                      handleChange={handleChange}
+                      selected={name}
+                    />
+                  </Form.Item>
+                </Form>
               </Row>
             </Col>
           </Row>

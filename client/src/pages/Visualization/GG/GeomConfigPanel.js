@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Select } from 'antd';
+import { Select, Form } from 'antd';
 
 import styles from './GeomConfigPanel.less';
 
@@ -16,6 +16,17 @@ class GeomConfigPanel extends PureComponent {
     const fieldsList = fields.map(value => {
       return <Option key={value}>{value}</Option>;
     });
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 12 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     const geomTypeListStr = [
       'point',
@@ -60,18 +71,15 @@ class GeomConfigPanel extends PureComponent {
     const geomAttributesSelectors = geomAttributes.map(attr => {
       const selected = geomValues && geomValues[attr] ? geomValues[attr] : [];
       const content = buildSelect(attr, fieldsList, false, selected);
-      return (
-        <li key={attr}>
-          {attr}:{content}
-        </li>
-      );
+      return <Form.Item label={attr}>{content}</Form.Item>;
     });
 
     return (
       <div className={styles.geomConfigPanel}>
-        geometry:
-        {geomTypeSelector}
-        {geomAttributesSelectors}
+        <Form {...formItemLayout}>
+          <Form.Item label="geometry">{geomTypeSelector}</Form.Item>
+          {geomAttributesSelectors}
+        </Form>
       </div>
     );
   }
