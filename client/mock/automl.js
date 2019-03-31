@@ -119,7 +119,7 @@ function createJob(req, res, u, b) {
     job.id = uuid.v4();
     job.status = Random.jobStatus();
     jobs.push(job);
-    res.status(200).json(job.id);
+    res.status(200).json(job);
 }
 
 function deleteJob(req, res) {

@@ -15,23 +15,27 @@ class MLJobManager:
     def list_jobs():
         job_base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
 
-        job_ids = [
-            file
-            for file in os.listdir(job_base_dir)
-            if os.path.isdir(os.path.join(job_base_dir, file))
-        ]
-        results = []
-        for job_id in job_ids:
-            logger.debug(f'find one job with id {job_id}')
-            item = {}
-            item['id'] = job_id
-            status = MLJob.get_status_by_id(job_id)
-            item['status'] = status.name
-            meta = MLJob.get_meta(job_id)
-            for key in ['type', 'name']:
-                item[key] = meta[key]
-            results.append(item)
-        return results
+        try:
+            job_ids = [
+                file
+                for file in os.listdir(job_base_dir)
+                if os.path.isdir(os.path.join(job_base_dir, file))
+            ]
+            results = []
+            for job_id in job_ids:
+                logger.debug(f'find one job with id {job_id}')
+                item = {}
+                item['id'] = job_id
+                status = MLJob.get_status_by_id(job_id)
+                item['status'] = status.name
+                meta = MLJob.get_meta(job_id)
+                for key in ['type', 'name']:
+                    item[key] = meta[key]
+                results.append(item)
+            return results
+        except Exception:
+            logger.exception('failed to list job')
+            return []
 
     @staticmethod
     def get_job(job_id):
@@ -61,6 +65,8 @@ class MLJobManager:
         ]
 
         for key in job_option_attrs:
+            if key not in job_payload:
+                job_payload[key] = {}
             job_option[key] = job_payload[key]
 
         if job_type == 'AutoClassificationJob':

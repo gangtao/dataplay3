@@ -50,12 +50,12 @@ export default {
       });
     },
     *createMLJob({ payload }, { call, put }) {
-      const jobId = yield call(createJob, payload);
+      const job = yield call(createJob, payload);
       yield put({
         type: 'updateCreatedJob',
-        payload: jobId,
+        payload: job,
       });
-      const response = yield call(queryJob, jobId);
+      const response = yield call(queryJob, job.id);
       yield put({
         type: 'detailView',
         payload: response,

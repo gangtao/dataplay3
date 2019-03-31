@@ -74,8 +74,8 @@ async def create_job(request):
     logger.debug(f'get create ml job request {request.body}')
     try:
         request_body = json.loads(request.body)
-        MLJobManager.create_job(request_body)
-        return response.json({}, status=201)
+        job = MLJobManager.create_job(request_body)
+        return response.json(job, status=201)
     except Exception:
         logger.exception('faile to create ml job')
         return response.json({}, status=500)
