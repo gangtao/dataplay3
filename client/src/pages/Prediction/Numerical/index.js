@@ -5,7 +5,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import MLJobTable from '@/components/Prediction/MLJobTable';
 import MLJobControlPanel from '@/components/Prediction/MLJobControlPanel';
 
-import JobViewPanel from './JobViewPanel';
+import MLJobViewPanel from '@/components/Prediction/MLJobViewPanel';
 
 import styles from './index.less';
 
@@ -13,7 +13,7 @@ import styles from './index.less';
   regression,
   loading: loading.effects['regression/fetchJobs'],
 }))
-class Categorical extends PureComponent {
+class Numerical extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -26,8 +26,8 @@ class Categorical extends PureComponent {
 
   render() {
     const { regression, dispatch } = this.props;
-
     const { jobs, view, selectedJob, datasetList, selectedDataset } = regression;
+    const jobType = 'AutoRegressionJob';
 
     const onCreate = () => {
       dispatch({
@@ -53,17 +53,29 @@ class Categorical extends PureComponent {
     };
     const onView = r => {
       dispatch({
-        type: 'regression/detailView',
-        payload: r,
+        type: 'regression/switchDetailView',
+        payload: r.id,
       });
     };
 
     const handleDatasetSelection = event => {
-      console.log(event);
-      console.log('data selected!');
       dispatch({
         type: 'regression/fetchDataset',
         payload: event,
+      });
+    };
+
+    const handelJobCreation = event => {
+      event.type = jobType;
+      Modal.confirm({
+        title: 'Do you Want to create this job?',
+        content: `job ${event.name} will be created! `,
+        onOk() {
+          dispatch({
+            type: 'regression/createMLJob',
+            payload: event,
+          });
+        },
       });
     };
 
@@ -72,15 +84,17 @@ class Categorical extends PureComponent {
         return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} />;
       } else if (view == 'create') {
         return (
-          <JobViewPanel
-            isCreate={true}
+          <MLJobViewPanel
+            isCreation={true}
             datasetList={datasetList}
             selectedDataset={selectedDataset}
-            handleDatasetSelection={handleDatasetSelection}
+            onDatasetSelect={handleDatasetSelection}
+            onJobCreate={handelJobCreation}
+            jobType={jobType}
           />
         );
       } else if (view == 'detail') {
-        return <JobViewPanel isCreate={false} />;
+        return <MLJobViewPanel isCreation={false} jobType={jobType} selectedJob={selectedJob} />;
       } else {
         return <Empty />;
       }
@@ -104,4 +118,4 @@ class Categorical extends PureComponent {
   }
 }
 
-export default Categorical;
+export default Numerical;

@@ -30,8 +30,7 @@ function fakeJobList(count) {
 
 let jobs = fakeJobList(10);
 
-let regressionJobDetails = {
-    "name": "testregression",
+const regressionJobDetails = {
     "dataset_id": "housing",
     "job_option": {
         "time_left_for_this_task": 30,
@@ -57,12 +56,10 @@ let regressionJobDetails = {
         "mean_absolute_error": 3.7652134675,
         "median_absolute_error": 3.0310683823
     },
-    "type": "AutoRegressionJob",
     "status": "SUCCESS"
 }
 
-let classificationJobDetail = {
-    "name": "testclassification",
+const classificationJobDetail = {
     "dataset_id": "churn",
     "job_option": {
         "time_left_for_this_task": 30,
@@ -85,7 +82,6 @@ let classificationJobDetail = {
     "validation_result": {
         "accuracy": 0.8383233533
     },
-    "type": "AutoClassificationJob",
     "status": "SUCCESS"
 }
 
@@ -108,14 +104,21 @@ function getJobs(req, res, u) {
 
 function getJob(req, res) {
     const { id } = req.params;
-    const job = jobs.find(item => item.id === id);
+    let job = jobs.find(item => item.id === id);
+    if ( job.type == 'AutoClassificationJob') {
+        job = { ...job, ...classificationJobDetail};
+    } else if ( job.type == 'AutoRegressionJob' ) {
+        job = { ...job, ...regressionJobDetails};
+    }
     res.status(200).json(job);
 }
 
-function createJob(req, res) {
-    job = {...res}
-    job.id = uuid.v4()
-    jobs.push(job)
+function createJob(req, res, u, b) {
+    const body = (b && b.body) || req.body;
+    const job = {...body};
+    job.id = uuid.v4();
+    job.status = Random.jobStatus();
+    jobs.push(job);
     res.status(200).json(job.id);
 }
 

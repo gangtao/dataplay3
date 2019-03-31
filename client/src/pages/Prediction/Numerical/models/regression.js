@@ -10,6 +10,7 @@ export default {
     selectedJob: {},
     datasetList: [],
     selectedDataset: {},
+    createdJob: null,
   },
 
   effects: {
@@ -20,6 +21,10 @@ export default {
         type: 'listJobs',
         payload: response,
       });
+    },
+    *fetchJob({ payload }, { call, put }) {
+      const response = yield call(queryJob, payload);
+      //
     },
     *deleteJob({ payload }, { call, put }) {
       const response = yield call(deleteJob, payload);
@@ -42,6 +47,25 @@ export default {
       yield put({
         type: 'updateSelectedDataset',
         payload: dataset,
+      });
+    },
+    *createMLJob({ payload }, { call, put }) {
+      const jobId = yield call(createJob, payload);
+      yield put({
+        type: 'updateCreatedJob',
+        payload: jobId,
+      });
+      const response = yield call(queryJob, jobId);
+      yield put({
+        type: 'detailView',
+        payload: response,
+      });
+    },
+    *switchDetailView({ payload }, { call, put }) {
+      const response = yield call(queryJob, payload);
+      yield put({
+        type: 'detailView',
+        payload: response,
       });
     },
   },
@@ -82,6 +106,12 @@ export default {
       return {
         ...state,
         selectedDataset: action.payload,
+      };
+    },
+    updateCreatedJob(state, action) {
+      return {
+        ...state,
+        createdJob: action.payload,
       };
     },
   },
