@@ -1,8 +1,4 @@
-FROM ubuntu:bionic as base
-
-FROM base as builder
-
-COPY server/requirements.txt /home/
+FROM ubuntu:bionic
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -19,27 +15,22 @@ RUN apt-get update -q && \
         ca-certificates && \
     pip3 install setuptools pip --upgrade
 
-RUN curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip install
+RUN curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install
 
+COPY server/requirements.txt /home/
 RUN cd /home && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt 
+    
+RUN pip3 install numpy==1.16.0 --force-reinstall
 
-
-FROM base
-
-# Copy packages
-COPY --from=builder /usr/local/lib/python3.6 /usr/local/lib/python3.6
+EXPOSE 8000
 RUN mkdir /home/dataplay
 WORKDIR /home
+COPY entrypoint.sh /home/
 ADD server/dataplay /home/dataplay
 
-RUN apt-get update -q && \
-    # Dependencies
-    apt-get install --no-install-recommends -y -q \
-        python3 && \
-    # Remove tests and unwanted files 
-    find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
+RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
     find /usr/local/lib/python3.6/ -name '*.pyc' -exec rm -r '{}' + && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -48,5 +39,4 @@ RUN apt-get update -q && \
         /tmp/* \
         /var/tmp/*
 
-EXPOSE 5000
-ENTRYPOINT ["python3","-m","dataplay.server"]
+CMD ["sh", "/home/entrypoint.sh"]

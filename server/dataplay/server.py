@@ -41,6 +41,7 @@ app.blueprint(dashboard_svc, url_prefix=PREFIX)
 app.blueprint(ml_svc, url_prefix=PREFIX)
 app.blueprint(conf_svc, url_prefix=PREFIX)
 
+
 @app.route('/')
 def handle_request(request):
     return response.redirect('/ui')

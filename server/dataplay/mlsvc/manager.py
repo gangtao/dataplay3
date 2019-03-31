@@ -23,15 +23,18 @@ class MLJobManager:
             ]
             results = []
             for job_id in job_ids:
-                logger.debug(f'find one job with id {job_id}')
-                item = {}
-                item['id'] = job_id
-                status = MLJob.get_status_by_id(job_id)
-                item['status'] = status.name
-                meta = MLJob.get_meta(job_id)
-                for key in ['type', 'name']:
-                    item[key] = meta[key]
-                results.append(item)
+                try:
+                    logger.debug(f'find one job with id={job_id}')
+                    item = {}
+                    item['id'] = job_id
+                    status = MLJob.get_status_by_id(job_id)
+                    item['status'] = status.name
+                    meta = MLJob.get_meta(job_id)
+                    for key in ['type', 'name']:
+                        item[key] = meta[key]
+                    results.append(item)
+                except Exception:
+                    logger.exception(f'failed to retrieve job id={job_id}')
             return results
         except Exception:
             logger.exception('failed to list job')
@@ -74,7 +77,7 @@ class MLJobManager:
         elif job_type == 'AutoRegressionJob':
             job = AutoRegressionJob(**job_option)
         else:
-            raise RuntimeError(f'job type {job_type} not supported!')
+            raise RuntimeError(f'job type={job_type} not supported!')
 
         is_multi_prorcess = ConfigurationManager.get_confs('mljob').getboolean(
             'job', 'multi_processes'
@@ -82,15 +85,19 @@ class MLJobManager:
         if is_multi_prorcess:
             # run train in a new process
             try:
+                logger.debug(f'start new process to train ml job={job.id}')
                 p = Process(target=job.train)
                 p.start()
-                p.join()
+                # p.join()
+                # TODO: update training status using web sock
             except:
-                logger.exception(f'failed to run ml job process for job {job.id}')
+                logger.exception(f'failed to run ml job process for job={job.id}')
         else:
             try:
+                logger.debug(f'start new thread to train ml job {job.id}')
                 _thread.start_new_thread(job.train, ())
+                # TODO: update training status using web sock
             except:
-                logger.exception(f'failed to run ml job thread for job {job.id}')
+                logger.exception(f'failed to run ml job thread for job={job.id}')
 
         return job

@@ -115,4 +115,9 @@ def task_link_client() -> DoitReturn:
 
 def task_server() -> DoitReturn:
     """ Runs dataplay server """
-    return {"actions": ["python -m dataplay.server"], "verbosity": 2}
+    return {
+        "actions": [
+            "gunicorn dataplay.server:app —bind=0.0.0.0:8000 --worker-class=sanic.worker.GunicornWorker --workers=3"
+        ],
+        "verbosity": 2,
+    }

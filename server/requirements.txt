@@ -10,9 +10,10 @@ auto-sklearn==0.5.0
 babel==2.6.0              # via sphinx
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
-configspace==0.4.9        # via auto-sklearn, smac
+configspace==0.4.10       # via auto-sklearn, smac
 cython==0.29.6            # via auto-sklearn, configspace, smac
 docutils==0.14            # via pynisher, sphinx
+gunicorn==19.9.0
 httptools==0.0.13         # via sanic
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
@@ -23,7 +24,7 @@ lockfile==0.12.2          # via auto-sklearn
 markupsafe==1.1.1         # via jinja2
 multidict==4.5.2          # via sanic
 nose==1.3.7               # via auto-sklearn
-numpy==1.16.0             # via auto-sklearn, configspace, pandas, pandasql, scipy, smac, xgboost
+numpy==1.14.5             # via auto-sklearn, configspace, pandas, pandasql, scipy, smac, xgboost
 packaging==19.0           # via sphinx
 pandas==0.24.1
 pandasql==0.7.3
@@ -40,12 +41,17 @@ sanic-openapi==0.4.0
 sanic==18.12.0
 scikit-learn==0.19.2      # via auto-sklearn, smac
 scipy==1.2.1              # via auto-sklearn, smac, xgboost
-six==1.12.0               # via packaging, python-dateutil, smac, sphinx
+six==1.12.0               # via packaging, python-dateutil, smac
 smac==0.8                 # via auto-sklearn
 snowballstemmer==1.2.1    # via sphinx
 sphinx-rtd-theme==0.4.3   # via smac
-sphinx==1.8.5             # via smac, sphinx-rtd-theme
-sphinxcontrib-websupport==1.1.0  # via sphinx
+sphinx==2.0.0             # via smac, sphinx-rtd-theme
+sphinxcontrib-applehelp==1.0.1  # via sphinx
+sphinxcontrib-devhelp==1.0.1  # via sphinx
+sphinxcontrib-htmlhelp==1.0.1  # via sphinx
+sphinxcontrib-jsmath==1.0.1  # via sphinx
+sphinxcontrib-qthelp==1.0.2  # via sphinx
+sphinxcontrib-serializinghtml==1.1.1  # via sphinx
 sqlalchemy==1.3.1         # via pandasql
 typing==3.6.6             # via configspace, smac
 ujson==1.35               # via sanic

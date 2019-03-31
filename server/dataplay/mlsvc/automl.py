@@ -35,7 +35,7 @@ class AutoMLJob(MLJob):
             'targets',
             'validation_result',
             'training_error',
-            'type'
+            'type',
         ]:
             if hasattr(self, attribute):
                 self.metadata[attribute] = getattr(self, attribute)
