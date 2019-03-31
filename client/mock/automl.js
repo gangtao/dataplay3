@@ -110,6 +110,7 @@ function getJob(req, res) {
     } else if ( job.type == 'AutoRegressionJob' ) {
         job = { ...job, ...regressionJobDetails};
     }
+    job.status = Random.jobStatus();
     res.status(200).json(job);
 }
 

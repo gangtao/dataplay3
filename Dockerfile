@@ -21,7 +21,8 @@ COPY server/requirements.txt /home/
 RUN cd /home && \
     pip3 install --upgrade pip && \
     pip3 install -r requirements.txt 
-    
+
+# override numpy version   
 RUN pip3 install numpy==1.16.0 --force-reinstall
 
 EXPOSE 8000
