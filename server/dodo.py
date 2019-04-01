@@ -92,10 +92,24 @@ def task_update_dependencies() -> DoitReturn:
     return {"actions": commands, "verbosity": 2}
 
 
+def gen_install_tasks():
+    yield {
+        "basename": "auto_sklearn_dep",
+        "actions": [
+            "curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install"
+        ],
+    }
+    yield {
+        "basename": "install_dep",
+        "actions": ["pip install -r requirements.txt . --no-deps"],
+    }
+    yield {"basename": "override_numpy", "actions": ["pip3 install numpy==1.16.0"]}
+
+
 def task_install() -> DoitReturn:
     """ Installs requirements-{darwin/linux}.txt  """
 
-    return {"actions": [f"pip install -r requirements.txt . --no-deps"], "verbosity": 2}
+    yield gen_install_tasks()
 
 
 def task_tox() -> DoitReturn:
