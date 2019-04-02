@@ -19,7 +19,7 @@ class QueryBuilder extends PureComponent {
 
   render() {
     const { query, dispatch, onQuery } = this.props;
-    const { currentQuery, canSave, canExport } = query;
+    const { currentQuery, canSave } = query;
 
     const rawQuery = currentQuery.rawQuery ? currentQuery.rawQuery : '';
 
@@ -94,13 +94,6 @@ class QueryBuilder extends PureComponent {
       message.success(`saving query ${currentQuery.name} success`);
     };
 
-    const handleExport = () => {
-      Modal.error({
-        title: 'not implemented',
-        content: 'export query to dataset is not implemented',
-      });
-    };
-
     return (
       <div className={styles.queryBuilder}>
         <Row>
@@ -122,14 +115,6 @@ class QueryBuilder extends PureComponent {
                 className={styles.queryAction}
                 disabled={!canSave}
                 onClick={handleSave}
-              />
-            </Tooltip>
-            <Tooltip placement="top" title="export query as dataset">
-              <Button
-                icon="export"
-                className={styles.queryAction}
-                disabled={!canExport}
-                onClick={handleExport}
               />
             </Tooltip>
           </Col>

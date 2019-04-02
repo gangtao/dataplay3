@@ -69,6 +69,12 @@ export default [
             name: 'queryDataset',
             component: './Dataset/Query',
           },
+          {
+            path: '/dataset/manage',
+            icon: 'form',
+            name: 'manageDataset',
+            component: './Dataset/Manage',
+          },
         ],
       },
       // Analysis

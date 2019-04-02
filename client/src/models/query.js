@@ -9,7 +9,6 @@ export default {
     currentQuery: {},
     currentQueryResult: { dataSource: null, columns: null },
     canSave: false,
-    canExport: false,
   },
 
   effects: {
