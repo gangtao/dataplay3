@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Tabs, Table, Divider, Empty } from 'antd';
+import { Row, Col, Tabs, Table, Divider, Empty, Modal } from 'antd';
 
 import { connect } from 'dva';
 
@@ -7,6 +7,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './index.less';
 
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 
 @connect(({ dataset, query, loading }) => ({
   dataset,
@@ -37,6 +38,16 @@ class Manage extends PureComponent {
           key: 'name',
         },
         {
+          title: 'Type',
+          dataIndex: 'type',
+          key: 'type',
+        },
+        {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description',
+        },
+        {
           title: 'Action',
           key: 'action',
           render: (text, record) => {
@@ -49,7 +60,16 @@ class Manage extends PureComponent {
             };
 
             const callDelete = () => {
-              // TODO delete the selected dataset
+              confirm({
+                title: `Do you want to delete dataset ${record.name}?`,
+                content: `When clicked the OK button, dataset ${record.name} will be deleted!`,
+                onOk() {
+                  dispatch({
+                    type: 'dataset/deleteSelected',
+                    payload: record.id,
+                  });
+                },
+              });
             };
 
             return (
@@ -105,7 +125,16 @@ class Manage extends PureComponent {
             };
 
             const callDelete = () => {
-              // TODO delete the selected dataset
+              confirm({
+                title: `Do you want to delete query ${record.name}?`,
+                content: `When clicked the OK button, query ${record.name} will be deleted!`,
+                onOk() {
+                  dispatch({
+                    type: 'query/deleteQuery',
+                    payload: record.name,
+                  });
+                },
+              });
             };
 
             const callExport = () => {

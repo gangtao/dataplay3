@@ -128,7 +128,7 @@ function deleteJob(req, res) {
     jobs = jobs.filter(function(value, index, arr){
         return value.id !== id;
     });
-    res.status(200).json({});
+    res.status(204).json({});
 }
 
 export default {

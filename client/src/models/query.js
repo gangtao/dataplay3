@@ -38,5 +38,11 @@ export default {
         canSave: false,
       };
     },
+    deleteQuery(state, action) {
+      delete state.savedQuery[action.payload];
+      return {
+        ...state,
+      };
+    },
   },
 };

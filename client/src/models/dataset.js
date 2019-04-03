@@ -1,4 +1,4 @@
-import { queryDatasets, queryDataset } from '@/services/dataset';
+import { queryDatasets, queryDataset, deleteDataset } from '@/services/dataset';
 import { convertDataset } from '@/utils/dataset';
 
 export default {
@@ -25,6 +25,13 @@ export default {
         payload: responseWithName,
       });
     },
+    *deleteSelected({ payload }, { call, put }) {
+      const response = yield call(deleteDataset, payload);
+      yield put({
+        type: 'deleteDataset',
+        payload: payload,
+      });
+    },
   },
 
   reducers: {
@@ -49,6 +56,15 @@ export default {
       return {
         ...state,
         currentDataset: action.payload,
+      };
+    },
+    deleteDataset(state, action) {
+      const new_list = state.list.filter(function(value, index, arr) {
+        return value.id !== action.payload;
+      });
+      return {
+        ...state,
+        list: new_list,
       };
     },
   },

@@ -4,7 +4,11 @@ import appUsage from './data/app_usage.json';
 import churn from './data/churn.json';
 import logins from './data/logins.json';
 
-const database = [iris,diabetes,appUsage,churn,logins]
+import mockjs from 'mockjs';
+
+const Random = mockjs.Random;
+
+let database = [iris,diabetes,appUsage,churn,logins]
 
 const NOTFOUND = {
   message: 'Not Found',
@@ -15,7 +19,9 @@ function getDatasets(req, res) {
     const newData = database.map(function(item) {
         return {
             id: item.id,
-            name: item.name
+            name: item.name,
+            type: 'csv',
+            description: Random.paragraph()
         };
     });
     res.status(200).json(newData);
@@ -81,9 +87,18 @@ function uploadDataset(req, res) {
     res.status(200).json({});
 }
 
+function deleteDataset(req, res) {
+    const { id } = req.params;
+    database = database.filter(function(value, index, arr){
+        return value.id !== id;
+    });
+    res.status(204).json({});
+}
+
 export default {
     'GET /api/datasets': getDatasets,
     'GET /api/datasets/:id': getDataset,
     'POST /api/datasets/:id/query': queryDataset,
     'POST /api/dataset_upload': uploadDataset,
+    'DELETE /api/datasets/:id': deleteDataset,
 };
