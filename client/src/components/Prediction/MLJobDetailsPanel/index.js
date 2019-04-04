@@ -6,6 +6,21 @@ import styles from './index.less';
 const Panel = Collapse.Panel;
 
 class MLJobDetailsPanel extends PureComponent {
+  timer = null;
+
+  componentDidMount() {
+    const { job, onRefresh } = this.props;
+    if (onRefresh) {
+      this.timer = setInterval(function() {
+        onRefresh(job.id);
+      }, 10000);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   render() {
     const { job, dispatch } = this.props;
 
@@ -22,7 +37,11 @@ class MLJobDetailsPanel extends PureComponent {
       },
     };
 
-    const details = JSON.stringify(job);
+    //const details = JSON.stringify(job);
+    if (status == 'SUCCESS' || status == 'FAILED') {
+      clearInterval(this.timer);
+    }
+
     const buildItems = obj => {
       let items = [];
       for (const p in obj) {
@@ -33,7 +52,7 @@ class MLJobDetailsPanel extends PureComponent {
           });
         } else {
           items.push(
-            <Form.Item label={p} className={styles.detailsItem}>
+            <Form.Item label={p} key={p} className={styles.detailsItem}>
               <span className="ant-form-text">{String(obj[p])}</span>
             </Form.Item>
           );
@@ -47,7 +66,7 @@ class MLJobDetailsPanel extends PureComponent {
       for (const p in obj) {
         items.push(
           <Col span={8}>
-            <Statistic title={p} value={obj[p]} />
+            <Statistic title={p} key={p} value={obj[p]} />
           </Col>
         );
       }
@@ -61,8 +80,8 @@ class MLJobDetailsPanel extends PureComponent {
     return (
       <div className={styles.details}>
         <Row>
-          <Col span={12}>
-            <Collapse defaultActiveKey={['1']} className={styles.detailsPanel}>
+          <Col key="JobDetails" span={12}>
+            <Collapse key="JobDetails" defaultActiveKey={['1']} className={styles.detailsPanel}>
               <Panel header="Job Info" key="1">
                 <Form {...formItemLayout}>{jobContents}</Form>
               </Panel>
@@ -74,12 +93,12 @@ class MLJobDetailsPanel extends PureComponent {
               </Panel>
             </Collapse>
           </Col>
-          <Col span={12}>
-            <Collapse defaultActiveKey={['1']} className={styles.detailsPanel}>
+          <Col key="JobStats" span={12}>
+            <Collapse key="JobStats" defaultActiveKey={['1']} className={styles.detailsPanel}>
               <Panel header="Status" key="1">
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Statistic title="Status" value={status} />
+                    <Statistic key="Status" title="Status" value={status} />
                   </Col>
                   {validation_result && buildValidationStats(validation_result)}
                 </Row>

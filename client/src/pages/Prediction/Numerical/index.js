@@ -79,6 +79,13 @@ class Numerical extends PureComponent {
       });
     };
 
+    const handleDetailRefresh = id => {
+      dispatch({
+        type: 'regression/switchDetailView',
+        payload: id,
+      });
+    };
+
     const contentView = () => {
       if (view == 'list') {
         return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} />;
@@ -94,7 +101,14 @@ class Numerical extends PureComponent {
           />
         );
       } else if (view == 'detail') {
-        return <MLJobViewPanel isCreation={false} jobType={jobType} selectedJob={selectedJob} />;
+        return (
+          <MLJobViewPanel
+            isCreation={false}
+            jobType={jobType}
+            selectedJob={selectedJob}
+            onRefreshDetails={handleDetailRefresh}
+          />
+        );
       } else {
         return <Empty />;
       }

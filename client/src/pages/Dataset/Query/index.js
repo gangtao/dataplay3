@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -32,6 +32,7 @@ class QueryPage extends PureComponent {
               <QueryBuilder onQuery={handleQuery} />
             </Col>
           </Row>
+          <Divider orientation="left">Query Result</Divider>
           <Row>
             <DatasetTable
               dataSource={currentQueryResult.dataSource}

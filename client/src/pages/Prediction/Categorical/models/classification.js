@@ -60,10 +60,14 @@ export default {
         type: 'detailView',
         payload: response,
       });
+
+      yield put({
+        type: 'addOneJob',
+        payload: response,
+      });
     },
     *switchDetailView({ payload }, { call, put }) {
       const response = yield call(queryJob, payload);
-      console.log('switch to new view ', response);
       yield put({
         type: 'detailView',
         payload: response,
@@ -113,6 +117,12 @@ export default {
       return {
         ...state,
         createdJob: action.payload,
+      };
+    },
+    addOneJob(state, action) {
+      return {
+        ...state,
+        jobs: [...state.jobs, action.payload],
       };
     },
   },

@@ -14,6 +14,7 @@ class MLJobViewPanel extends PureComponent {
       selectedDataset,
       onDatasetSelect,
       onJobCreate,
+      onRefreshDetails,
       jobType,
       selectedJob,
       dispatch,
@@ -32,7 +33,7 @@ class MLJobViewPanel extends PureComponent {
                 jobType={jobType}
               />
             ) : (
-              <MLJobDetailsPanel job={selectedJob} />
+              <MLJobDetailsPanel job={selectedJob} onRefresh={onRefreshDetails} />
             )}
           </Col>
         </Row>

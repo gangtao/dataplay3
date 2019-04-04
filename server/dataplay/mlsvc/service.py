@@ -14,6 +14,7 @@ ml_svc = Blueprint('ml_svc')
 @doc.route(
     summary='list all ml jobs', produces=[{"name": str, "id": str, "type": str, "status": str}]
 )
+@doc.consumes({"type": str})
 async def list_jobs(request):
     logger.debug('list ml jobs')
     args = request.args
@@ -36,9 +37,13 @@ async def list_jobs(request):
 )
 async def get_job(request, id):
     logger.debug(f'get ml jobs {id}')
+    args = request.args
     try:
         job = MLJobManager.get_job(id)
-        return response.json(job, status=200)
+        if args and 'status' in args:
+            return response.json(job['status'], status=200)
+        else:
+            return response.json(job, status=200)
     except Exception:
         logger.exception('faile to get ml job')
         return response.json({}, status=500)

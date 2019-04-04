@@ -11,7 +11,10 @@ dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.get('/datasets', strict_slashes=True)
-@doc.route(summary='list all datasets', produces=[{"name": str, "id": str, "type": str}])
+@doc.route(
+    summary='list all datasets',
+    produces=[{"name": str, "id": str, "type": str, "description": str}],
+)
 async def list_datasets(request):
     try:
         datasets = DatasetManager.list_datasets()

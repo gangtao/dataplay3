@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Input, Button, Tooltip, Divider, Modal, message } from 'antd';
+import { Row, Col, Input, Button, Tooltip, Modal, message } from 'antd';
 import { connect } from 'dva';
 
 import styles from './QueryBuilder.less';
@@ -119,7 +119,6 @@ class QueryBuilder extends PureComponent {
             </Tooltip>
           </Col>
         </Row>
-        <Divider />
       </div>
     );
   }

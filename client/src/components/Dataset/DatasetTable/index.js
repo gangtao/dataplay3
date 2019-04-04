@@ -8,6 +8,7 @@ class DatasetTable extends PureComponent {
     const { dataSource, columns } = this.props;
     const whenTofix = 10;
     const fixX = 1300;
+    const size = 'small';
     let scroll = {};
     if (columns && columns.length > whenTofix) {
       columns[0].fixed = 'left';
@@ -16,7 +17,7 @@ class DatasetTable extends PureComponent {
 
     return (
       <div className={styles.datasetTable}>
-        <Table dataSource={dataSource} columns={columns} scroll={scroll} />
+        <Table dataSource={dataSource} columns={columns} scroll={scroll} size={size} />
       </div>
     );
   }
