@@ -48,6 +48,7 @@ class MLJobManager:
             result[key] = meta[key]
         status = MLJob.get_status_by_id(job_id)
         result['status'] = status.name
+        result['id'] = job_id
         return result
 
     @staticmethod

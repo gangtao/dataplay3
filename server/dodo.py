@@ -131,7 +131,7 @@ def task_server() -> DoitReturn:
     """ Runs dataplay server """
     return {
         "actions": [
-            "gunicorn dataplay.server:app —bind=0.0.0.0:8000 --worker-class=sanic.worker.GunicornWorker --workers=3"
+            "gunicorn dataplay.server:app —bind=0.0.0.0:8000 --worker-class=sanic.worker.GunicornWorker --workers=5"
         ],
         "verbosity": 2,
     }
