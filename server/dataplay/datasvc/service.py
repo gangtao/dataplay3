@@ -30,7 +30,7 @@ async def list_datasets(request):
     {"name": str, "id": str, "type": str, "file": str, "description": str}, location="body"
 )
 async def create_datasets(request):
-    logger.debug(f'get create dataset request {request.body}')
+    logger.debug(f'create dataset with payload={request.body}')
     try:
         request_body = json.loads(request.body)
         DatasetManager.add_dataset(request_body)
@@ -69,7 +69,7 @@ async def delete_dataset(request, id):
 @dataset_svc.post('/datasets/<id>/query', strict_slashes=True)
 @doc.route(summary='run a dataset query', produces={"cols": [str], "rows": [[object]]})
 async def query_dataset(request, id):
-    logger.debug(f'get dataset query request {request.body} on {id}')
+    logger.debug(f'query dataset query payload={request.body} on {id}')
     try:
         dataset = DatasetManager.get_dataset(id)
         request_body = json.loads(request.body)

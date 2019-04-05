@@ -22,12 +22,20 @@ class Numerical extends PureComponent {
     dispatch({
       type: 'regression/fetchDatasets',
     });
+    dispatch({
+      type: 'regression/fetchConfig',
+    });
   }
 
   render() {
     const { regression, dispatch } = this.props;
-    const { jobs, view, selectedJob, datasetList, selectedDataset } = regression;
+    const { jobs, view, selectedJob, datasetList, selectedDataset, config } = regression;
     const jobType = 'AutoRegressionJob';
+
+    const jobConfig = { ...config };
+    if (jobConfig && jobConfig.auto_ml_algorithms) {
+      delete jobConfig.auto_ml_algorithms['classifiers'];
+    }
 
     const onCreate = () => {
       dispatch({
@@ -98,6 +106,7 @@ class Numerical extends PureComponent {
             onDatasetSelect={handleDatasetSelection}
             onJobCreate={handelJobCreation}
             jobType={jobType}
+            config={jobConfig}
           />
         );
       } else if (view == 'detail') {
@@ -107,6 +116,7 @@ class Numerical extends PureComponent {
             jobType={jobType}
             selectedJob={selectedJob}
             onRefreshDetails={handleDetailRefresh}
+            config={jobConfig}
           />
         );
       } else {

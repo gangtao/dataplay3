@@ -25,6 +25,7 @@ async def list_dashboard(request):
 @dashboard_svc.post('/dashboards', strict_slashes=True)
 @doc.summary('create a new dashboard')
 async def create_dashboard(request):
+    logger.debug(f'create a new dashboard with payload={request.body}')
     try:
         dashboard = get_dashboards()
         request_body = json.loads(request.body)

@@ -6,7 +6,9 @@ export async function queryJobs(params) {
 }
 
 export async function queryJob(id) {
-  return request(`/api/ml_jobs/${id}`);
+  const option = {};
+  option.headers = { 'Cache-Control': 'no-cache' };
+  return request(`/api/ml_jobs/${id}`, option);
 }
 
 export async function createJob(params) {

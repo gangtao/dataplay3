@@ -79,6 +79,7 @@ class ConfigTab extends PureComponent {
           rowClassName={styles.editablerow}
           columns={columns}
           dataSource={data}
+          size="small"
         />
       );
     };

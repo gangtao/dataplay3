@@ -1,4 +1,5 @@
 import os
+import datetime
 import autosklearn.classification
 import autosklearn.regression
 import sklearn.model_selection
@@ -36,6 +37,10 @@ class AutoMLJob(MLJob):
             'validation_result',
             'training_error',
             'type',
+            'start_time',
+            'end_time',
+            'model_representation',
+            'model_stats',
         ]:
             if hasattr(self, attribute):
                 self.metadata[attribute] = getattr(self, attribute)
@@ -121,6 +126,7 @@ class AutoMLJob(MLJob):
     def train(self):
         logger.debug('start to train')
         self._update_status(MLJobStatus.TRAINING)
+        self.start_time = datetime.datetime.now().timestamp()
         try:
             self._save_meta()
             self._prepare()
@@ -134,6 +140,9 @@ class AutoMLJob(MLJob):
             self._validate()
             logger.debug('validation complete')
             self._update_status(MLJobStatus.SUCCESS)
+            self.end_time = datetime.datetime.now().timestamp()
+            self.model_representation = self.model.show_models()
+            self.model_stats = self.model.sprint_statistics()
             self._save_meta()
         except Exception as e:
             self._update_status(MLJobStatus.FAILED)

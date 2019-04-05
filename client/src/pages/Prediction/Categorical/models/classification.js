@@ -1,5 +1,6 @@
 import { queryJobs, queryJob, createJob, deleteJob } from '@/services/automl';
 import { queryDatasets, queryDataset } from '@/services/dataset';
+import { getConfig } from '@/services/config';
 
 export default {
   namespace: 'classification',
@@ -11,6 +12,7 @@ export default {
     datasetList: [],
     selectedDataset: {},
     createdJob: null,
+    config: {},
   },
 
   effects: {
@@ -19,6 +21,13 @@ export default {
       const response = yield call(queryJobs, payload);
       yield put({
         type: 'listJobs',
+        payload: response,
+      });
+    },
+    *fetchConfig({ _ }, { call, put }) {
+      const response = yield call(getConfig, 'ml_job');
+      yield put({
+        type: 'updateConfig',
         payload: response,
       });
     },
@@ -123,6 +132,12 @@ export default {
       return {
         ...state,
         jobs: [...state.jobs, action.payload],
+      };
+    },
+    updateConfig(state, action) {
+      return {
+        ...state,
+        config: action.payload,
       };
     },
   },

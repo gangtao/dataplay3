@@ -24,7 +24,15 @@ class MLJobDetailsPanel extends PureComponent {
   render() {
     const { job, dispatch } = this.props;
 
-    const { validation_result, status, job_option, validation_option, ...jobDetails } = job;
+    const {
+      validation_result,
+      status,
+      model_representation,
+      model_stats,
+      job_option,
+      validation_option,
+      ...jobDetails
+    } = job;
 
     const formItemLayout = {
       labelCol: {
@@ -65,8 +73,8 @@ class MLJobDetailsPanel extends PureComponent {
       let items = [];
       for (const p in obj) {
         items.push(
-          <Col span={8}>
-            <Statistic title={p} key={p} value={obj[p]} />
+          <Col span={8} key={p}>
+            <Statistic title={p} value={obj[p]} />
           </Col>
         );
       }
@@ -81,7 +89,7 @@ class MLJobDetailsPanel extends PureComponent {
       <div className={styles.details}>
         <Row>
           <Col key="JobDetails" span={12}>
-            <Collapse key="JobDetails" defaultActiveKey={['1']} className={styles.detailsPanel}>
+            <Collapse defaultActiveKey={['1']} className={styles.detailsPanel}>
               <Panel header="Job Info" key="1">
                 <Form {...formItemLayout}>{jobContents}</Form>
               </Panel>
@@ -94,11 +102,11 @@ class MLJobDetailsPanel extends PureComponent {
             </Collapse>
           </Col>
           <Col key="JobStats" span={12}>
-            <Collapse key="JobStats" defaultActiveKey={['1']} className={styles.detailsPanel}>
+            <Collapse defaultActiveKey={['1']} className={styles.detailsPanel}>
               <Panel header="Status" key="1">
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Statistic key="Status" title="Status" value={status} />
+                    <Statistic title="Status" value={status} />
                   </Col>
                   {validation_result && buildValidationStats(validation_result)}
                 </Row>

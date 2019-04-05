@@ -16,7 +16,7 @@ ml_svc = Blueprint('ml_svc')
 )
 @doc.consumes({"type": str})
 async def list_jobs(request):
-    logger.debug('list ml jobs')
+    logger.debug('list ml jobs with condition={request.args}')
     args = request.args
     try:
         jobs = MLJobManager.list_jobs()
@@ -36,14 +36,9 @@ async def list_jobs(request):
     produces={"name": str, "id": str, "type": str, "status": str},
 )
 async def get_job(request, id):
-    logger.debug(f'get ml jobs {id}')
-    args = request.args
     try:
         job = MLJobManager.get_job(id)
-        if args and 'status' in args:
-            return response.json(job['status'], status=200)
-        else:
-            return response.json(job, status=200)
+        return response.json(job, status=200)
     except Exception:
         logger.exception('faile to get ml job')
         return response.json({}, status=500)
@@ -76,7 +71,7 @@ async def delete_job(request, id):
     location="body",
 )
 async def create_job(request):
-    logger.debug(f'get create ml job request {request.body}')
+    logger.debug(f'get create ml job with payload={request.body}')
     try:
         request_body = json.loads(request.body)
         job = MLJobManager.create_job(request_body)

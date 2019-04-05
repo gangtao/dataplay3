@@ -10,7 +10,7 @@ user_svc = Blueprint('user_svc')
 
 @user_svc.get('/currentUser', strict_slashes=True)
 @doc.summary('get current user info')
-def user(request):
+async def user(request):
     try:
         user = get_user()
         return response.json(user, status=200)
@@ -21,7 +21,7 @@ def user(request):
 
 @user_svc.get('/auth_routes', strict_slashes=True)
 @doc.summary('get authorized routes')
-def routes(request):
+async def routes(request):
     try:
         routes = get_routes()
         return response.json(routes, 200)

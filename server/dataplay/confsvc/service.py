@@ -37,6 +37,7 @@ async def get_confs(request, domain):
 @doc.route(summary='save content of configurations for specific domain')
 @doc.consumes({str: {}}, location="body")
 async def save_confs(request, domain):
+    logger.debug(f'save configuration to domain={domain} with {request.body}')
     try:
         request_body = json.loads(request.body)
         ConfigurationManager.save_conf(domain, request_body)

@@ -25,7 +25,7 @@ class CustomizedForm extends React.Component {
   }
 
   render() {
-    const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType } = this.props;
+    const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType, config } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     let datasetName = undefined;
@@ -66,6 +66,7 @@ class CustomizedForm extends React.Component {
           const payload = { ...values };
           payload.dataset = datasetName;
           payload.targets = [payload.target];
+          payload.validation_option.test_size /= 100;
           onCreate(payload);
         }
       });
@@ -132,21 +133,21 @@ class CustomizedForm extends React.Component {
         {this.state.showValidation && (
           <div>
             <Form.Item label="Test Data Percentage">
-              {getFieldDecorator('validation_option.test_size', { initialValue: 10 })(
-                <Slider min={0} max={100} tipFormatter={formatterPercentage} />
-              )}
+              {getFieldDecorator('validation_option.test_size', {
+                initialValue: parseFloat(config.validation_option.test_size) * 100,
+              })(<Slider min={0} max={100} tipFormatter={formatterPercentage} />)}
             </Form.Item>
 
             <Form.Item label="Shuffle Data">
-              {getFieldDecorator('validation_option.shuffle', { initialValue: true })(
-                <Checkbox defaultChecked />
-              )}
+              {getFieldDecorator('validation_option.shuffle', {
+                initialValue: config.validation_option.shuffle,
+              })(<Checkbox defaultChecked />)}
             </Form.Item>
 
             <Form.Item label="Random Seed">
-              {getFieldDecorator('validation_option.random_state', { initialValue: 42 })(
-                <InputNumber min={1} max={100} size="small" />
-              )}
+              {getFieldDecorator('validation_option.random_state', {
+                initialValue: config.validation_option.random_state,
+              })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
           </div>
         )}
@@ -158,39 +159,39 @@ class CustomizedForm extends React.Component {
         {this.state.showAdvanced && (
           <div>
             <Form.Item label="Time Limitation">
-              {getFieldDecorator('job_option.time_left_for_this_task', { initialValue: 120 })(
-                <InputNumber min={1} max={3600} size="small" />
-              )}
+              {getFieldDecorator('job_option.time_left_for_this_task', {
+                initialValue: config.auto_ml.time_left_for_this_task,
+              })(<InputNumber min={1} max={3600} size="small" />)}
             </Form.Item>
             <Form.Item label="Time Limitation per Run">
-              {getFieldDecorator('job_option.per_run_time_limit', { initialValue: 30 })(
-                <InputNumber min={1} max={300} size="small" />
-              )}
+              {getFieldDecorator('job_option.per_run_time_limit', {
+                initialValue: config.auto_ml.per_run_time_limit,
+              })(<InputNumber min={1} max={300} size="small" />)}
             </Form.Item>
             <Form.Item label="initial_configurations_via_metalearning">
               {getFieldDecorator('job_option.initial_configurations_via_metalearning', {
-                initialValue: 25,
+                initialValue: config.auto_ml.initial_configurations_via_metalearning,
               })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_size">
-              {getFieldDecorator('job_option.ensemble_size', { initialValue: 50 })(
-                <InputNumber min={1} max={100} size="small" />
-              )}
+              {getFieldDecorator('job_option.ensemble_size', {
+                initialValue: config.auto_ml.ensemble_size,
+              })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_nbest">
-              {getFieldDecorator('job_option.ensemble_nbest', { initialValue: 50 })(
-                <InputNumber min={1} max={100} size="small" />
-              )}
+              {getFieldDecorator('job_option.ensemble_nbest', {
+                initialValue: config.auto_ml.ensemble_nbest,
+              })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_memory_limit">
-              {getFieldDecorator('job_option.ensemble_memory_limit', { initialValue: 1024 })(
-                <InputNumber min={1} max={16384} size="small" />
-              )}
+              {getFieldDecorator('job_option.ensemble_memory_limit', {
+                initialValue: config.auto_ml.ensemble_memory_limit,
+              })(<InputNumber min={1} max={16384} size="small" />)}
             </Form.Item>
             <Form.Item label="ml_memory_limit">
-              {getFieldDecorator('job_option.ml_memory_limit', { initialValue: 2048 })(
-                <InputNumber min={1} max={16384} size="small" />
-              )}
+              {getFieldDecorator('job_option.ml_memory_limit', {
+                initialValue: config.auto_ml.ml_memory_limit,
+              })(<InputNumber min={1} max={16384} size="small" />)}
             </Form.Item>
           </div>
         )}
@@ -207,7 +208,7 @@ class CustomizedForm extends React.Component {
 
 class MLJobOptionCreationPanel extends PureComponent {
   render() {
-    const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType } = this.props;
+    const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType, config } = this.props;
 
     const CreationForm = Form.create({})(CustomizedForm);
 
@@ -218,6 +219,7 @@ class MLJobOptionCreationPanel extends PureComponent {
         onDatasetSelect={onDatasetSelect}
         onCreate={onCreate}
         jobType={jobType}
+        config={config}
       />
     );
   }

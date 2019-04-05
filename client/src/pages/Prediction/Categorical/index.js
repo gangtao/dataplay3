@@ -11,7 +11,7 @@ import styles from './index.less';
 
 @connect(({ classification, loading }) => ({
   classification,
-  loading: loading.effects['classification/fetchJobs'],
+  loading: loading.effects['classification/switchDetailView'],
 }))
 class Categorical extends PureComponent {
   componentDidMount() {
@@ -22,12 +22,22 @@ class Categorical extends PureComponent {
     dispatch({
       type: 'classification/fetchDatasets',
     });
+    dispatch({
+      type: 'classification/fetchConfig',
+    });
   }
 
   render() {
-    const { classification, dispatch } = this.props;
-    const { jobs, view, selectedJob, datasetList, selectedDataset } = classification;
+    const { classification, dispatch, loading } = this.props;
+    const { jobs, view, selectedJob, datasetList, selectedDataset, config } = classification;
     const jobType = 'AutoClassificationJob';
+
+    const jobConfig = { ...config };
+    if (jobConfig && jobConfig.auto_ml_algorithms) {
+      delete jobConfig.auto_ml_algorithms['regressors'];
+    }
+
+    console.log(`ml is loading ${loading}`);
 
     const onCreate = () => {
       dispatch({
@@ -35,6 +45,9 @@ class Categorical extends PureComponent {
       });
     };
     const onList = () => {
+      dispatch({
+        type: 'classification/fetchJobs',
+      });
       dispatch({
         type: 'classification/listView',
       });
@@ -98,6 +111,7 @@ class Categorical extends PureComponent {
             onDatasetSelect={handleDatasetSelection}
             onJobCreate={handelJobCreation}
             jobType={jobType}
+            config={jobConfig}
           />
         );
       } else if (view == 'detail') {
@@ -107,6 +121,7 @@ class Categorical extends PureComponent {
             jobType={jobType}
             selectedJob={selectedJob}
             onRefreshDetails={handleDetailRefresh}
+            config={jobConfig}
           />
         );
       } else {
