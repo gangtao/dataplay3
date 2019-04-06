@@ -13,7 +13,7 @@ conf_svc = Blueprint('conf_svc')
 
 @conf_svc.get('/confs', strict_slashes=True)
 @doc.summary('list all configurations')
-@doc.produces([str])
+@doc.produces([str], content_type="application/json")
 async def list_confs(request):
     try:
         config = ConfigurationManager.list_confs()
@@ -25,7 +25,7 @@ async def list_confs(request):
 
 @conf_svc.get('/confs/<domain>', strict_slashes=True)
 @doc.summary('get content of configurations for specific domain')
-@doc.produces({})
+@doc.produces({}, content_type="application/json")
 async def get_confs(request, domain):
     try:
         config = ConfigurationManager.get_confs_values(domain)

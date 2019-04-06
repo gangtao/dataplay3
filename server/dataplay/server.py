@@ -20,6 +20,7 @@ app.config.API_VERSION = '1.0.0'
 app.config.API_TITLE = 'Dataplay API'
 app.config.API_DESCRIPTION = 'Dataplay API'
 app.config.API_CONTACT_EMAIL = 'gang.tao@outlook.com'
+app.config.API_PRODUCES_CONTENT_TYPES = ['application/json']
 
 server_config = ConfigurationManager.get_confs('server')
 app.config.HOST = server_config.get('server', 'host')

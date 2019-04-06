@@ -12,7 +12,9 @@ dataset_svc = Blueprint('dataset_svc')
 
 @dataset_svc.get('/datasets', strict_slashes=True)
 @doc.summary('list all datasets')
-@doc.produces([{"name": str, "id": str, "type": str, "description": str}])
+@doc.produces(
+    [{"name": str, "id": str, "type": str, "description": str}], content_type="application/json"
+)
 async def list_datasets(request):
     try:
         datasets = DatasetManager.list_datasets()
@@ -24,9 +26,11 @@ async def list_datasets(request):
 
 @dataset_svc.post('/datasets', strict_slashes=True)
 @doc.summary('creat a dataset')
-@doc.produces({})
+@doc.produces({}, content_type="application/json")
 @doc.consumes(
-    doc.JsonBody({"name": str, "id": str, "type": str, "file": str, "description": str}), content_type="application/json", location="body"
+    doc.JsonBody({"name": str, "id": str, "type": str, "file": str, "description": str}),
+    content_type="application/json",
+    location="body",
 )
 async def create_datasets(request):
     logger.debug(f'create dataset with payload={request.body}')
@@ -41,7 +45,9 @@ async def create_datasets(request):
 
 @dataset_svc.get('/datasets/<id>', strict_slashes=True)
 @doc.summary('get one dataset')
-@doc.produces({"name": str, "id": str, "cols": [str], "rows": [[object]]})
+@doc.produces(
+    {"name": str, "id": str, "cols": [str], "rows": [[object]]}, content_type="application/json"
+)
 async def get_dataset(request, id):
     try:
         dataset = DatasetManager.get_dataset(id)
@@ -65,7 +71,7 @@ async def delete_dataset(request, id):
 
 @dataset_svc.post('/datasets/<id>/query', strict_slashes=True)
 @doc.summary('run a dataset query')
-@doc.produces({"cols": [str], "rows": [[object]]})
+@doc.produces({"cols": [str], "rows": [[object]]}, content_type="application/json")
 async def query_dataset(request, id):
     logger.debug(f'query dataset query payload={request.body} on {id}')
     try:

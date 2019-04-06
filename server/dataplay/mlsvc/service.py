@@ -12,7 +12,9 @@ ml_svc = Blueprint('ml_svc')
 
 @ml_svc.get('/ml_jobs', strict_slashes=True)
 @doc.summary('list all ml jobs')
-@doc.produces([{"name": str, "id": str, "type": str, "status": str}])
+@doc.produces(
+    [{"name": str, "id": str, "type": str, "status": str}], content_type="application/json"
+)
 @doc.consumes({"type": str})
 async def list_jobs(request):
     logger.debug('list ml jobs with condition={request.args}')
@@ -31,7 +33,9 @@ async def list_jobs(request):
 
 @ml_svc.get('/ml_jobs/<id>', strict_slashes=True)
 @doc.summary('get one ml job details')
-@doc.produces({"name": str, "id": str, "type": str, "status": str})
+@doc.produces(
+    {"name": str, "id": str, "type": str, "status": str}, content_type="application/json"
+)
 async def get_job(request, id):
     try:
         job = MLJobManager.get_job(id)
@@ -55,17 +59,19 @@ async def delete_job(request, id):
 
 @ml_svc.post('/ml_jobs', strict_slashes=True)
 @doc.summary('creat a ml job')
-@doc.produces({})
+@doc.produces({}, content_type="application/json")
 @doc.consumes(
-    doc.JsonBody({
-        "name": str,
-        "type": str,
-        "dataset": str,
-        "features": [str],
-        "targets": [str],
-        "job_option": {},
-        "validation_option": {},
-    }),
+    doc.JsonBody(
+        {
+            "name": str,
+            "type": str,
+            "dataset": str,
+            "features": [str],
+            "targets": [str],
+            "job_option": {},
+            "validation_option": {},
+        }
+    ),
     content_type="application/json",
     location="body",
 )
@@ -82,8 +88,12 @@ async def create_job(request):
 
 @ml_svc.post('/ml_jobs/<id>/predict', strict_slashes=True)
 @doc.summary('do a prediction based on a trained ml job')
-@doc.produces({})
-@doc.consumes(doc.JsonBody({"payload": str, "type": str}), content_type="application/json", location="body")
+@doc.produces(str, content_type="application/json")
+@doc.consumes(
+    doc.JsonBody({"payload": str, "type": str}),
+    content_type="application/json",
+    location="body",
+)
 async def predict(request, id):
     logger.debug(f'predict ml job with payload={request.body}')
     try:
