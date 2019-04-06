@@ -13,7 +13,7 @@ from .confsvc.manager import ConfigurationManager
 PREFIX = '/api'
 
 app = Sanic(__name__)
-#app.blueprint(openapi_blueprint)
+# app.blueprint(openapi_blueprint)
 app.blueprint(swagger_blueprint)
 
 app.config.API_VERSION = '1.0.0'
