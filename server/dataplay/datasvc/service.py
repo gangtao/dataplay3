@@ -11,10 +11,8 @@ dataset_svc = Blueprint('dataset_svc')
 
 
 @dataset_svc.get('/datasets', strict_slashes=True)
-@doc.route(
-    summary='list all datasets',
-    produces=[{"name": str, "id": str, "type": str, "description": str}],
-)
+@doc.summary('list all datasets')
+@doc.produces([{"name": str, "id": str, "type": str, "description": str}])
 async def list_datasets(request):
     try:
         datasets = DatasetManager.list_datasets()
@@ -25,7 +23,8 @@ async def list_datasets(request):
 
 
 @dataset_svc.post('/datasets', strict_slashes=True)
-@doc.route(summary='creat a dataset', produces={})
+@doc.summary('creat a dataset')
+@doc.produces({})
 @doc.consumes(
     {"name": str, "id": str, "type": str, "file": str, "description": str}, location="body"
 )
@@ -41,10 +40,8 @@ async def create_datasets(request):
 
 
 @dataset_svc.get('/datasets/<id>', strict_slashes=True)
-@doc.route(
-    summary='get one dataset',
-    produces={"name": str, "id": str, "cols": [str], "rows": [[object]]},
-)
+@doc.summary('get one dataset')
+@doc.produces({"name": str, "id": str, "cols": [str], "rows": [[object]]})
 async def get_dataset(request, id):
     try:
         dataset = DatasetManager.get_dataset(id)
@@ -56,7 +53,7 @@ async def get_dataset(request, id):
 
 
 @dataset_svc.delete('/datasets/<id>', strict_slashes=True)
-@doc.route(summary='delete one dataset')
+@doc.summary('delete one dataset')
 async def delete_dataset(request, id):
     try:
         DatasetManager.delete_dataset(id)
@@ -67,7 +64,8 @@ async def delete_dataset(request, id):
 
 
 @dataset_svc.post('/datasets/<id>/query', strict_slashes=True)
-@doc.route(summary='run a dataset query', produces={"cols": [str], "rows": [[object]]})
+@doc.summary('run a dataset query')
+@doc.produces({"cols": [str], "rows": [[object]]})
 async def query_dataset(request, id):
     logger.debug(f'query dataset query payload={request.body} on {id}')
     try:
@@ -81,7 +79,7 @@ async def query_dataset(request, id):
 
 
 @dataset_svc.post("/dataset_upload")
-@doc.route(summary='upload a dataset file')
+@doc.summary('upload a dataset file')
 async def upload_dataset(request):
     name = request.files["file"][0].name
     try:

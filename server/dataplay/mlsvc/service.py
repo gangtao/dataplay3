@@ -11,9 +11,8 @@ ml_svc = Blueprint('ml_svc')
 
 
 @ml_svc.get('/ml_jobs', strict_slashes=True)
-@doc.route(
-    summary='list all ml jobs', produces=[{"name": str, "id": str, "type": str, "status": str}]
-)
+@doc.summary('list all ml jobs')
+@doc.produces([{"name": str, "id": str, "type": str, "status": str}])
 @doc.consumes({"type": str})
 async def list_jobs(request):
     logger.debug('list ml jobs with condition={request.args}')
@@ -31,10 +30,8 @@ async def list_jobs(request):
 
 
 @ml_svc.get('/ml_jobs/<id>', strict_slashes=True)
-@doc.route(
-    summary='get one ml job details',
-    produces={"name": str, "id": str, "type": str, "status": str},
-)
+@doc.summary('get one ml job details')
+@doc.produces({"name": str, "id": str, "type": str, "status": str})
 async def get_job(request, id):
     try:
         job = MLJobManager.get_job(id)
@@ -45,7 +42,7 @@ async def get_job(request, id):
 
 
 @ml_svc.delete('/ml_jobs/<id>', strict_slashes=True)
-@doc.route(summary='delete one ml job by id')
+@doc.summary('delete one ml job by id')
 async def delete_job(request, id):
     logger.debug(f'delete ml jobs {id}')
     try:
@@ -57,7 +54,8 @@ async def delete_job(request, id):
 
 
 @ml_svc.post('/ml_jobs', strict_slashes=True)
-@doc.route(summary='creat a ml job', produces={})
+@doc.summary('creat a ml job')
+@doc.produces({})
 @doc.consumes(
     {
         "name": str,
@@ -82,7 +80,8 @@ async def create_job(request):
 
 
 @ml_svc.post('/ml_jobs/<id>/predict', strict_slashes=True)
-@doc.route(summary='do a prediction based on a trained ml job', produces={})
+@doc.summary('do a prediction based on a trained ml job')
+@doc.produces({})
 @doc.consumes({"payload": str, "type": str}, location="body")
 async def predict(request, id):
     logger.debug(f'predict ml job with payload={request.body}')

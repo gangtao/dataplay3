@@ -1,5 +1,5 @@
 from sanic import Sanic, response
-from sanic_openapi import swagger_blueprint, openapi_blueprint
+from sanic_openapi import swagger_blueprint
 from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
@@ -13,7 +13,7 @@ from .confsvc.manager import ConfigurationManager
 PREFIX = '/api'
 
 app = Sanic(__name__)
-app.blueprint(openapi_blueprint)
+#app.blueprint(openapi_blueprint)
 app.blueprint(swagger_blueprint)
 
 app.config.API_VERSION = '1.0.0'

@@ -12,7 +12,8 @@ conf_svc = Blueprint('conf_svc')
 
 
 @conf_svc.get('/confs', strict_slashes=True)
-@doc.route(summary='list all configurations', produces=[str])
+@doc.summary('list all configurations')
+@doc.produces([str])
 async def list_confs(request):
     try:
         config = ConfigurationManager.list_confs()
@@ -23,7 +24,8 @@ async def list_confs(request):
 
 
 @conf_svc.get('/confs/<domain>', strict_slashes=True)
-@doc.route(summary='get content of configurations for specific domain', produces={})
+@doc.summary('get content of configurations for specific domain')
+@doc.produces({})
 async def get_confs(request, domain):
     try:
         config = ConfigurationManager.get_confs_values(domain)
@@ -34,7 +36,7 @@ async def get_confs(request, domain):
 
 
 @conf_svc.post('/confs/<domain>', strict_slashes=True)
-@doc.route(summary='save content of configurations for specific domain')
+@doc.summary('save content of configurations for specific domain')
 @doc.consumes({str: {}}, location="body")
 async def save_confs(request, domain):
     logger.debug(f'save configuration to domain={domain} with {request.body}')
