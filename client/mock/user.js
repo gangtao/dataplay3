@@ -5,38 +5,22 @@ export default {
     name: 'Gang Tao',
     avatar: 'https://media.licdn.com/dms/image/C5603AQFMy-KsDSViMA/profile-displayphoto-shrink_100_100/0?e=1558569600&v=beta&t=Fy309Fn-5saRMdWuy4qAjnQS9vplgtkazglS4kusRnk',
     userid: '00000001',
-    email: 'antdesign@alipay.com',
+    email: 'gang.tao@outlook.com',
     signature: '海纳百川，有容乃大',
-    title: '交互专家',
-    group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+    title: '大数据架构师',
+    group: '',
     tags: [
       {
         key: '0',
-        label: '很有想法的',
+        label: '架构师',
       },
       {
         key: '1',
-        label: '专注设计',
-      },
-      {
-        key: '2',
-        label: '辣~',
-      },
-      {
-        key: '3',
-        label: '大长腿',
-      },
-      {
-        key: '4',
-        label: '川妹子',
-      },
-      {
-        key: '5',
-        label: '海纳百川',
+        label: '数据科学爱好者',
       },
     ],
-    notifyCount: 12,
-    unreadCount: 11,
+    notifyCount: 0,
+    unreadCount: 0,
     country: 'China',
     geographic: {
       province: {

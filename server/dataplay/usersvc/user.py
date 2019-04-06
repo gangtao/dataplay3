@@ -5,31 +5,31 @@ user_config = '''{
     "avatar": "https://media.licdn.com/dms/image/C5603AQFMy-KsDSViMA/profile-displayphoto-shrink_100_100/0?e=1558569600&v=beta&t=Fy309Fn-5saRMdWuy4qAjnQS9vplgtkazglS4kusRnk",
     "userid": "00000001",
     "email": "gang.tao@outlook.com",
-    "signature": "hahaha",
-    "title": "engineer",
-    "group": "engineer",
+    "signature": "",
+    "title": "大数据架构师",
+    "group": "",
     "tags": [{
         "key": "0",
-        "label": "很有想法的"
+        "label": "架构师"
     }, {
         "key": "1",
-        "label": "专注设计"
+        "label": "数据科学爱好者"
     }],
-    "notifyCount": 12,
-    "unreadCount": 11,
+    "notifyCount": 0,
+    "unreadCount": 0,
     "country": "China",
     "geographic": {
         "province": {
-            "label": "浙江省",
+            "label": "xxx",
             "key": "330000"
         },
         "city": {
-            "label": "杭州市",
+            "label": "xxx",
             "key": "330100"
         }
     },
-    "address": "xxx-xxx",
-    "phone": "123-456-7890"
+    "address": "xxx xxx xxx",
+    "phone": "xxx-xxxxxx"
 }'''
 
 routes_config = '''{

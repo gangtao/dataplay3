@@ -3,6 +3,7 @@ from sanic_openapi import swagger_blueprint
 from .datasvc.service import dataset_svc
 from .datasvc.registry import DatasetTypeRegistry
 from .usersvc.service import user_svc
+from .notificationsvc.service import notification_svc
 from .dashboardsvc.service import dashboard_svc
 from .mlsvc.service import ml_svc
 from .confsvc.service import conf_svc
@@ -38,6 +39,7 @@ for section in dataset_type_config.sections():
 app.blueprint(file_svc)
 app.blueprint(dataset_svc, url_prefix=PREFIX)
 app.blueprint(user_svc, url_prefix=PREFIX)
+app.blueprint(notification_svc, url_prefix=PREFIX)
 app.blueprint(dashboard_svc, url_prefix=PREFIX)
 app.blueprint(ml_svc, url_prefix=PREFIX)
 app.blueprint(conf_svc, url_prefix=PREFIX)
