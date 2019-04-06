@@ -27,3 +27,10 @@ def test_classification():
         time.sleep(10)
 
     assert status == MLJobStatus.SUCCESS
+
+    input_data = '''sepal_length,sepal_width,petal_length,petal_width,species
+                    5.1,3.5,1.4,0.2,Iris Setosa
+                    4.9,3.0,1.4,0.2,Iris Setosa'''
+
+    output_data = MLJobManager.predict(job.id, input_data)
+    assert output_data is not None

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Form, Card, Statistic, Collapse } from 'antd';
+import { Row, Col, Form, Card, Statistic, Collapse, Icon } from 'antd';
 
 import styles from './index.less';
 
@@ -30,6 +30,7 @@ class MLJobDetailsPanel extends PureComponent {
       validation_result,
       status,
       start_time,
+      end_time,
       model_representation,
       model_stats,
       job_option,
@@ -55,6 +56,16 @@ class MLJobDetailsPanel extends PureComponent {
     if (status == 'SUCCESS' || status == 'FAILED') {
       clearInterval(this.timer);
     }
+
+    const buildStatusIcon = () => {
+      if (status == 'SUCCESS') {
+        return <Icon type="check" />;
+      } else if (status == 'FAILED') {
+        return <Icon type="warning" />;
+      } else {
+        return <Icon type="loading" />;
+      }
+    };
 
     const buildItems = obj => {
       let items = [];
@@ -112,7 +123,7 @@ class MLJobDetailsPanel extends PureComponent {
               <Panel header="Status" key="1">
                 <Row gutter={16}>
                   <Col span={8}>
-                    <Statistic title="Status" value={status} />
+                    <Statistic title="Status" value={status} prefix={buildStatusIcon()} />
                   </Col>
                   {status != 'SUCCESS' && status != 'FAILED' && (
                     <Col span={8}>

@@ -126,7 +126,7 @@ export default [
       // Config
       {
         path: '/config',
-        icon: 'profile',
+        icon: 'tool',
         name: 'configuration',
         component: './Configuration',
       },

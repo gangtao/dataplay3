@@ -79,3 +79,17 @@ async def create_job(request):
     except Exception:
         logger.exception('faile to create ml job')
         return response.json({}, status=500)
+
+
+@ml_svc.post('/ml_jobs/<id>/predict', strict_slashes=True)
+@doc.route(summary='do a prediction based on a trained ml job', produces={})
+@doc.consumes({"payload": str, "type": str}, location="body")
+async def predict(request, id):
+    logger.debug(f'predict ml job with payload={request.body}')
+    try:
+        request_body = json.loads(request.body)
+        predict_output = MLJobManager.predict(id, request_body['payload'])
+        return response.json(predict_output, status=200)
+    except Exception:
+        logger.exception('faile to create ml job')
+        return response.json({}, status=500)

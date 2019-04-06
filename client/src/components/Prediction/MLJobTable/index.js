@@ -43,10 +43,23 @@ class MLJobTable extends PureComponent {
           const callDelete = () => {
             onDelete(record);
           };
+
+          const callPredict = () => {};
+
+          const callDeploy = () => {};
+
           return (
             <span>
               <a href="javascript:;" onClick={callView}>
                 View
+              </a>
+              <Divider type="vertical" />
+              <a href="javascript:;" onClick={callPredict}>
+                Predict
+              </a>
+              <Divider type="vertical" />
+              <a href="javascript:;" onClick={callDeploy}>
+                Deploy
               </a>
               <Divider type="vertical" />
               <a href="javascript:;" onClick={callDelete}>

@@ -1,7 +1,9 @@
 import os
+from io import StringIO
 from multiprocessing import Process
 import _thread
 
+import pandas as pd
 from sanic.log import logger
 
 from ..confsvc.manager import ConfigurationManager
@@ -102,3 +104,16 @@ class MLJobManager:
                 logger.exception(f'failed to run ml job thread for job={job.id}')
 
         return job
+
+    @staticmethod
+    def predict(job_id, data):
+        try:
+            model = MLJob.get_model(job_id)
+            csv_data = StringIO(data)
+            df = pd.read_csv(csv_data, sep=",")
+            df_prediction = model.predict(df)
+            output_data = df_prediction.to_csv()
+            return output_data
+        except Exception as e:
+            logger.exception(f'failed to do prediction for data={data} id={job_id} error={e}')
+            raise e
