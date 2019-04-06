@@ -26,7 +26,7 @@ async def list_datasets(request):
 @doc.summary('creat a dataset')
 @doc.produces({})
 @doc.consumes(
-    {"name": str, "id": str, "type": str, "file": str, "description": str}, location="body"
+    doc.JsonBody({"name": str, "id": str, "type": str, "file": str, "description": str}), content_type="application/json", location="body"
 )
 async def create_datasets(request):
     logger.debug(f'create dataset with payload={request.body}')
@@ -78,7 +78,7 @@ async def query_dataset(request, id):
         return response.json({}, status=500)
 
 
-@dataset_svc.post("/dataset_upload")
+@dataset_svc.post('/dataset_upload', strict_slashes=True)
 @doc.summary('upload a dataset file')
 async def upload_dataset(request):
     name = request.files["file"][0].name

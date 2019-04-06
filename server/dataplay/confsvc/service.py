@@ -37,7 +37,7 @@ async def get_confs(request, domain):
 
 @conf_svc.post('/confs/<domain>', strict_slashes=True)
 @doc.summary('save content of configurations for specific domain')
-@doc.consumes({str: {}}, location="body")
+@doc.consumes(doc.JsonBody({}), content_type="application/json", location="body")
 async def save_confs(request, domain):
     logger.debug(f'save configuration to domain={domain} with {request.body}')
     try:

@@ -57,7 +57,7 @@ async def delete_job(request, id):
 @doc.summary('creat a ml job')
 @doc.produces({})
 @doc.consumes(
-    {
+    doc.JsonBody({
         "name": str,
         "type": str,
         "dataset": str,
@@ -65,7 +65,8 @@ async def delete_job(request, id):
         "targets": [str],
         "job_option": {},
         "validation_option": {},
-    },
+    }),
+    content_type="application/json",
     location="body",
 )
 async def create_job(request):
@@ -82,7 +83,7 @@ async def create_job(request):
 @ml_svc.post('/ml_jobs/<id>/predict', strict_slashes=True)
 @doc.summary('do a prediction based on a trained ml job')
 @doc.produces({})
-@doc.consumes({"payload": str, "type": str}, location="body")
+@doc.consumes(doc.JsonBody({"payload": str, "type": str}), content_type="application/json", location="body")
 async def predict(request, id):
     logger.debug(f'predict ml job with payload={request.body}')
     try:
