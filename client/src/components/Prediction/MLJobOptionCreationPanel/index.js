@@ -66,7 +66,10 @@ class CustomizedForm extends React.Component {
           const payload = { ...values };
           payload.dataset = datasetName;
           payload.targets = [payload.target];
-          payload.validation_option.test_size /= 100;
+          if (payload.validation_option ) {
+            payload.validation_option.test_size /= 100;
+            payload.validation_option.random_state = parseInt(payload.validation_option.random_state);
+          }
           onCreate(payload);
         }
       });

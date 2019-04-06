@@ -33,7 +33,7 @@ let configs = {
             "description": ""
         }
     },
-    'ml_job': {
+    'mljob': {
         "job": {
             "dir": "/tmp/dataplay/mljobs",
             "multi_processes": "true"

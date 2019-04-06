@@ -25,7 +25,7 @@ export default {
       });
     },
     *fetchConfig({ _ }, { call, put }) {
-      const response = yield call(getConfig, 'ml_job');
+      const response = yield call(getConfig, 'mljob');
       yield put({
         type: 'updateConfig',
         payload: response,

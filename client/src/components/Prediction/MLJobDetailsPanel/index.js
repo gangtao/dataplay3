@@ -4,6 +4,8 @@ import { Row, Col, Form, Card, Statistic, Collapse } from 'antd';
 import styles from './index.less';
 
 const Panel = Collapse.Panel;
+const Countdown = Statistic.Countdown;
+const refreshInterval = 10;
 
 class MLJobDetailsPanel extends PureComponent {
   timer = null;
@@ -13,7 +15,7 @@ class MLJobDetailsPanel extends PureComponent {
     if (onRefresh) {
       this.timer = setInterval(function() {
         onRefresh(job.id);
-      }, 10000);
+      }, 1000 * refreshInterval);
     }
   }
 
@@ -27,12 +29,16 @@ class MLJobDetailsPanel extends PureComponent {
     const {
       validation_result,
       status,
+      start_time,
       model_representation,
       model_stats,
       job_option,
       validation_option,
       ...jobDetails
     } = job;
+
+    const { time_left_for_this_task } = job_option;
+    const deadline = 1000 * time_left_for_this_task + 1000 * start_time + 1000 * refreshInterval;
 
     const formItemLayout = {
       labelCol: {
@@ -108,6 +114,13 @@ class MLJobDetailsPanel extends PureComponent {
                   <Col span={8}>
                     <Statistic title="Status" value={status} />
                   </Col>
+                  {status != 'SUCCESS' && status != 'FAILED' && (
+                    <Col span={8}>
+                      <Countdown title="ETA" value={deadline} format="HH:mm:ss:SSS" />
+                    </Col>
+                  )}
+                </Row>
+                <Row gutter={16}>
                   {validation_result && buildValidationStats(validation_result)}
                 </Row>
               </Panel>

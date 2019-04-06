@@ -23,7 +23,7 @@ function fakeJobList(count) {
             status: Random.jobStatus(),
             type: Random.jobType(),
             name: Random.word(),
-            start_time: new Date().getTime(),
+            start_time: new Date().getTime() / 1000,
         })
     }
     return list;
@@ -120,7 +120,7 @@ function createJob(req, res, u, b) {
     const job = {...body};
     job.id = uuid.v4();
     job.status = Random.jobStatus();
-    job.start_time = new Date().getTime();
+    job.start_time = new Date().getTime() / 1000;
     jobs.push(job);
     res.status(200).json(job);
 }
