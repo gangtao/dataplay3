@@ -1,13 +1,82 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Tabs, Table, Divider, Empty, Modal } from 'antd';
+import { Row, Col, Tabs, Table, Divider, Empty, Modal, Form, Input, Button } from 'antd';
 
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './index.less';
 
+import { query2dataset } from '@/services/dataset';
+
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
+const { TextArea } = Input;
+
+class CustomizedContentForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { onCreate, payload } = this.props;
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
+    return (
+      <Form {...formItemLayout}>
+        <Form.Item label="Query">
+          {getFieldDecorator('query', {
+            rules: [{ required: true, message: 'dataset query' }],
+            initialValue: payload.query,
+          })(<Input disabled={true} />)}
+        </Form.Item>
+
+        <Form.Item label="Source Dataset">
+          {getFieldDecorator('source_dataset_id', {
+            rules: [{ required: true, message: 'source dataset id' }],
+            initialValue: payload.dataset,
+          })(<Input disabled={true} />)}
+        </Form.Item>
+
+        <Form.Item label="Query Type">
+          {getFieldDecorator('query_type', {
+            rules: [{ required: true, message: 'query type' }],
+            initialValue: payload.type,
+          })(<Input disabled={true} />)}
+        </Form.Item>
+
+        <Form.Item label="Created Dataset ID">
+          {getFieldDecorator('dataset_id', {
+            rules: [{ required: true, message: 'Please give your dataset an id' }],
+            initialValue: payload.name,
+          })(<Input placeholder="Please give your dataset an id" />)}
+        </Form.Item>
+
+        <Form.Item label="Created Dataset Name">
+          {getFieldDecorator('dataset_name', {
+            rules: [{ required: true, message: 'Please give your dataset a name' }],
+            initialValue: payload.name,
+          })(<Input placeholder="Please give your dataset a name" />)}
+        </Form.Item>
+
+        <Form.Item label="Description">
+          {getFieldDecorator('dataset_description', {
+            rules: [{ required: false, message: 'Please describe your dataset' }],
+          })(<TextArea rows={3} placeholder="Please describe your dataset" />)}
+        </Form.Item>
+      </Form>
+    );
+  }
+}
 
 @connect(({ dataset, query, loading }) => ({
   dataset,
@@ -112,6 +181,11 @@ class Manage extends PureComponent {
           key: 'query',
         },
         {
+          title: 'Dataset',
+          dataIndex: 'dataset',
+          key: 'dataset',
+        },
+        {
           title: 'Action',
           key: 'action',
           render: (text, record) => {
@@ -138,7 +212,34 @@ class Manage extends PureComponent {
             };
 
             const callExport = () => {
-              // TODO export the selected query
+              const CreationForm = Form.create()(CustomizedContentForm);
+              const wrapper = {};
+              const exportForm = (
+                <CreationForm
+                  payload={record}
+                  onCreate={onCreate}
+                  wrappedComponentRef={form => (wrapper.form = form)}
+                />
+              );
+              const onCreate = () => {};
+
+              confirm({
+                title: 'Do you want to export this query as dataset?',
+                content: exportForm,
+                width: 600,
+                onOk() {
+                  console.log(wrapper.form);
+                  wrapper.form.props.form.validateFields((err, values) => {
+                    if (!err) {
+                      const payload = { ...values };
+                      console.log(payload);
+                      const response = query2dataset(payload);
+                      console.log(response);
+                    }
+                  });
+                },
+                onCancel() {},
+              });
             };
 
             return (
@@ -167,10 +268,7 @@ class Manage extends PureComponent {
       let data = [];
       for (const p in query.savedQuery) {
         const source = query.savedQuery[p];
-        const item = {};
-        item.query = source.rawQuery;
-        item.name = source.name;
-        item.type = source.type;
+        const item = { ...source };
         data.push(item);
       }
       return <Table columns={columns} dataSource={data} />;

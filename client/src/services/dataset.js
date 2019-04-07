@@ -28,3 +28,10 @@ export async function deleteDataset(id) {
     method: 'DELETE',
   });
 }
+
+export async function query2dataset(params) {
+  return request(`/api/query2dataset`, {
+    method: 'POST',
+    body: params,
+  });
+}

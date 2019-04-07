@@ -95,10 +95,24 @@ function deleteDataset(req, res) {
     res.status(204).json({});
 }
 
+function queryToDataset(req, res, u, b) {
+    const body = (b && b.body) || req.body;
+    const { source_dataset_id, query_type, query,dataset_id,dataset_name,dataset_description } = body;
+    const created_dataset = {...database[source_dataset_id]};
+    created_dataset.id = dataset_id;
+    created_dataset.name = dataset_name;
+    created_dataset.dataset_description = dataset_description;
+
+    database.push(created_dataset);
+
+    res.status(200).json(created_dataset);
+}
+
 export default {
     'GET /api/datasets': getDatasets,
     'GET /api/datasets/:id': getDataset,
     'POST /api/datasets/:id/query': queryDataset,
     'POST /api/dataset_upload': uploadDataset,
     'DELETE /api/datasets/:id': deleteDataset,
+    'POST /api/query2dataset': queryToDataset,
 };
