@@ -28,16 +28,14 @@ class BaseDataset(ABC):
     def delete(self):
         pass
 
-    def query(self, query_str, query_type=QUERY_TYPE_NORMAL):
+    def query(self, query_str, query_type=QUERY_TYPE_NORMAL, to_payload=False):
         if self.df is None:
             self._load()
 
         if query_str == '':
             return self.get_payload()
 
-        payload = {}
         query_result = None
-
         if query_type == QUERY_TYPE_NORMAL:
             # http://jose-coto.com/query-method-pandas
             query_result = self.df.query(query_str)
@@ -49,8 +47,12 @@ class BaseDataset(ABC):
             logger.warning(f'query type {query_type} is not supported')
             return None
 
-        payload["cols"], payload["rows"] = df_to_cols_rows(query_result)
-        return payload
+        if to_payload:
+            payload = {}
+            payload["cols"], payload["rows"] = df_to_cols_rows(query_result)
+            return payload
+
+        return query_result
 
     def get_payload(self):
         self.get_df()

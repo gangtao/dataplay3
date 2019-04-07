@@ -64,3 +64,22 @@ class DatasetManager:
         filepath = os.path.join(upload_dir, name)
         with open(filepath, "wb") as f:
             f.write(content)
+
+    @staticmethod
+    def query2dataset(
+        source_dataset_id, query_type, query, dataset_id, dataset_name, dataset_description
+    ):
+        dataset = DatasetManager.get_dataset(source_dataset_id)
+        query_df = dataset.query(query, query_type)
+        content = query_df.to_csv()
+        filename = f'{dataset_id}.csv'
+        DatasetManager.upload_dataset(filename, content.encode())
+
+        creation_payload = {}
+        creation_payload['id'] = dataset_id
+        creation_payload['name'] = dataset_name
+        creation_payload['content'] = filename
+        creation_payload['type'] = 'csv'
+        creation_payload['description'] = dataset_description
+
+        DatasetManager.add_dataset(creation_payload)

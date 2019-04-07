@@ -1,5 +1,7 @@
 import json
+import pytest
 from dataplay.datasvc.manager import DatasetManager
+from dataplay.datasvc.utils import df_to_cols_rows
 
 
 def is_json(content):
@@ -25,8 +27,10 @@ def test_sqlquery():
     dataset = DatasetManager.get_dataset('iris')
     query_result = dataset.query('SELECT * FROM dataset LIMIT 10;', 'sql')
     assert query_result is not None
-    assert query_result['rows'] is not None
-    assert len(query_result['rows']) == 10
+
+    cols, rows = df_to_cols_rows(query_result)
+    assert rows is not None
+    assert len(rows) == 10
 
 
 def test_dataset_to_json():
@@ -43,3 +47,20 @@ def test_dataset_to_json():
         '''
 
         assert is_json(payload)
+
+
+def test_query2dataset():
+    payload = {
+        "source_dataset_id": "iris",
+        "query_type": "sql",
+        "query": "SELECT * FROM dataset LIMIT 20;",
+        "dataset_id": "query2dataset",
+        "dataset_name": "query2dataset",
+        "dataset_description": "test query to dataset",
+    }
+
+    try:
+        DatasetManager.query2dataset(**payload)
+        DatasetManager.delete_dataset(payload['dataset_id'])
+    except:
+        pytest.fail('query to dataset should not raise error')

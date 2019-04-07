@@ -80,7 +80,7 @@ async def query_dataset(request, id):
     try:
         dataset = DatasetManager.get_dataset(id)
         request_body = json.loads(request.body)
-        query_result = dataset.query(request_body['query'], request_body['type'])
+        query_result = dataset.query(request_body['query'], request_body['type'], True)
         return response.json(query_result, status=200)
     except Exception:
         logger.exception('faile to query dataset')
@@ -93,6 +93,33 @@ async def upload_dataset(request):
     name = request.files["file"][0].name
     try:
         DatasetManager.upload_dataset(name, request.files["file"][0].body)
+        return response.json({}, status=200)
+    except Exception:
+        logger.exception('faile to query dataset')
+        return response.json({}, status=500)
+
+
+@dataset_svc.post('/query2dataset', strict_slashes=True)
+@doc.summary('export a query result as dataset')
+@doc.produces({}, content_type="application/json")
+@doc.consumes(
+    doc.JsonBody(
+        {
+            "source_dataset_id": str,
+            "query_type": str,
+            "query": str,
+            "dataset_id": str,
+            "dataset_name": str,
+            "dataset_description": str,
+        }
+    ),
+    content_type="application/json",
+    location="body",
+)
+async def query2dataset(request):
+    try:
+        request_body = json.loads(request.body)
+        DatasetManager.query2dataset(**request_body)
         return response.json({}, status=200)
     except Exception:
         logger.exception('faile to query dataset')
