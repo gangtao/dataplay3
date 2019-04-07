@@ -16,8 +16,7 @@ from .automl import AutoClassificationJob, AutoRegressionJob
 class MLJobManager:
     @staticmethod
     def list_jobs():
-        job_base_dir = ConfigurationManager.get_confs(
-            'mljob').get('job', 'dir')
+        job_base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
 
         try:
             job_ids = [

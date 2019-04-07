@@ -73,9 +73,7 @@ async def delete_dataset(request, id):
 @doc.summary('run a dataset query')
 @doc.produces({"cols": [str], "rows": [[object]]}, content_type="application/json")
 @doc.consumes(
-    doc.JsonBody({"type": str, "query": str}),
-    content_type="application/json",
-    location="body",
+    doc.JsonBody({"type": str, "query": str}), content_type="application/json", location="body"
 )
 async def query_dataset(request, id):
     logger.debug(f'query dataset query payload={request.body} on {id}')

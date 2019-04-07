@@ -9,8 +9,7 @@ def test_classification():
     job_payload['name'] = 'test_classification'
     job_payload['type'] = 'AutoClassificationJob'
     job_payload['dataset'] = 'iris'
-    job_payload['features'] = ['sepal_length',
-                               'sepal_width', 'petal_length', 'petal_width']
+    job_payload['features'] = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
     job_payload['targets'] = ['species']
     job_payload['job_option'] = {}
     job_payload['job_option']['time_left_for_this_task'] = 30

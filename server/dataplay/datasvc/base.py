@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from sanic.log import logger
 
 from .constant import QUERY_TYPE_NORMAL, QUERY_TYPE_SQL
+from .utils import df_to_cols_rows
 
 
 class BaseDataset(ABC):
@@ -48,8 +49,7 @@ class BaseDataset(ABC):
             logger.warning(f'query type {query_type} is not supported')
             return None
 
-        payload["cols"] = list(query_result.columns.values)
-        payload["rows"] = query_result.get_values().tolist()
+        payload["cols"], payload["rows"] = df_to_cols_rows(query_result)
         return payload
 
     def get_payload(self):
@@ -60,8 +60,7 @@ class BaseDataset(ABC):
             self.df = self.df.where(pd.notnull(self.df), None)
             self.payload["id"] = self.name
             self.payload["name"] = self.name
-            self.payload["cols"] = list(self.df.columns.values)
-            self.payload["rows"] = self.df.get_values().tolist()
+            self.payload["cols"], self.payload["rows"] = df_to_cols_rows(self.df)
             logger.debug('payload is filled ')
 
         return self.payload
