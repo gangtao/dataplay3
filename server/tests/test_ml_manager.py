@@ -9,7 +9,8 @@ def test_classification():
     job_payload['name'] = 'test_classification'
     job_payload['type'] = 'AutoClassificationJob'
     job_payload['dataset'] = 'iris'
-    job_payload['features'] = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+    job_payload['features'] = ['sepal_length',
+                               'sepal_width', 'petal_length', 'petal_width']
     job_payload['targets'] = ['species']
     job_payload['job_option'] = {}
     job_payload['job_option']['time_left_for_this_task'] = 30
@@ -32,5 +33,16 @@ def test_classification():
                     5.1,3.5,1.4,0.2,Iris Setosa
                     4.9,3.0,1.4,0.2,Iris Setosa'''
 
-    output_data = MLJobManager.predict(job.id, input_data)
+    # test input as csv string
+    payload = {}
+    payload['input_type'] = 'csv'
+    payload['data'] = input_data
+    output_data = MLJobManager.predict(job.id, payload)
+    assert output_data is not None
+
+    # test input as dataset
+    payload = {}
+    payload['input_type'] = 'dataset'
+    payload['data'] = 'iris'
+    output_data = MLJobManager.predict(job.id, payload)
     assert output_data is not None

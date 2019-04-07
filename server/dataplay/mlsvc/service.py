@@ -90,7 +90,7 @@ async def create_job(request):
 @doc.summary('do a prediction based on a trained ml job')
 @doc.produces(str, content_type="application/json")
 @doc.consumes(
-    doc.JsonBody({"payload": str, "type": str}),
+    doc.JsonBody({"data": str, "input_type": str}),
     content_type="application/json",
     location="body",
 )
