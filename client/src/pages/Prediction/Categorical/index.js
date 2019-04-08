@@ -38,8 +38,6 @@ class Categorical extends PureComponent {
       delete jobConfig.auto_ml_algorithms['regressors'];
     }
 
-    console.log(`ml is loading ${loading}`);
-
     const onCreate = () => {
       dispatch({
         type: 'classification/createView',
@@ -137,7 +135,7 @@ class Categorical extends PureComponent {
           <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
       } else if (view == 'predict') {
-        return <MLJobPredictPanel job={selectedJob} />;
+        return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
       } else {
         return <Empty />;
       }

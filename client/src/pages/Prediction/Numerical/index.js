@@ -132,7 +132,7 @@ class Numerical extends PureComponent {
           <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
       } else if (view == 'predict') {
-        return <MLJobPredictPanel job={selectedJob} />;
+        return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
       } else {
         return <Empty />;
       }

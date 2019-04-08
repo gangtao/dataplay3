@@ -98,7 +98,7 @@ async def predict(request, id):
     logger.debug(f'predict ml job with payload={request.body}')
     try:
         request_body = json.loads(request.body)
-        predict_output = MLJobManager.predict(id, request_body['payload'])
+        predict_output = MLJobManager.predict(id, request_body)
         return response.json(predict_output, status=200)
     except Exception:
         logger.exception('faile to create ml job')

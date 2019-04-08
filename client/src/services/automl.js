@@ -18,8 +18,16 @@ export async function createJob(params) {
   });
 }
 
-export async function deleteJob(id) {
+export async function deleteJob(params) {
   return request(`/api/ml_jobs/${id}`, {
     method: 'DELETE',
+  });
+}
+
+export async function predict(params) {
+  const { jobid, ...restParams } = params;
+  return request(`/api/ml_jobs/${jobid}/predict`, {
+    method: 'POST',
+    body: restParams,
   });
 }

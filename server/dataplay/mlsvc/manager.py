@@ -8,6 +8,7 @@ from sanic.log import logger
 
 from ..confsvc.manager import ConfigurationManager
 from ..datasvc.manager import DatasetManager
+from ..datasvc.utils import df_to_cols_rows
 
 from .job import MLJob
 from .automl import AutoClassificationJob, AutoRegressionJob
@@ -16,7 +17,8 @@ from .automl import AutoClassificationJob, AutoRegressionJob
 class MLJobManager:
     @staticmethod
     def list_jobs():
-        job_base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
+        job_base_dir = ConfigurationManager.get_confs(
+            'mljob').get('job', 'dir')
 
         try:
             job_ids = [
@@ -115,16 +117,21 @@ class MLJobManager:
             if input_type == 'csv':
                 csv_data = StringIO(data)
                 df = pd.read_csv(csv_data, sep=",")
+                df_prediction = model.predict(df)
+                output_data = df_prediction.to_csv()
+                return output_data
             elif input_type == 'dataset':
                 dataset = DatasetManager.get_dataset(data)
                 df = dataset.get_df()
+                df_prediction = model.predict(df)
+                payload = {}
+                payload["cols"], payload["rows"] = df_to_cols_rows(
+                    df_prediction)
+                return payload
             else:
                 message = f'input type {input_type} is not supported for prediction'
                 logger.error(message)
                 raise RuntimeError(message)
-            df_prediction = model.predict(df)
-            output_data = df_prediction.to_csv()
-            return output_data
         except Exception as e:
             logger.exception(f'failed to do prediction for data={data} id={job_id} error={e}')
             raise e
