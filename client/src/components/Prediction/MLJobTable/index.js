@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Table, Divider } from 'antd';
+import { Table, Divider, message } from 'antd';
 
 class MLJobTable extends PureComponent {
   render() {
-    const { jobs, onDelete, onView } = this.props;
+    const { jobs, onDelete, onView, onPredict } = this.props;
 
     const columns = [
       {
@@ -44,9 +44,13 @@ class MLJobTable extends PureComponent {
             onDelete(record);
           };
 
-          const callPredict = () => {};
+          const callPredict = () => {
+            onPredict(record);
+          };
 
-          const callDeploy = () => {};
+          const callDeploy = () => {
+            message.error('model deployment is not implemented!');
+          };
 
           return (
             <span>

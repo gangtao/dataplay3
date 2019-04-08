@@ -4,8 +4,9 @@ import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import MLJobTable from '@/components/Prediction/MLJobTable';
 import MLJobControlPanel from '@/components/Prediction/MLJobControlPanel';
-
-import MLJobViewPanel from '@/components/Prediction/MLJobViewPanel';
+import MLJobDetailsPanel from '@/components/Prediction/MLJobDetailsPanel';
+import MLJobPredictPanel from '@/components/Prediction/MLJobPredictPanel';
+import MLJobOptionCreationPanel from '@/components/Prediction/MLJobOptionCreationPanel';
 
 import styles from './index.less';
 
@@ -59,10 +60,24 @@ class Numerical extends PureComponent {
         },
       });
     };
+
     const onView = r => {
+      const payload = {};
+      payload.jobId = r.id;
+      payload.view = 'detail';
       dispatch({
-        type: 'regression/switchDetailView',
-        payload: r.id,
+        type: 'regression/switchView',
+        payload: payload,
+      });
+    };
+
+    const onPredict = r => {
+      const payload = {};
+      payload.jobId = r.id;
+      payload.view = 'predict';
+      dispatch({
+        type: 'regression/switchView',
+        payload: payload,
       });
     };
 
@@ -88,37 +103,36 @@ class Numerical extends PureComponent {
     };
 
     const handleDetailRefresh = id => {
+      const payload = {};
+      payload.jobId = id;
+      payload.view = 'detail';
+
       dispatch({
-        type: 'regression/switchDetailView',
-        payload: id,
+        type: 'regression/switchView',
+        payload: payload,
       });
     };
 
     const contentView = () => {
       if (view == 'list') {
-        return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} />;
+        return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} onPredict={onPredict} />;
       } else if (view == 'create') {
         return (
-          <MLJobViewPanel
-            isCreation={true}
+          <MLJobOptionCreationPanel
             datasetList={datasetList}
             selectedDataset={selectedDataset}
             onDatasetSelect={handleDatasetSelection}
-            onJobCreate={handelJobCreation}
+            onCreate={handelJobCreation}
             jobType={jobType}
-            config={jobConfig}
+            config={config}
           />
         );
       } else if (view == 'detail') {
         return (
-          <MLJobViewPanel
-            isCreation={false}
-            jobType={jobType}
-            selectedJob={selectedJob}
-            onRefreshDetails={handleDetailRefresh}
-            config={jobConfig}
-          />
+          <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
+      } else if (view == 'predict') {
+        return <MLJobPredictPanel job={selectedJob} />;
       } else {
         return <Empty />;
       }

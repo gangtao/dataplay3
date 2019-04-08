@@ -7,7 +7,7 @@ export default {
 
   state: {
     jobs: [],
-    view: 'list',
+    view: 'list', // 'create' | 'detail' | 'predict' | 'list'
     selectedJob: {},
     datasetList: [],
     selectedDataset: {},
@@ -65,9 +65,12 @@ export default {
         payload: job,
       });
       const response = yield call(queryJob, job.id);
+      const updatePayload = {};
+      updatePayload.job = response;
+      updatePayload.view = 'detail';
       yield put({
-        type: 'detailView',
-        payload: response,
+        type: 'updateView',
+        payload: updatePayload,
       });
 
       yield put({
@@ -75,10 +78,14 @@ export default {
         payload: response,
       });
     },
-    *switchDetailView({ payload }, { call, put }) {
-      const response = yield call(queryJob, payload);
+    *switchView({ payload }, { call, put }) {
+      const job = yield call(queryJob, payload.jobId);
+      const response = {};
+      response.job = job;
+      response.view = payload.view;
+
       yield put({
-        type: 'detailView',
+        type: 'updateView',
         payload: response,
       });
     },
@@ -103,11 +110,11 @@ export default {
         view: 'list',
       };
     },
-    detailView(state, action) {
+    updateView(state, action) {
       return {
         ...state,
-        view: 'detail',
-        selectedJob: action.payload,
+        view: action.payload.view,
+        selectedJob: action.payload.job,
       };
     },
     listDatasets(state, action) {

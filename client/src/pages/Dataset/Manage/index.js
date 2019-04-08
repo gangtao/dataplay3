@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Tabs, Table, Divider, Empty, Modal, Form, Input, Button } from 'antd';
+import { Row, Col, Tabs, Table, Divider, Empty, Modal, Form, Input, Button, message } from 'antd';
 
 import { connect } from 'dva';
 
@@ -18,7 +18,7 @@ class CustomizedContentForm extends React.Component {
   }
 
   render() {
-    const { onCreate, payload } = this.props;
+    const { payload } = this.props;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -217,24 +217,24 @@ class Manage extends PureComponent {
               const exportForm = (
                 <CreationForm
                   payload={record}
-                  onCreate={onCreate}
                   wrappedComponentRef={form => (wrapper.form = form)}
                 />
               );
-              const onCreate = () => {};
 
               confirm({
                 title: 'Do you want to export this query as dataset?',
                 content: exportForm,
                 width: 600,
                 onOk() {
-                  console.log(wrapper.form);
                   wrapper.form.props.form.validateFields((err, values) => {
                     if (!err) {
                       const payload = { ...values };
-                      console.log(payload);
-                      const response = query2dataset(payload);
-                      console.log(response);
+                      return new Promise((resolve, reject) => {
+                        const response = query2dataset(payload);
+                        message.success(`query ${record.name} has been exported to dataset!`);
+                      }).catch(() => {
+                        message.error(`query ${record.name} failed to export!`);
+                      });
                     }
                   });
                 },
