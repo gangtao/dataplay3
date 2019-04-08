@@ -17,8 +17,7 @@ from .automl import AutoClassificationJob, AutoRegressionJob
 class MLJobManager:
     @staticmethod
     def list_jobs():
-        job_base_dir = ConfigurationManager.get_confs(
-            'mljob').get('job', 'dir')
+        job_base_dir = ConfigurationManager.get_confs('mljob').get('job', 'dir')
 
         try:
             job_ids = [
@@ -125,8 +124,7 @@ class MLJobManager:
                 df = dataset.get_df()
                 df_prediction = model.predict(df)
                 payload = {}
-                payload["cols"], payload["rows"] = df_to_cols_rows(
-                    df_prediction)
+                payload["cols"], payload["rows"] = df_to_cols_rows(df_prediction)
                 return payload
             else:
                 message = f'input type {input_type} is not supported for prediction'
