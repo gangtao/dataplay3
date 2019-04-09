@@ -4,3 +4,4 @@ pandasql==0.7.3
 sanic-openapi==0.5.0
 auto-sklearn==0.5.0
 gunicorn==19.9.0
+fbprophet==0.4.post2
