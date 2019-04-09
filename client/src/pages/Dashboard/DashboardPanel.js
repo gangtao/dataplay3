@@ -5,7 +5,7 @@ import GGChart from '@/components/Visualization/GGChart';
 
 import styles from './DashboardPanel.less';
 
-const confirm = Modal.confirm;
+const { confirm } = Modal;
 
 @connect(({ dashboard }) => ({
   dashboard,
@@ -66,18 +66,17 @@ class DashboardPanel extends PureComponent {
             <Button icon="minus" size="small" onClick={handleMinimize} />
           </Tooltip>
         );
-      } else {
-        return (
-          <div>
-            <Tooltip placement="top" title="Maximize">
-              <Button icon="plus" size="small" onClick={handleMaximize} />
-            </Tooltip>
-            <Tooltip placement="top" title="Delete">
-              <Button icon="delete" size="small" onClick={handleDelete} />
-            </Tooltip>
-          </div>
-        );
       }
+      return (
+        <div>
+          <Tooltip placement="top" title="Maximize">
+            <Button icon="plus" size="small" onClick={handleMaximize} />
+          </Tooltip>
+          <Tooltip placement="top" title="Delete">
+            <Button icon="delete" size="small" onClick={handleDelete} />
+          </Tooltip>
+        </div>
+      );
     };
 
     return (

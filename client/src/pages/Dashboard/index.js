@@ -27,7 +27,7 @@ class Dashboards extends PureComponent {
     const rowHeight = 300;
     const maxHeight = 800;
 
-    let dashboardsContents = [];
+    const dashboardsContents = [];
 
     const buildDashboard = (content, key) => {
       const { grammar, dataSource, title, description } = content;
@@ -57,22 +57,21 @@ class Dashboards extends PureComponent {
           </div>
         </PageHeaderWrapper>
       );
-    } else {
-      const maxDashboard = dashboards[maximize];
-      const { grammar, dataSource, title, description } = maxDashboard;
-      const isMax = true;
-      return (
-        <DashboardPanel
-          id={maximize}
-          grammar={grammar}
-          dataSource={dataSource}
-          title={title}
-          description={description}
-          height={maxHeight}
-          isMax={isMax}
-        />
-      );
     }
+    const maxDashboard = dashboards[maximize];
+    const { grammar, dataSource, title, description } = maxDashboard;
+    const isMax = true;
+    return (
+      <DashboardPanel
+        id={maximize}
+        grammar={grammar}
+        dataSource={dataSource}
+        title={title}
+        description={description}
+        height={maxHeight}
+        isMax={isMax}
+      />
+    );
   }
 }
 

@@ -88,5 +88,6 @@ class TimeSerialsForecastsJob(MLJob):
         )
         predict_dataset = predict_dataset[['ds']]
         forecast = self.model.predict(predict_dataset)
-        frames = [df, forecast]
-        return pd.concat(frames)
+        # convert ds from time to string
+        forecast['ds'] = forecast['ds'].astype(str)
+        return forecast

@@ -16,7 +16,7 @@ class MLJobTable extends PureComponent {
         dataIndex: 'name',
         key: 'name',
         sorter: (a, b) => {
-          return ('' + a.name).localeCompare(b.name);
+          return `${a.name}`.localeCompare(b.name);
         },
       },
       {
@@ -24,7 +24,7 @@ class MLJobTable extends PureComponent {
         dataIndex: 'status',
         key: 'status',
         sorter: (a, b) => {
-          return ('' + a.status).localeCompare(b.status);
+          return `${a.status}`.localeCompare(b.status);
         },
       },
       {

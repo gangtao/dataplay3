@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
+  Row,
+  Col,
   Form,
   Icon,
   Input,
@@ -16,7 +18,7 @@ import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 
 import styles from './index.less';
 
-const Option = Select.Option;
+const { Option } = Select;
 
 class CustomizedForm extends React.Component {
   constructor(props) {
@@ -28,7 +30,10 @@ class CustomizedForm extends React.Component {
     const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType, config } = this.props;
     const { getFieldDecorator } = this.props.form;
 
-    let datasetName = undefined;
+    const isAutoMLJob = jobType == 'AutoRegressionJob' || jobType == 'AutoClassificationJob';
+    const isTimeForcastJob = jobType == 'TimeSerialsForecastsJob';
+    const featureNumber = isTimeForcastJob ? 'single' : 'multiple';
+    let datasetName;
     if (selectedDataset.name) {
       datasetName = selectedDataset.name;
     }
@@ -66,6 +71,9 @@ class CustomizedForm extends React.Component {
           const payload = { ...values };
           payload.dataset = datasetName;
           payload.targets = [payload.target];
+          if (isTimeForcastJob) {
+            payload.features = [payload.features];
+          }
           if (payload.validation_option) {
             payload.validation_option.test_size /= 100;
             payload.validation_option.random_state = parseInt(
@@ -102,20 +110,38 @@ class CustomizedForm extends React.Component {
           })(<Input placeholder="Please name your prediction job" />)}
         </Form.Item>
 
-        <Form.Item label="Select Features">
-          {getFieldDecorator('features', {
-            rules: [{ required: true, message: 'Please give features', type: 'array' }],
-          })(
-            <Select
-              size="default"
-              mode="multiple"
-              style={{ width: '100%' }}
-              placeholder="Please select features used for your prediction job"
-            >
-              {fieldsOptions}
-            </Select>
-          )}
-        </Form.Item>
+        {isAutoMLJob && (
+          <Form.Item label="Select Features">
+            {getFieldDecorator('features', {
+              rules: [{ required: true, message: 'Please give features', type: 'array' }],
+            })(
+              <Select
+                size="default"
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="Please select features used for your prediction job"
+              >
+                {fieldsOptions}
+              </Select>
+            )}
+          </Form.Item>
+        )}
+
+        {isTimeForcastJob && (
+          <Form.Item label="Select Timestamp Feature">
+            {getFieldDecorator('features', {
+              rules: [{ required: true, message: 'Please select feature' }],
+            })(
+              <Select
+                size="default"
+                style={{ width: '100%' }}
+                placeholder="Please select timestamp used for your prediction job"
+              >
+                {fieldsOptions}
+              </Select>
+            )}
+          </Form.Item>
+        )}
 
         <Form.Item label="Select Target">
           {getFieldDecorator('target', {
@@ -131,11 +157,13 @@ class CustomizedForm extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item label="Set Validation Options">
-          <Switch onChange={onSwitchValidation} />
-        </Form.Item>
+        {isAutoMLJob && (
+          <Form.Item label="Set Validation Options">
+            <Switch onChange={onSwitchValidation} />
+          </Form.Item>
+        )}
 
-        {this.state.showValidation && (
+        {this.state.showValidation && isAutoMLJob && (
           <div>
             <Form.Item label="Test Data Percentage">
               {getFieldDecorator('validation_option.test_size', {
@@ -161,7 +189,7 @@ class CustomizedForm extends React.Component {
           <Switch onChange={onSwitchAdvanced} />
         </Form.Item>
 
-        {this.state.showAdvanced && (
+        {this.state.showAdvanced && isAutoMLJob && (
           <div>
             <Form.Item label="Time Limitation">
               {getFieldDecorator('job_option.time_left_for_this_task', {
@@ -201,6 +229,16 @@ class CustomizedForm extends React.Component {
           </div>
         )}
 
+        {this.state.showAdvanced && isTimeForcastJob && (
+          <div>
+            <Form.Item label="Time Format string">
+              {getFieldDecorator('job_option.time_format', {})(
+                <Input size="small" placeholder="YYYY-MM-DD HH:MM:SS" />
+              )}
+            </Form.Item>
+          </div>
+        )}
+
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Create
@@ -218,14 +256,18 @@ class MLJobOptionCreationPanel extends PureComponent {
     const CreationForm = Form.create({})(CustomizedForm);
 
     return (
-      <CreationForm
-        datasetList={datasetList}
-        selectedDataset={selectedDataset}
-        onDatasetSelect={onDatasetSelect}
-        onCreate={onCreate}
-        jobType={jobType}
-        config={config}
-      />
+      <Row>
+        <Col span={12}>
+          <CreationForm
+            datasetList={datasetList}
+            selectedDataset={selectedDataset}
+            onDatasetSelect={onDatasetSelect}
+            onCreate={onCreate}
+            jobType={jobType}
+            config={config}
+          />
+        </Col>
+      </Row>
     );
   }
 }

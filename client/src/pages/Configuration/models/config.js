@@ -24,7 +24,7 @@ export default {
       const response = yield call(saveConfig, payload);
       yield put({
         type: 'updateValue',
-        payload: payload,
+        payload,
       });
     },
   },

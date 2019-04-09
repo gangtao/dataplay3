@@ -29,7 +29,7 @@ export default {
       const response = yield call(deleteDataset, payload);
       yield put({
         type: 'deleteDataset',
-        payload: payload,
+        payload,
       });
     },
   },

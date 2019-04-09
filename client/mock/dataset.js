@@ -1,12 +1,12 @@
+import mockjs from 'mockjs';
 import iris from './data/iris.json';
 import diabetes from './data/diabetes.json';
 import appUsage from './data/app_usage.json';
 import churn from './data/churn.json';
 import logins from './data/logins.json';
 
-import mockjs from 'mockjs';
 
-const Random = mockjs.Random;
+const {Random} = mockjs;
 
 let database = [iris,diabetes,appUsage,churn,logins]
 
@@ -78,7 +78,7 @@ function queryDataset(req, res) {
     const { id } = req.params;
     const newData = database.find(item => item.id === id);
 
-    //res.status(200).json(fakeQuery(newData));
+    // res.status(200).json(fakeQuery(newData));
     // return all dataset for any query
     res.status(200).json(newData);
 }

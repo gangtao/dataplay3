@@ -128,7 +128,7 @@ class GGChart extends PureComponent {
 
       return (
         <div className={styles.ggchart}>
-          <Chart height={height ? height : defaultHeight} data={data} forceFit>
+          <Chart height={height || defaultHeight} data={data} forceFit>
             <Legend />
             <Tooltip />
             {axis}
@@ -157,7 +157,7 @@ class GGChart extends PureComponent {
       }
       return (
         <div className={styles.ggchart}>
-          <Chart height={height ? height : defaultHeight} data={data} forceFit>
+          <Chart height={height || defaultHeight} data={data} forceFit>
             <Legend />
             <Tooltip />
             {facat}

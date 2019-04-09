@@ -71,7 +71,7 @@ class GrammerGraph extends PureComponent {
       };
       dispatch({
         type: 'gchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 
@@ -92,7 +92,7 @@ class GrammerGraph extends PureComponent {
       const payload = { restParams };
       createDashboard(payload);
       toggleExport(false);
-      //TODO: handle rest failure;
+      // TODO: handle rest failure;
       message.info('current visualization has been exported to dashboard!');
     };
 
@@ -106,7 +106,7 @@ class GrammerGraph extends PureComponent {
       };
       dispatch({
         type: 'gchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 
@@ -116,7 +116,7 @@ class GrammerGraph extends PureComponent {
       };
       dispatch({
         type: 'gchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 

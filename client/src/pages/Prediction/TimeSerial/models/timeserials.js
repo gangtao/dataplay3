@@ -3,7 +3,7 @@ import { queryDatasets, queryDataset } from '@/services/dataset';
 import { getConfig } from '@/services/config';
 
 export default {
-  namespace: 'regression',
+  namespace: 'timeserials',
 
   state: {
     jobs: [],
@@ -17,7 +17,7 @@ export default {
 
   effects: {
     *fetchJobs({ _ }, { call, put }) {
-      const payload = { type: 'AutoRegressionJob' };
+      const payload = { type: 'TimeSerialsForecastsJob' };
       const response = yield call(queryJobs, payload);
       yield put({
         type: 'listJobs',

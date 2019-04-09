@@ -2,15 +2,15 @@ import uuid from 'uuid';
 import mockjs from 'mockjs';
 import { parse } from 'url';
 
-const Random = mockjs.Random;
+const {Random} = mockjs;
 
 Random.extend({
-    jobStatus: function(date) {
+    jobStatus(date) {
         const status = ['INITIALIZED','TRAINING','VALIDATING','SUCCESS','FAILED'];
         return this.pick(status);
     },
-    jobType: function(date) {
-        const type = ['AutoClassificationJob','AutoRegressionJob'];
+    jobType(date) {
+        const type = ['AutoClassificationJob','AutoRegressionJob','TimeSerialsForecastsJob'];
         return this.pick(type);
     }
 })
@@ -83,6 +83,18 @@ const classificationJobDetail = {
     "validation_result": {
         "accuracy": 0.8383233533
     },
+    "status": "SUCCESS"
+}
+
+const timeForcastJobDetails = {
+    "dataset_id": "air_passengers",
+    "job_option": {
+        "time_format": null
+    },
+    "features": ["Date"],
+    "targets": ["Number"],
+    "start_time": 1554777282.3254179955,
+    "end_time": 1554777282.4133169651,
     "status": "SUCCESS"
 }
 
@@ -266,7 +278,10 @@ function getJob(req, res) {
         job = { ...job, ...classificationJobDetail};
     } else if ( job.type == 'AutoRegressionJob' ) {
         job = { ...job, ...regressionJobDetails};
+    } else if ( job.type == 'TimeSerialsForecastsJob' ) {
+        job = { ...job, ...timeForcastJobDetails};
     }
+
     job.status = Random.jobStatus();
     res.status(200).json(job);
 }

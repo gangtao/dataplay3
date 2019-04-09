@@ -21,5 +21,5 @@ def test_job_time_serials():
     assert job.get_status() == MLJobStatus.SUCCESS
     predict_result = job.predict(df[features])
     assert predict_result is not None
-    # predict_result.to_csv('/tmp/classification.csv', encoding='utf-8')
-    job.clean()
+    predict_result.to_csv('/tmp/tt.csv', encoding='utf-8')
+    # job.clean()

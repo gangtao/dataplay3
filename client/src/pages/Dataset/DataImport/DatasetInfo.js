@@ -30,7 +30,7 @@ class DatasetInfo extends PureComponent {
       payload.name = e.target.value;
       dispatch({
         type: 'dataimport/updateDatasetInfo',
-        payload: payload,
+        payload,
       });
     };
 
@@ -39,7 +39,7 @@ class DatasetInfo extends PureComponent {
       payload.description = e.target.value;
       dispatch({
         type: 'dataimport/updateDatasetInfo',
-        payload: payload,
+        payload,
       });
     };
 
@@ -50,10 +50,10 @@ class DatasetInfo extends PureComponent {
             <Input defaultValue={dataset.name} onChange={handleNameChange} />
           </Form.Item>
           <Form.Item label="Type">
-            <Input disabled={true} defaultValue={dataset.type} />
+            <Input disabled defaultValue={dataset.type} />
           </Form.Item>
           <Form.Item label="File">
-            <Input disabled={true} defaultValue={dataset.content} />
+            <Input disabled defaultValue={dataset.content} />
           </Form.Item>
           <Form.Item label="Description">
             <TextArea defaultValue={dataset.description} onChange={handleDescriptionChange} />

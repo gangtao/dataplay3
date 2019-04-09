@@ -10,7 +10,7 @@ import DatasetInfo from './DatasetInfo';
 
 import styles from './index.less';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
 @connect(({ dataimport }) => ({
   dataimport,

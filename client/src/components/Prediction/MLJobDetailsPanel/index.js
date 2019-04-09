@@ -3,8 +3,8 @@ import { Row, Col, Form, Card, Statistic, Collapse, Icon } from 'antd';
 
 import styles from './index.less';
 
-const Panel = Collapse.Panel;
-const Countdown = Statistic.Countdown;
+const { Panel } = Collapse;
+const { Countdown } = Statistic;
 const refreshInterval = 10;
 
 class MLJobDetailsPanel extends PureComponent {
@@ -38,6 +38,8 @@ class MLJobDetailsPanel extends PureComponent {
       ...jobDetails
     } = job;
 
+    const jobType = jobDetails.type;
+
     const { time_left_for_this_task } = job_option;
     const deadline = 1000 * time_left_for_this_task + 1000 * start_time + 1000 * refreshInterval;
 
@@ -52,23 +54,35 @@ class MLJobDetailsPanel extends PureComponent {
       },
     };
 
-    //const details = JSON.stringify(job);
+    // const details = JSON.stringify(job);
     if (status == 'SUCCESS' || status == 'FAILED') {
       clearInterval(this.timer);
     }
 
+    const buildETA = () => {
+      if (status != 'SUCCESS' && status != 'FAILED' && jobType != 'TimeSerialsForecastsJob') {
+        return (
+          <Col span={8}>
+            <Countdown title="ETA" value={deadline} format="HH:mm:ss:SSS" />
+          </Col>
+        );
+      }
+
+      return <Col span={8} />;
+    };
+
     const buildStatusIcon = () => {
       if (status == 'SUCCESS') {
         return <Icon type="check" />;
-      } else if (status == 'FAILED') {
-        return <Icon type="warning" />;
-      } else {
-        return <Icon type="loading" />;
       }
+      if (status == 'FAILED') {
+        return <Icon type="warning" />;
+      }
+      return <Icon type="loading" />;
     };
 
     const buildItems = obj => {
-      let items = [];
+      const items = [];
       for (const p in obj) {
         if (obj[p] instanceof Object && !Array.isArray(obj[p])) {
           const childItems = buildItems(obj[p]);
@@ -87,7 +101,7 @@ class MLJobDetailsPanel extends PureComponent {
     };
 
     const buildValidationStats = obj => {
-      let items = [];
+      const items = [];
       for (const p in obj) {
         items.push(
           <Col span={8} key={p}>
@@ -125,11 +139,7 @@ class MLJobDetailsPanel extends PureComponent {
                   <Col span={8}>
                     <Statistic title="Status" value={status} prefix={buildStatusIcon()} />
                   </Col>
-                  {status != 'SUCCESS' && status != 'FAILED' && (
-                    <Col span={8}>
-                      <Countdown title="ETA" value={deadline} format="HH:mm:ss:SSS" />
-                    </Col>
-                  )}
+                  {buildETA()}
                 </Row>
                 <Row gutter={16}>
                   {validation_result && buildValidationStats(validation_result)}

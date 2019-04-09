@@ -63,7 +63,7 @@ class ConfigTab extends PureComponent {
             editable: col.editable,
             dataIndex: col.dataIndex,
             title: col.title,
-            handleSave: handleSave,
+            handleSave,
           }),
         };
       });

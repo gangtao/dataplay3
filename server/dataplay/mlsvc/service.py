@@ -101,5 +101,5 @@ async def predict(request, id):
         predict_output = MLJobManager.predict(id, request_body)
         return response.json(predict_output, status=200)
     except Exception:
-        logger.exception('faile to create ml job')
+        logger.exception('faile to predict ml job')
         return response.json({}, status=500)

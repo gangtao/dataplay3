@@ -35,7 +35,7 @@ export default {
       const response = yield call(queryJob, payload);
       //
     },
-    *deleteJob({ payload }, { call, put }) {
+    *removeJob({ payload }, { call, put }) {
       const response = yield call(deleteJob, payload);
       yield put({
         type: 'fetchJobs',

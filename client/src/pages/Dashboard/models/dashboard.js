@@ -47,10 +47,10 @@ export default {
     },
     *deleteSelected({ payload }, { call, put }) {
       const response = yield call(deleteDashboard, payload);
-      //TODO: handle rest error
+      // TODO: handle rest error
       yield put({
         type: 'delete',
-        payload: payload,
+        payload,
       });
     },
   },

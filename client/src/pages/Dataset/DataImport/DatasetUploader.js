@@ -24,11 +24,10 @@ class DatasetUploader extends PureComponent {
     const checkType = type => {
       if (type === 'text/csv') {
         return 'csv';
-      } else {
-        //TODO: check type as early as possible
-        message.error(`file type : ${type} is not supported.`);
-        return undefined;
       }
+      // TODO: check type as early as possible
+      message.error(`file type : ${type} is not supported.`);
+      return undefined;
     };
 
     const props = {

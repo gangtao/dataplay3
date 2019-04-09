@@ -85,7 +85,7 @@ class TypeDrivenChart extends PureComponent {
       };
       dispatch({
         type: 'tchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 
@@ -105,7 +105,7 @@ class TypeDrivenChart extends PureComponent {
       restParams.grammar = tchart.grammar;
       const payload = { restParams };
       createDashboard(payload);
-      //TODO: handle rest failure;
+      // TODO: handle rest failure;
       toggleExport(false);
       message.info('current visualization has been exported to dashboard!');
     };
@@ -120,7 +120,7 @@ class TypeDrivenChart extends PureComponent {
       };
       dispatch({
         type: 'tchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 
@@ -130,7 +130,7 @@ class TypeDrivenChart extends PureComponent {
       };
       dispatch({
         type: 'tchart/exportUpdate',
-        payload: payload,
+        payload,
       });
     };
 

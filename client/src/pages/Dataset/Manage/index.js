@@ -8,8 +8,8 @@ import styles from './index.less';
 
 import { query2dataset } from '@/services/dataset';
 
-const TabPane = Tabs.TabPane;
-const confirm = Modal.confirm;
+const { TabPane } = Tabs;
+const { confirm } = Modal;
 const { TextArea } = Input;
 
 class CustomizedContentForm extends React.Component {
@@ -37,21 +37,21 @@ class CustomizedContentForm extends React.Component {
           {getFieldDecorator('query', {
             rules: [{ required: true, message: 'dataset query' }],
             initialValue: payload.query,
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </Form.Item>
 
         <Form.Item label="Source Dataset">
           {getFieldDecorator('source_dataset_id', {
             rules: [{ required: true, message: 'source dataset id' }],
             initialValue: payload.dataset,
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </Form.Item>
 
         <Form.Item label="Query Type">
           {getFieldDecorator('query_type', {
             rules: [{ required: true, message: 'query type' }],
             initialValue: payload.type,
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </Form.Item>
 
         <Form.Item label="Created Dataset ID">
@@ -265,7 +265,7 @@ class Manage extends PureComponent {
         return <Empty />;
       }
 
-      let data = [];
+      const data = [];
       for (const p in query.savedQuery) {
         const source = query.savedQuery[p];
         const item = { ...source };

@@ -35,7 +35,7 @@ class Numerical extends PureComponent {
 
     const jobConfig = { ...config };
     if (jobConfig && jobConfig.auto_ml_algorithms) {
-      delete jobConfig.auto_ml_algorithms['classifiers'];
+      delete jobConfig.auto_ml_algorithms.classifiers;
     }
 
     const onCreate = () => {
@@ -54,7 +54,7 @@ class Numerical extends PureComponent {
         content: `job ${r.name} will be deleted! `,
         onOk() {
           dispatch({
-            type: 'regression/deleteJob',
+            type: 'regression/removeJob',
             payload: r.id,
           });
         },
@@ -67,7 +67,7 @@ class Numerical extends PureComponent {
       payload.view = 'detail';
       dispatch({
         type: 'regression/switchView',
-        payload: payload,
+        payload,
       });
     };
 
@@ -77,7 +77,7 @@ class Numerical extends PureComponent {
       payload.view = 'predict';
       dispatch({
         type: 'regression/switchView',
-        payload: payload,
+        payload,
       });
     };
 
@@ -109,14 +109,15 @@ class Numerical extends PureComponent {
 
       dispatch({
         type: 'regression/switchView',
-        payload: payload,
+        payload,
       });
     };
 
     const contentView = () => {
       if (view == 'list') {
         return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} onPredict={onPredict} />;
-      } else if (view == 'create') {
+      }
+      if (view == 'create') {
         return (
           <MLJobOptionCreationPanel
             datasetList={datasetList}
@@ -127,27 +128,23 @@ class Numerical extends PureComponent {
             config={config}
           />
         );
-      } else if (view == 'detail') {
+      }
+      if (view == 'detail') {
         return (
           <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
-      } else if (view == 'predict') {
-        return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
-      } else {
-        return <Empty />;
       }
+      if (view == 'predict') {
+        return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
+      }
+      return <Empty />;
     };
 
     return (
       <PageHeaderWrapper>
         <div className={styles.numerical}>
           <Row>
-            <MLJobControlPanel
-              canList={true}
-              canCreate={true}
-              onList={onList}
-              onCreate={onCreate}
-            />
+            <MLJobControlPanel canList canCreate onList={onList} onCreate={onCreate} />
           </Row>
           <Row>{contentView()}</Row>
         </div>

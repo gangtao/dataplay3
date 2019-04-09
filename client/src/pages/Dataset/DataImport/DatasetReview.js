@@ -16,7 +16,7 @@ class DatasetReview extends PureComponent {
     const payload = { ...dataset };
     payload.id = payload.name;
 
-    let info = [];
+    const info = [];
     for (const p in dataset) {
       info.push(
         <li>

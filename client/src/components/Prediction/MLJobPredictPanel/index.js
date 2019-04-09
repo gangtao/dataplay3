@@ -97,9 +97,8 @@ class MLJobPredictPanel extends PureComponent {
       if (this.state.result) {
         const { dataSource, columns } = this.state.result;
         return <DatasetTable dataSource={dataSource} columns={columns} />;
-      } else {
-        return <Empty />;
       }
+      return <Empty />;
     };
 
     return (

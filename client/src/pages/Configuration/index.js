@@ -9,8 +9,8 @@ import ConfigTab from './ConfigTab';
 
 import styles from './index.less';
 
-const TabPane = Tabs.TabPane;
-const confirm = Modal.confirm;
+const { TabPane } = Tabs;
+const { confirm } = Modal;
 
 @connect(({ config }) => ({
   config,
@@ -43,7 +43,7 @@ class Configuration extends PureComponent {
             payload.value[row.section][row.item] = row.value;
             dispatch({
               type: 'config/updateOne',
-              payload: payload,
+              payload,
             });
           },
           onCancel() {},

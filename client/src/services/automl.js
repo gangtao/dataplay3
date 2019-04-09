@@ -18,7 +18,7 @@ export async function createJob(params) {
   });
 }
 
-export async function deleteJob(params) {
+export async function deleteJob(id) {
   return request(`/api/ml_jobs/${id}`, {
     method: 'DELETE',
   });
