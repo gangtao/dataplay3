@@ -90,4 +90,8 @@ class TimeSerialsForecastsJob(MLJob):
         forecast = self.model.predict(predict_dataset)
         # convert ds from time to string
         forecast['ds'] = forecast['ds'].astype(str)
-        return forecast
+
+        for col in ['ds', 'yhat', 'yhat_lower', 'yhat_upper']:
+            df[col] = forecast[col]
+
+        return df
