@@ -12,6 +12,7 @@ from ..datasvc.utils import df_to_cols_rows
 
 from .job import MLJob
 from .automl import AutoClassificationJob, AutoRegressionJob
+from .time_serials import TimeSerialsForecastsJob
 
 
 class MLJobManager:
@@ -81,6 +82,8 @@ class MLJobManager:
             job = AutoClassificationJob(**job_option)
         elif job_type == 'AutoRegressionJob':
             job = AutoRegressionJob(**job_option)
+        elif job_type == 'TimeSerialsForecastsJob':
+            job = TimeSerialsForecastsJob(**job_option)
         else:
             raise RuntimeError(f'job type={job_type} not supported!')
 

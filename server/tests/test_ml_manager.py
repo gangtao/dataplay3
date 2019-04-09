@@ -45,3 +45,33 @@ def test_classification():
     payload['data'] = 'iris'
     output_data = MLJobManager.predict(job.id, payload)
     assert output_data is not None
+
+
+def test_time_serials():
+    job_payload = {}
+    job_payload['name'] = 'test_time_serials'
+    job_payload['type'] = 'TimeSerialsForecastsJob'
+    job_payload['dataset'] = 'nasdaq'
+    job_payload['features'] = ['Date']
+    job_payload['targets'] = ['Open']
+    job_payload['job_option'] = {}
+    job_payload['validation_option'] = None
+
+    job = MLJobManager.create_job(job_payload)
+
+    status = None
+
+    while True:
+        status = MLJob.get_status_by_id(job.id)
+        if status in [MLJobStatus.SUCCESS, MLJobStatus.FAILED]:
+            break
+        time.sleep(10)
+
+    assert status == MLJobStatus.SUCCESS
+
+    # test input dataset
+    payload = {}
+    payload['input_type'] = 'dataset'
+    payload['data'] = 'nasdaq'
+    output_data = MLJobManager.predict(job.id, payload)
+    assert output_data is not None

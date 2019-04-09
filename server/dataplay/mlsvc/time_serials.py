@@ -8,11 +8,12 @@ from .job import MLJob, MLJobStatus
 
 
 class TimeSerialsForecastsJob(MLJob):
-    def __init__(self, name, dataset, features, targets, job_option):
+    def __init__(self, name, dataset, features, targets, job_option, validation_option=None):
         MLJob.__init__(self, name, dataset)
         self.job_option = job_option
         self.features = features
         self.targets = targets
+        self.validation_option = validation_option
         if self.job_option is None:
             self.job_option = {}
         self._handle_job_option()
@@ -28,6 +29,7 @@ class TimeSerialsForecastsJob(MLJob):
             'type',
             'start_time',
             'end_time',
+            'training_error',
         ]:
             if hasattr(self, attribute):
                 self.metadata[attribute] = getattr(self, attribute)
@@ -46,7 +48,8 @@ class TimeSerialsForecastsJob(MLJob):
         )
         # convert target to numeric
         self.train_dataset['y'] = pd.to_numeric(
-            self.train_dataset[self.targets[0]], errors='coerce').fillna(0)
+            self.train_dataset[self.targets[0]], errors='coerce'
+        ).fillna(0)
         self.train_dataset = self.train_dataset[['ds', 'y']]
 
     def _handle_job_option(self):
@@ -72,7 +75,8 @@ class TimeSerialsForecastsJob(MLJob):
             self._save_meta()
 
     def future(self, periods=365):
-        return self.model.make_future_dataframe(periods=periods)
+        future_data = self.model.make_future_dataframe(periods=periods)
+        return future_data
 
     def predict(self, df):
         if not self.model:
@@ -84,4 +88,5 @@ class TimeSerialsForecastsJob(MLJob):
         )
         predict_dataset = predict_dataset[['ds']]
         forecast = self.model.predict(predict_dataset)
-        return forecast
+        frames = [df, forecast]
+        return pd.concat(frames)
