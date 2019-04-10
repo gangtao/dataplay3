@@ -1,13 +1,24 @@
 import React, { PureComponent } from 'react';
 import { Empty } from 'antd';
 import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Facet } from 'bizcharts';
-
 import styles from './index.less';
+
+import { DataSet } from '@antv/data-set';
 
 class GGChart extends PureComponent {
   render() {
     const { grammar, data, height } = this.props;
+    const { transformer } = grammar;
+    const { DataView } = DataSet;
     const defaultHeight = 600;
+    const dv = new DataView();
+
+    if (data) {
+      dv.source(data);
+      if (transformer) {
+        dv.transform(transformer);
+      }
+    }
 
     const coordinationType = grammar.coordination;
     const buildCoordination = () => {
@@ -128,7 +139,7 @@ class GGChart extends PureComponent {
 
       return (
         <div className={styles.ggchart}>
-          <Chart height={height || defaultHeight} data={data} forceFit>
+          <Chart height={height || defaultHeight} data={dv} forceFit>
             <Legend />
             <Tooltip />
             {axis}
@@ -157,7 +168,7 @@ class GGChart extends PureComponent {
       }
       return (
         <div className={styles.ggchart}>
-          <Chart height={height || defaultHeight} data={data} forceFit>
+          <Chart height={height || defaultHeight} data={dv} forceFit>
             <Legend />
             <Tooltip />
             {facat}

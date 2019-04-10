@@ -63,7 +63,8 @@ export default {
     'primary-color': primaryColor,
   },
   externals: {
-    '@antv/data-set': 'DataSet',
+    // Why Dataset is excluded?
+    //'@antv/data-set': 'DataSet',
   },
   // proxy: {
   //   '/server/api/': {

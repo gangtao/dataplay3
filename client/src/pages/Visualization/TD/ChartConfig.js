@@ -145,9 +145,17 @@ const pieChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'intervalStack';
-    geom.position = [feeds.position];
+    geom.position = ['percent'];
     geom.color = [feeds.color];
     grammar.geom.Geom1 = geom;
+    if (feeds.position && feeds.color) {
+      grammar.transformer = {
+        type: 'percent',
+        field: feeds.position,
+        dimension: feeds.color,
+        as: 'percent',
+      };
+    }
     return grammar;
   },
 };

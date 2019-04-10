@@ -124,7 +124,7 @@ class MLJobDetailsPanel extends PureComponent {
               <Panel header="Job Info" key="1">
                 <Form {...formItemLayout}>{jobContents}</Form>
               </Panel>
-              { jobType != 'TimeSerialsForecastsJob' &&(
+              {jobType != 'TimeSerialsForecastsJob' && (
                 <Panel header="Validation Options" key="2">
                   <Form {...formItemLayout}>{validationContents}</Form>
                 </Panel>
