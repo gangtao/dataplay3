@@ -39,7 +39,6 @@ def test_dataset_to_json():
         id = file['id']
         dataset = DatasetManager.get_dataset(id)
         assert dataset is not None
-        # assert type(dataset) == CSV
         payload = json.dumps(dataset.get_payload())
         '''
         with open(f'{id}.json', 'w') as f:

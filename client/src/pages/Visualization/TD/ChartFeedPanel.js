@@ -16,6 +16,8 @@ class ChartFeedPanel extends PureComponent {
     const { chartType, currentDataset, feeds } = tchart;
     const chartConfig = chartConfigs.find(chartType);
     const fields = [];
+    // TODO: handle this empty field when feed to chart
+    fields.push('<empty>');
 
     const formItemLayout = {
       labelCol: {

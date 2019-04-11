@@ -194,7 +194,69 @@ const radarChart = {
   },
 };
 
-const chartList = [areaChart, pieChart, barChart, scatterChart, lineChart, radarChart];
+const trendChart = {
+  name: 'trend',
+  icon: 'stock',
+  feeds: [
+    {
+      name: 'time',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'high',
+      min: 0,
+      max: 1,
+    },
+    {
+      name: 'low',
+      min: 0,
+      max: 1,
+    },
+    {
+      name: 'v1',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'v2',
+      min: 0,
+      max: 1,
+    },
+  ],
+  build(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'rect';
+    grammar.geom = {};
+    const geom1 = {};
+    geom1.geometry = 'line';
+    geom1.color = 'red';
+    geom1.position = [feeds.time, feeds.v1];
+    grammar.geom.Geom1 = geom1;
+    const geom2 = {};
+    geom2.geometry = 'line';
+    geom2.color = 'green';
+    geom2.position = [feeds.time, feeds.v2];
+    grammar.geom.Geom2 = geom2;
+    const geom3 = {};
+    geom3.geometry = 'area';
+    geom3.position = [feeds.time, 'range'];
+    grammar.geom.Geom3 = geom3;
+    if (feeds.high && feeds.low) {
+      grammar.transformer = {
+        type: 'map',
+        callback: obj => {
+          obj.range = [obj[feeds.high], obj[feeds.low]];
+          return obj;
+        },
+      };
+    }
+    return grammar;
+  },
+};
+
+const chartList = [areaChart, pieChart, barChart, scatterChart, lineChart, radarChart, trendChart];
 
 export const chartConfigs = {
   value: chartList,

@@ -56,8 +56,12 @@ class GGChart extends PureComponent {
       }
 
       let color = '';
-      if (geom.color && geom.color.length > 0) {
-        color = geom.color.join('*');
+      if (geom.color) {
+        if (Array.isArray(geom.color) && geom.color.length > 0) {
+          color = geom.color.join('*');
+        } else {
+          color = geom.color;
+        }
       }
 
       let size = '';
