@@ -11,6 +11,8 @@ from sanic.log import logger
 from .job import MLJob, MLJobStatus
 from ..confsvc.manager import ConfigurationManager
 
+PREDICTION_COL = 'prediction'
+
 
 class AutoMLJob(MLJob):
     def __init__(self, name, dataset, features, targets, job_option, validation_option):
@@ -145,6 +147,7 @@ class AutoMLJob(MLJob):
             self.model_stats = self.model.sprint_statistics()
             self._save_meta()
         except Exception as e:
+            logger.exception(f'faile to train the auto ml job {e}')
             self._update_status(MLJobStatus.FAILED)
             self.training_error = str(e)
             self._save_meta()
@@ -152,6 +155,8 @@ class AutoMLJob(MLJob):
     def predict(self, df):
         if not self.model:
             return
+
+        df_copy = df.copy()
 
         X = df[self.features]
         # todo check if df contain required features
@@ -168,10 +173,10 @@ class AutoMLJob(MLJob):
         if target in self.target_encoder:
             target_encoder = self.target_encoder[target]['encoder']
             transformed_predict_result = target_encoder.inverse_transform(predict_result)
-            df['prediction'] = transformed_predict_result
+            df_copy['prediction'] = transformed_predict_result
         else:
-            df['prediction'] = predict_result
-        return df
+            df_copy['prediction'] = predict_result
+        return df_copy
 
 
 class AutoClassificationJob(AutoMLJob):
@@ -186,13 +191,26 @@ class AutoClassificationJob(AutoMLJob):
         predictions = self.model.predict(self.X_test)
         accuracy = sklearn.metrics.accuracy_score(self.y_test, predictions)
         self.validation_result['accuracy'] = accuracy
-        # TODO : check if it is multi label classification
-        # f1 = sklearn.metrics.f1_score(self.y_test, predictions)
-        # precision = sklearn.metrics.precision_score(self.y_test, predictions)
-        # recall = sklearn.metrics.recall_score(self.y_test, predictions)
-        # self.validation_result['f1'] = f1
-        # self.validation_result['precision'] = precision
-        # self.validation_result['recall'] = recall
+
+        f1 = sklearn.metrics.f1_score(self.y_test, predictions, average='micro')
+        precision = sklearn.metrics.precision_score(self.y_test, predictions, average='micro')
+        recall = sklearn.metrics.recall_score(self.y_test, predictions, average='micro')
+        self.validation_result['f1'] = f1
+        self.validation_result['precision'] = precision
+        self.validation_result['recall'] = recall
+
+        # caculate confusion matrix
+        target = self.targets[0]
+        labels = self.train_dataset_y[target].unique()
+        confusion_matrix = {}
+        confusion_matrix['value'] = sklearn.metrics.confusion_matrix(
+            self.y_test, predictions, labels=labels
+        ).tolist()
+        if target in self.target_encoder:
+            target_encoder = self.target_encoder[target]['encoder']
+            labels = target_encoder.inverse_transform(labels)
+        confusion_matrix['lables'] = labels.tolist()
+        self.validation_result['confusion_matrix'] = confusion_matrix
 
 
 class AutoRegressionJob(AutoMLJob):
