@@ -5,13 +5,16 @@ import styles from './index.less';
 
 import { DataSet } from '@antv/data-set';
 
+const defaultHeight = 600;
+const padding = [50, 20, 80, 20];
+
 class GGChart extends PureComponent {
   render() {
     const { grammar, data, height } = this.props;
-    const { transformer } = grammar;
+    const { transformer, fscale } = grammar;
     const { DataView } = DataSet;
-    const defaultHeight = 600;
     const dv = new DataView();
+    const scale = fscale ? fscale(data) : null;
 
     if (data) {
       dv.source(data);
@@ -52,13 +55,22 @@ class GGChart extends PureComponent {
       const geomType = geom.geometry;
       let position = '';
       if (geom.position) {
-        position = geom.position.join('*');
+        if (Array.isArray(geom.position)) {
+          position = geom.position.filter(function(el) {
+            return el != null;
+          });
+          position = geom.position.join('*');
+        } else {
+          position = geom.position;
+        }
       }
 
       let color = '';
       if (geom.color) {
-        if (Array.isArray(geom.color) && geom.color.length > 0) {
-          color = geom.color.join('*');
+        if (Array.isArray(geom.color)) {
+          color = geom.color.filter(function(el) {
+            return el != null;
+          });
         } else {
           color = geom.color;
         }
@@ -79,12 +91,20 @@ class GGChart extends PureComponent {
         opacity = geom.opacity.join('*');
       }
 
+      let style = '';
+      if (geom.style) {
+        style = geom.style;
+      }
+
       const buildLable = () => {
         if (geom.label && geom.label.length > 0) {
-          const lable = geom.label.join('*');
-          return <Label content={lable} />;
+          const xlabel = geom.label.filter(function(el) {
+            return el != null;
+          });
+          if (xlabel.length > 0) {
+            return <Label content={xlabel.join('*')} />;
+          }
         }
-
         return null;
       };
       const label = buildLable();
@@ -97,8 +117,9 @@ class GGChart extends PureComponent {
           {...size && { size }}
           {...shape && { shape }}
           {...opacity && { opacity }}
+          {...style && { style }}
         >
-          {label}
+          {label && label}
         </Geom>
       );
     };
@@ -143,7 +164,13 @@ class GGChart extends PureComponent {
 
       return (
         <div className={styles.ggchart}>
-          <Chart height={height || defaultHeight} data={dv} forceFit>
+          <Chart
+            height={height || defaultHeight}
+            data={dv}
+            padding={padding}
+            {...scale && { scale }}
+            forceFit
+          >
             <Legend />
             <Tooltip />
             {axis}
@@ -172,7 +199,13 @@ class GGChart extends PureComponent {
       }
       return (
         <div className={styles.ggchart}>
-          <Chart height={height || defaultHeight} data={dv} forceFit>
+          <Chart
+            height={height || defaultHeight}
+            data={dv}
+            padding={padding}
+            {...scale && { scale }}
+            forceFit
+          >
             <Legend />
             <Tooltip />
             {facat}

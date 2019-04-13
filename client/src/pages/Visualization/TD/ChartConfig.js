@@ -20,7 +20,9 @@ const areaChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'area';
-    geom.position = [feeds.x, feeds.y];
+    if (feeds.x && feeds.y) {
+      geom.position = [feeds.x, feeds.y];
+    }
     grammar.geom.Geom1 = geom;
     return grammar;
   },
@@ -48,7 +50,9 @@ const barChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'interval';
-    geom.position = [feeds.x, feeds.y];
+    if (feeds.x && feeds.y) {
+      geom.position = [feeds.x, feeds.y];
+    }
     grammar.geom.Geom1 = geom;
     return grammar;
   },
@@ -81,8 +85,12 @@ const lineChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'line';
-    geom.position = [feeds.x, feeds.y];
-    geom.color = [feeds.color];
+    if (feeds.x && feeds.y) {
+      geom.position = [feeds.x, feeds.y];
+    }
+    if (feeds.color) {
+      geom.color = [feeds.color];
+    }
     grammar.geom.Geom1 = geom;
     return grammar;
   },
@@ -116,8 +124,12 @@ const scatterChart = {
     const geom = {};
     geom.geometry = 'point';
     geom.shape = ['circle'];
-    geom.position = [feeds.x, feeds.y];
-    geom.color = [feeds.color];
+    if (feeds.x && feeds.y) {
+      geom.position = [feeds.x, feeds.y];
+    }
+    if (feeds.color) {
+      geom.color = [feeds.color];
+    }
     grammar.geom.Geom1 = geom;
     return grammar;
   },
@@ -146,7 +158,9 @@ const pieChart = {
     const geom = {};
     geom.geometry = 'intervalStack';
     geom.position = ['percent'];
-    geom.color = [feeds.color];
+    if (feeds.color) {
+      geom.color = [feeds.color];
+    }
     grammar.geom.Geom1 = geom;
     if (feeds.position && feeds.color) {
       grammar.transformer = {
@@ -187,9 +201,88 @@ const radarChart = {
     grammar.geom = {};
     const geom = {};
     geom.geometry = 'line';
-    geom.position = [feeds.theta, feeds.r];
-    geom.color = [feeds.color];
+    if (feeds.theta && feeds.r) {
+      geom.position = [feeds.theta, feeds.r];
+    }
+    if (feeds.color) {
+      geom.color = [feeds.color];
+    }
     grammar.geom.Geom1 = geom;
+    return grammar;
+  },
+};
+
+const heatmapChart = {
+  name: 'heatmap',
+  icon: 'heat-map',
+  feeds: [
+    {
+      name: 'x',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'y',
+      min: 1,
+      max: 1,
+    },
+    {
+      name: 'color',
+      min: 1,
+      max: 1,
+    },
+  ],
+  build(feeds) {
+    const grammar = {};
+    grammar.facat = null;
+    grammar.coordination = 'rect';
+    grammar.geom = {};
+    const geom1 = {};
+    geom1.geometry = 'polygon';
+    if (feeds.x && feeds.y) {
+      geom1.position = [feeds.x, feeds.y];
+    }
+
+    if (feeds.color) {
+      geom1.label = [feeds.color];
+      geom1.color = [feeds.color, '#BAE7FF-#1890FF-#0050B3'];
+    }
+    geom1.style = {
+      stroke: '#fff',
+      lineWidth: 1,
+    };
+    grammar.fscale = d => {
+      if (!d) {
+        return null;
+      }
+
+      if (!feeds.x || !feeds.y) {
+        return null;
+      }
+
+      const xVal = d.map(e => e[feeds.x]);
+      const yVal = d.map(e => e[feeds.y]);
+      const xUnique = xVal.filter(function(value, index, self) {
+        return self.indexOf(value) === index;
+      });
+      const yUnique = yVal.filter(function(value, index, self) {
+        return self.indexOf(value) === index;
+      });
+
+      const cols = {
+        name: {
+          type: 'cat',
+          values: xUnique,
+        },
+        day: {
+          type: 'cat',
+          values: yUnique,
+        },
+      };
+      return cols;
+    };
+
+    grammar.geom.Geom1 = geom1;
     return grammar;
   },
 };
@@ -232,16 +325,24 @@ const trendChart = {
     const geom1 = {};
     geom1.geometry = 'line';
     geom1.color = 'red';
-    geom1.position = [feeds.time, feeds.v1];
+    if (feeds.time && feeds.v1) {
+      geom1.position = [feeds.time, feeds.v1];
+    }
+
     grammar.geom.Geom1 = geom1;
     const geom2 = {};
     geom2.geometry = 'line';
     geom2.color = 'green';
-    geom2.position = [feeds.time, feeds.v2];
+    if (feeds.time && feeds.v2) {
+      geom2.position = [feeds.time, feeds.v2];
+    }
+
     grammar.geom.Geom2 = geom2;
     const geom3 = {};
     geom3.geometry = 'area';
-    geom3.position = [feeds.time, 'range'];
+    if (feeds.time) {
+      geom3.position = [feeds.time, 'range'];
+    }
     grammar.geom.Geom3 = geom3;
     if (feeds.high && feeds.low) {
       grammar.transformer = {
@@ -256,7 +357,16 @@ const trendChart = {
   },
 };
 
-const chartList = [areaChart, pieChart, barChart, scatterChart, lineChart, radarChart, trendChart];
+const chartList = [
+  areaChart,
+  pieChart,
+  barChart,
+  scatterChart,
+  lineChart,
+  radarChart,
+  trendChart,
+  heatmapChart,
+];
 
 export const chartConfigs = {
   value: chartList,

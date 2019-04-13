@@ -2,11 +2,12 @@ import mockjs from 'mockjs';
 import iris from './data/iris.json';
 import air_passengers from './data/air_passengers.json';
 import nasdaq from './data/nasdaq.json';
+import heat_sample from './data/heat_sample.json';
 
 
 const {Random} = mockjs;
 
-let database = [iris,air_passengers,nasdaq]
+let database = [iris,air_passengers,nasdaq,heat_sample];
 
 const NOTFOUND = {
   message: 'Not Found',
