@@ -249,7 +249,7 @@ const heatmapChart = {
     }
     geom1.style = {
       stroke: '#fff',
-      lineWidth: 1,
+      lineWidth: 3,
     };
     grammar.fscale = d => {
       if (!d) {

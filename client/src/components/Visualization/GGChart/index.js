@@ -6,7 +6,7 @@ import styles from './index.less';
 import { DataSet } from '@antv/data-set';
 
 const defaultHeight = 600;
-const padding = [50, 20, 80, 20];
+const padding = 'auto';
 
 class GGChart extends PureComponent {
   render() {
