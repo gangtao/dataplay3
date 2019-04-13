@@ -3,7 +3,7 @@ import { Select, Form } from 'antd';
 import { connect } from 'dva';
 
 import styles from './ChartFeedPanel.less';
-import { chartConfigs } from './ChartConfig';
+import { chartConfigs } from '@/components/Visualization/ChartConfig';
 
 const { Option } = Select;
 

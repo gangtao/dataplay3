@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Select, Icon } from 'antd';
 
 import styles from './ChartTypeSelector.less';
-import { chartConfigs } from './ChartConfig';
+import { chartConfigs } from '@/components/Visualization/ChartConfig';
 
 const { Option } = Select;
 
