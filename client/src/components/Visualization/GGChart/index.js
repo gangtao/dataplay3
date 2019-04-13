@@ -56,9 +56,6 @@ class GGChart extends PureComponent {
       let position = '';
       if (geom.position) {
         if (Array.isArray(geom.position)) {
-          position = geom.position.filter(function(el) {
-            return el != null;
-          });
           position = geom.position.join('*');
         } else {
           position = geom.position;
@@ -67,13 +64,7 @@ class GGChart extends PureComponent {
 
       let color = '';
       if (geom.color) {
-        if (Array.isArray(geom.color)) {
-          color = geom.color.filter(function(el) {
-            return el != null;
-          });
-        } else {
-          color = geom.color;
-        }
+        color = geom.color;
       }
 
       let size = '';

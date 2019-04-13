@@ -86,5 +86,12 @@ export default {
         export: { ...state.export, ...action.payload },
       };
     },
+    clearGrammar(state, action) {
+      return {
+        ...state,
+        grammar: {},
+        feeds: {},
+      };
+    },
   },
 };

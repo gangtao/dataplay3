@@ -10,6 +10,7 @@ import VisualizationPanel from './VisualizationPanel';
 import ChartFeedPanel from './ChartFeedPanel';
 
 import { createDashboard } from '@/services/dashboard';
+import { chartConfigs } from './ChartConfig';
 
 import styles from './index.less';
 
@@ -28,7 +29,7 @@ class TypeDrivenChart extends PureComponent {
 
   render() {
     const { tchart, query, dispatch } = this.props;
-    const { currentDataset, chartType } = tchart;
+    const { currentDataset, chartType, feeds } = tchart;
     const { name } = currentDataset;
     const { visible, title, description } = tchart.export;
 
@@ -49,6 +50,9 @@ class TypeDrivenChart extends PureComponent {
     }
 
     const handleChange = (value, type) => {
+      dispatch({
+        type: 'tchart/clearGrammar',
+      });
       if (type === 'dataset') {
         dispatch({
           type: 'tchart/fetchSelected',
@@ -68,11 +72,16 @@ class TypeDrivenChart extends PureComponent {
         type: 'tchart/updateType',
         payload: value,
       });
-      dispatch({
-        type: 'tchart/updateGrammar',
-        payload: {},
-      });
-      // TODO : update the grammar to update the chart when switch type
+      const { feeds } = tchart;
+      const chartConfig = chartConfigs.find(value);
+      // TODO : handle feeds that does not belong to this chart
+      if (chartConfig && chartConfig.length > 0) {
+        const grammar = chartConfig[0].build(feeds);
+        dispatch({
+          type: 'tchart/updateGrammar',
+          payload: grammar,
+        });
+      }
     };
 
     const exportToDashboard = () => {

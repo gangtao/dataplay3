@@ -30,6 +30,16 @@ class ChartFeedPanel extends PureComponent {
       },
     };
 
+    const updateChart = feed => {
+      if (chartConfig && chartConfig.length > 0) {
+        const grammar = chartConfig[0].build(feed);
+        dispatch({
+          type: 'tchart/updateGrammar',
+          payload: grammar,
+        });
+      }
+    };
+
     if (currentDataset.columns) {
       currentDataset.columns.map(col => fields.push(col.key));
     }
@@ -49,13 +59,7 @@ class ChartFeedPanel extends PureComponent {
           payload: feed,
         });
         const newFeeds = { ...tchart.feeds, ...feed };
-        if (chartConfig && chartConfig.length > 0) {
-          const grammar = chartConfig[0].build(newFeeds);
-          dispatch({
-            type: 'tchart/updateGrammar',
-            payload: grammar,
-          });
-        }
+        updateChart(newFeeds);
       };
       return (
         <Select
