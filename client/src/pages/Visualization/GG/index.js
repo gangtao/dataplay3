@@ -88,6 +88,7 @@ class GrammerGraph extends PureComponent {
         restParams.query = '';
         restParams.queryType = undefined;
       }
+      // TODO: handle scale for some chart type such as heatmap
       restParams.grammar = gchart.grammar;
       const payload = { restParams };
       createDashboard(payload);

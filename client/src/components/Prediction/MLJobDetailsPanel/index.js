@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Row, Col, Form, Card, Statistic, Collapse, Icon } from 'antd';
 
+import { chartConfigs } from '@/components/Visualization/ChartConfig';
+import GGChart from '@/components/Visualization/GGChart';
+
 import styles from './index.less';
 
 const { Panel } = Collapse;
@@ -103,18 +106,48 @@ class MLJobDetailsPanel extends PureComponent {
     const buildValidationStats = obj => {
       const items = [];
       for (const p in obj) {
-        items.push(
-          <Col span={8} key={p}>
-            <Statistic title={p} value={obj[p]} />
-          </Col>
-        );
+        if (typeof obj[p] == 'number') {
+          items.push(
+            <Col span={8} key={p}>
+              <Statistic title={p} value={obj[p]} />
+            </Col>
+          );
+        }
       }
       return items;
+    };
+
+    const buildConfusionMatrix = obj => {
+      const { confusion_matrix } = obj;
+      if (!confusion_matrix) {
+        return null;
+      }
+      const data = [];
+      confusion_matrix.lables.forEach(function(actual, actualIndex) {
+        confusion_matrix.lables.reverse().forEach(function(predicted, predictedIndex) {
+          const item = {};
+          item.actual = actual;
+          item.predicted = predicted;
+          const index = confusion_matrix.lables.length - predictedIndex - 1;
+          item.value = confusion_matrix.value[actualIndex][index];
+          data.push(item);
+        });
+      });
+      console.log(data);
+      const config = chartConfigs.find('heatmap');
+      const feeds = {};
+      feeds.x = 'actual';
+      feeds.y = 'predicted';
+      feeds.color = 'value';
+      const grammar = config[0].build(feeds);
+      console.log(grammar);
+      return <GGChart grammar={grammar} data={data} />;
     };
 
     const jobContents = buildItems(jobDetails);
     const optionContents = buildItems(job_option);
     const validationContents = buildItems(validation_option);
+    const confusionMatrix = buildConfusionMatrix(validation_result);
 
     return (
       <div className={styles.details}>
@@ -146,6 +179,7 @@ class MLJobDetailsPanel extends PureComponent {
                 <Row gutter={16}>
                   {validation_result && buildValidationStats(validation_result)}
                 </Row>
+                <Row gutter={16}>{confusionMatrix && confusionMatrix}</Row>
               </Panel>
             </Collapse>
           </Col>
