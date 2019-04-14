@@ -5,6 +5,7 @@ from fbprophet import Prophet
 from sanic.log import logger
 
 from .job import MLJob, MLJobStatus
+from ..datasvc.utils import df_to_cols_rows
 
 
 class TimeSerialsForecastsJob(MLJob):
@@ -13,6 +14,7 @@ class TimeSerialsForecastsJob(MLJob):
         self.job_option = job_option
         self.features = features
         self.targets = targets
+        self.validation_result = {}
         self.validation_option = validation_option
         if self.job_option is None:
             self.job_option = {}
@@ -26,6 +28,7 @@ class TimeSerialsForecastsJob(MLJob):
             'job_option',
             'features',
             'targets',
+            'validation_result',
             'type',
             'start_time',
             'end_time',
@@ -66,6 +69,9 @@ class TimeSerialsForecastsJob(MLJob):
             self.model.fit(self.train_dataset)
             logger.debug('train complete')
             self._save_model()
+            self._update_status(MLJobStatus.VALIDATING)
+            self._validate()
+            logger.debug('validation complete')
             self._update_status(MLJobStatus.SUCCESS)
             self.end_time = datetime.datetime.now().timestamp()
             self._save_meta()
@@ -77,6 +83,16 @@ class TimeSerialsForecastsJob(MLJob):
     def future(self, periods=365):
         future_data = self.model.make_future_dataframe(periods=periods)
         return future_data
+
+    def _validate(self):
+        future_data = self.model.make_future_dataframe(periods=365)
+        forecast = self.model.predict(future_data)
+        forecast['ds'] = forecast['ds'].astype(str)
+        validation_df = pd.DataFrame(data=forecast)
+        cols, rows = df_to_cols_rows(validation_df)
+        self.validation_result['forecast'] = {}
+        self.validation_result['forecast']['cols'] = cols
+        self.validation_result['forecast']['rows'] = rows
 
     def predict(self, df):
         if not self.model:

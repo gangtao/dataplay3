@@ -17,6 +17,8 @@ def test_job_time_serials():
 
     job = TimeSerialsForecastsJob('testtimeserials', dataset_id, features, targets, job_option)
     job.train()
+    if hasattr(job, 'training_error'):
+        print(f'training error was detected {job.training_error}')
 
     assert job.get_status() == MLJobStatus.SUCCESS
     predict_result = job.predict(df[features])

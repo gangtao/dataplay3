@@ -4,6 +4,8 @@ import { Row, Col, Form, Card, Statistic, Collapse, Icon } from 'antd';
 import { chartConfigs } from '@/components/Visualization/ChartConfig';
 import GGChart from '@/components/Visualization/GGChart';
 
+import { convertDataset } from '@/utils/dataset';
+
 import styles from './index.less';
 
 const { Panel } = Collapse;
@@ -118,6 +120,9 @@ class MLJobDetailsPanel extends PureComponent {
     };
 
     const buildConfusionMatrix = obj => {
+      if (!obj) {
+        return null;
+      }
       const { confusion_matrix } = obj;
       if (!confusion_matrix) {
         return null;
@@ -126,28 +131,49 @@ class MLJobDetailsPanel extends PureComponent {
       confusion_matrix.lables.forEach(function(actual, actualIndex) {
         confusion_matrix.lables.reverse().forEach(function(predicted, predictedIndex) {
           const item = {};
-          item.actual = actual;
-          item.predicted = predicted;
+          item.actual = `actual(${actual})`;
+          item.predicted = `predicted(${predicted})`;
           const index = confusion_matrix.lables.length - predictedIndex - 1;
           item.value = confusion_matrix.value[actualIndex][index];
           data.push(item);
         });
       });
-      console.log(data);
       const config = chartConfigs.find('heatmap');
       const feeds = {};
       feeds.x = 'actual';
       feeds.y = 'predicted';
       feeds.color = 'value';
       const grammar = config[0].build(feeds);
-      console.log(grammar);
       return <GGChart grammar={grammar} data={data} />;
+    };
+
+    const buildTrendValidation = obj => {
+      if (!obj) {
+        return null;
+      }
+      const { forecast } = obj;
+      if (!forecast) {
+        return null;
+      }
+      const convertedDataset = convertDataset(forecast);
+      console.log(convertedDataset);
+      const { dataSource } = convertedDataset;
+      const config = chartConfigs.find('trend');
+      const feeds = {};
+      feeds.time = 'ds';
+      feeds.high = 'yhat_upper';
+      feeds.low = 'yhat_lower';
+      feeds.v1 = 'yhat';
+      feeds.v2 = 'trend';
+      const grammar = config[0].build(feeds);
+      return <GGChart grammar={grammar} data={dataSource} />;
     };
 
     const jobContents = buildItems(jobDetails);
     const optionContents = buildItems(job_option);
     const validationContents = buildItems(validation_option);
     const confusionMatrix = buildConfusionMatrix(validation_result);
+    const trendValidation = buildTrendValidation(validation_result);
 
     return (
       <div className={styles.details}>
@@ -180,6 +206,7 @@ class MLJobDetailsPanel extends PureComponent {
                   {validation_result && buildValidationStats(validation_result)}
                 </Row>
                 <Row gutter={16}>{confusionMatrix && confusionMatrix}</Row>
+                <Row gutter={16}>{trendValidation && trendValidation}</Row>
               </Panel>
             </Collapse>
           </Col>

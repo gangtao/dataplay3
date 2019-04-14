@@ -269,15 +269,14 @@ const heatmapChart = {
         return self.indexOf(value) === index;
       });
 
-      const cols = {
-        name: {
-          type: 'cat',
-          values: xUnique,
-        },
-        day: {
-          type: 'cat',
-          values: yUnique,
-        },
+      const cols = {};
+      cols[feeds.x] = {
+        type: 'cat',
+        values: xUnique,
+      };
+      cols[feeds.y] = {
+        type: 'cat',
+        values: yUnique,
       };
       return cols;
     };
@@ -353,6 +352,38 @@ const trendChart = {
         },
       };
     }
+
+    grammar.fscale = d => {
+      if (!d) {
+        return null;
+      }
+
+      if (!feeds.high || !feeds.low) {
+        return null;
+      }
+
+      const highVal = d.map(e => e[feeds.high]);
+      const lowVal = d.map(e => e[feeds.low]);
+      const min = Math.min(...lowVal, ...highVal);
+      const max = Math.max(...lowVal, ...highVal);
+
+      const cols = {};
+      const scale = {
+        min: min,
+        max: max,
+        nice: false,
+      };
+      cols.range = scale;
+      cols[feeds.v1] = scale;
+      cols[feeds.v2] = scale;
+      cols[feeds.time] = {
+        type: 'time',
+        nice: false,
+      };
+
+      return cols;
+    };
+
     return grammar;
   },
 };
