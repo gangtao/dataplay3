@@ -33,9 +33,9 @@ class GrammarConfigPanel extends PureComponent {
   }
 
   buildPanel = (geom, panes) => {
-    Object.entries(geom).map(function(item){
+    Object.entries(geom).map(item => {
       const activeKey = item[0];
-      panes.push({ title: activeKey, content: '', key: activeKey });
+      panes.push({ title: activeKey, content: '', key: activeKey , index:0});
     });
   };
 
@@ -49,33 +49,52 @@ class GrammarConfigPanel extends PureComponent {
 
   add = () => {
     const { panes } = this.state;
-    const activeKey = `Geom${(this.newTabIndex += 1)}`;
-    panes.push({ title: `Geom${this.newTabIndex}`, content: '', key: activeKey });
+    let newIndex = undefined;
+
+    const usedIndexes = panes.map( pane => pane.index);
+    for( let i = 0; i < usedIndexes.length; i++) {
+      if (!usedIndexes.includes(i)) {
+        newIndex = i;
+        break;
+      }
+    } 
+
+    if (newIndex === undefined) {
+      newIndex = usedIndexes.length;
+    }
+
+    const activeKey = `Geom${newIndex+1}`;
+    panes.push({ title: `Geom${newIndex+1}`, content: '', key: activeKey , index: newIndex});
     this.setState({ panes, activeKey });
   };
 
   remove = targetKey => {
     const { dispatch } = this.props;
-    let { activeKey, panes } = this.state;
+    let { activeKey } = this.state;
     let lastIndex;
-    panes.forEach((pane, i) => {
+    this.state.panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1;
       }
     });
-    const updatePanels = panes.filter(pane => pane.key !== targetKey);
+    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
     if (panes.length && activeKey === targetKey) {
       if (lastIndex >= 0) {
         activeKey = panes[lastIndex].key;
       } else {
         activeKey = panes[0].key;
       }
+    } else if (panes.length > 0) {
+      activeKey = panes[0].key;
     } else {
       activeKey = null;
     }
 
-    this.setState({ updatePanels, activeKey });
-    this.newTabIndex -= 1;
+    this.setState({ panes, activeKey });
+    // never decrease index
+    // this.newTabIndex -= 1;
+
+
     dispatch({
       type: 'gchart/geomDelete',
       payload: targetKey,
@@ -85,7 +104,6 @@ class GrammarConfigPanel extends PureComponent {
   render() {
     const { gchart, dispatch } = this.props;
     const { currentDataset } = gchart;
-    const { panes , activeKey } = this.state;
     const facatOptions = [];
 
     const formItemLayout = {
@@ -130,8 +148,9 @@ class GrammarConfigPanel extends PureComponent {
     });
 
     if (currentDataset && currentDataset.columns) {
-      currentDataset.columns.map(col => facatOptions.push(<Option key={col.key}>{col.key}</Option>)
-      );
+      currentDataset.columns.map(col => {
+        facatOptions.push(<Option key={col.key}>{col.key}</Option>);
+      });
     }
 
     const facatValue = gchart.grammar.facat ? gchart.grammar.facat : [];
@@ -171,13 +190,13 @@ class GrammarConfigPanel extends PureComponent {
         <Row gutter={16}>
           <Tabs
             onChange={this.onTabChange}
-            activeKey={activeKey}
+            activeKey={this.state.activeKey}
             type="editable-card"
             onEdit={this.onTabEdit}
             tabPosition="top"
             style={{ marginTop: '10px' }}
           >
-            {panes.map(pane => (
+            {this.state.panes.map(pane => (
               <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
                 <GeomConfigPanel
                   geomKey={pane.key}
