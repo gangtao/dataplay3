@@ -16,7 +16,7 @@ export default {
   },
 
   effects: {
-    *fetchJobs({ _ }, { call, put }) {
+    *fetchJobs(_, { call, put }) {
       const payload = { type: 'TimeSerialsForecastsJob' };
       const response = yield call(queryJobs, payload);
       yield put({
@@ -24,19 +24,15 @@ export default {
         payload: response,
       });
     },
-    *fetchConfig({ _ }, { call, put }) {
+    *fetchConfig(_, { call, put }) {
       const response = yield call(getConfig, 'mljob');
       yield put({
         type: 'updateConfig',
         payload: response,
       });
     },
-    *fetchJob({ payload }, { call, put }) {
-      const response = yield call(queryJob, payload);
-      //
-    },
     *removeJob({ payload }, { call, put }) {
-      const response = yield call(deleteJob, payload);
+      yield call(deleteJob, payload);
       yield put({
         type: 'fetchJobs',
       });
@@ -98,13 +94,13 @@ export default {
         jobs: action.payload,
       };
     },
-    createView(state, action) {
+    createView(state) {
       return {
         ...state,
         view: 'create',
       };
     },
-    listView(state, action) {
+    listView(state) {
       return {
         ...state,
         view: 'list',
