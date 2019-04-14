@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Empty } from 'antd';
 import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Facet } from 'bizcharts';
+import { DataSet } from '@antv/data-set';
 import styles from './index.less';
 
-import { DataSet } from '@antv/data-set';
 
 const defaultHeight = 600;
 const padding = 'auto';

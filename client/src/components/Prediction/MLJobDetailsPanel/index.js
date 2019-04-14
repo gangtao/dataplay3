@@ -108,7 +108,7 @@ class MLJobDetailsPanel extends PureComponent {
     const buildValidationStats = obj => {
       const items = [];
       for (const p in obj) {
-        if (typeof obj[p] == 'number') {
+        if (typeof obj[p] === 'number') {
           items.push(
             <Col span={8} key={p}>
               <Statistic title={p} value={obj[p]} />

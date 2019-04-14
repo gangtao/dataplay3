@@ -5,11 +5,11 @@ import { parse } from 'url';
 const {Random} = mockjs;
 
 Random.extend({
-    jobStatus(date) {
+    jobStatus() {
         const status = ['INITIALIZED','TRAINING','VALIDATING','SUCCESS','FAILED'];
         return this.pick(status);
     },
-    jobType(date) {
+    jobType() {
         const type = ['AutoClassificationJob','AutoRegressionJob','TimeSerialsForecastsJob'];
         return this.pick(type);
     }
@@ -40,9 +40,7 @@ const regressionJobDetails = {
         "ensemble_size": 50,
         "ensemble_nbest": 50,
         "ensemble_memory_limit": 1024,
-        "ml_memory_limit": 2048,
-        "tmp_folder": "\/tmp\/dataplay\/mljobs\/8205f310-8bf7-4a14-869b-1177b49f46cd\/tmp",
-        "output_folder": "\/tmp\/dataplay\/mljobs\/8205f310-8bf7-4a14-869b-1177b49f46cd\/output"
+        "ml_memory_limit": 2048
     },
     "validation_option": {
         "test_size": 0.1,
@@ -69,9 +67,7 @@ const classificationJobDetail = {
         "ensemble_size": 50,
         "ensemble_nbest": 50,
         "ensemble_memory_limit": 1024,
-        "ml_memory_limit": 2048,
-        "tmp_folder": "\/tmp\/dataplay\/mljobs\/845f1252-aaca-4f20-a188-6e01ee18ce23\/tmp",
-        "output_folder": "\/tmp\/dataplay\/mljobs\/845f1252-aaca-4f20-a188-6e01ee18ce23\/output"
+        "ml_memory_limit": 2048
     },
     "validation_option": {
         "test_size": 0.1,
@@ -807,11 +803,11 @@ function getJobs(req, res, u) {
 function getJob(req, res) {
     const { id } = req.params;
     let job = jobs.find(item => item.id === id);
-    if ( job.type == 'AutoClassificationJob') {
+    if ( job.type === 'AutoClassificationJob') {
         job = { ...job, ...classificationJobDetail};
-    } else if ( job.type == 'AutoRegressionJob' ) {
+    } else if ( job.type === 'AutoRegressionJob' ) {
         job = { ...job, ...regressionJobDetails};
-    } else if ( job.type == 'TimeSerialsForecastsJob' ) {
+    } else if ( job.type === 'TimeSerialsForecastsJob' ) {
         job = { ...job, ...timeForcastJobDetails};
     }
 
@@ -831,15 +827,13 @@ function createJob(req, res, u, b) {
 
 function deleteJob(req, res) {
     const { id } = req.params;
-    jobs = jobs.filter(function(value, index, arr){
+    jobs = jobs.filter(function(value){
         return value.id !== id;
     });
     res.status(204).json({});
 }
 
-function predict(req, res, u, b) {
-    const body = (b && b.body) || req.body;
-    const payload = {...body};
+function predict(req, res ) {
     res.status(200).json(fakePrediction);
 }
 

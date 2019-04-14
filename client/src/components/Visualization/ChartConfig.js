@@ -369,8 +369,8 @@ const trendChart = {
 
       const cols = {};
       const scale = {
-        min: min,
-        max: max,
+        min,
+        max,
         nice: false,
       };
       cols.range = scale;
