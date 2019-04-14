@@ -55,7 +55,7 @@ class GetDataIn extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.getDataIn}>
+        <div>
           <Row gutter={16}>
             <Col span={16}>
               <Steps current={currentStep} size="small">

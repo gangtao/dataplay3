@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Select, Icon } from 'antd';
 
-import styles from './ChartTypeSelector.less';
 import { chartConfigs } from '@/components/Visualization/ChartConfig';
 
 const { Option } = Select;
@@ -31,7 +30,7 @@ class ChartTypeSelector extends PureComponent {
     };
 
     return (
-      <div className={styles.datasetListSelector}>
+      <div>
         <Select
           size={size}
           showSearch

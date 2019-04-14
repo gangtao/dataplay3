@@ -1,12 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'dva';
-
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 import DashboardPanel from './DashboardPanel';
-
-import styles from './index.less';
 
 @connect(({ dashboard }) => ({
   dashboard,
@@ -52,7 +48,7 @@ class Dashboards extends PureComponent {
     if (!maximize) {
       return (
         <PageHeaderWrapper>
-          <div className={styles.dashboard}>
+          <div>
             <Row gutter={16}>{dashboardsContents}</Row>
           </div>
         </PageHeaderWrapper>

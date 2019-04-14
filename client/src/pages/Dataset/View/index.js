@@ -7,8 +7,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 import DatasetTable from '@/components/Dataset/DatasetTable';
 
-import styles from './index.less';
-
 @connect(({ dataset, query, loading }) => ({
   dataset,
   query,
@@ -48,7 +46,7 @@ class Dataset extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.dataset}>
+        <div>
           <Row gutter={16}>
             <Col span={8}>
               <Row>

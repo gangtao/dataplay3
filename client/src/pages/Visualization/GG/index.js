@@ -123,7 +123,7 @@ class GrammerGraph extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.gchart}>
+        <div>
           <Row gutter={16} type="flex" justify="end">
             <Col span={6}>
               <div className={styles.ggHeader}>

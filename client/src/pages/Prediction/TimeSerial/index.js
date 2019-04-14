@@ -8,8 +8,6 @@ import MLJobDetailsPanel from '@/components/Prediction/MLJobDetailsPanel';
 import MLJobPredictPanel from '@/components/Prediction/MLJobPredictPanel';
 import MLJobOptionCreationPanel from '@/components/Prediction/MLJobOptionCreationPanel';
 
-import styles from './index.less';
-
 @connect(({ timeserials, loading }) => ({
   timeserials,
   loading: loading.effects['timeserials/fetchJobs'],
@@ -136,7 +134,7 @@ class TimeSerial extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.timeserial}>
+        <div>
           <Row>
             <MLJobControlPanel canList canCreate onList={onList} onCreate={onCreate} />
           </Row>

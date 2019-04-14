@@ -8,8 +8,6 @@ import MLJobDetailsPanel from '@/components/Prediction/MLJobDetailsPanel';
 import MLJobPredictPanel from '@/components/Prediction/MLJobPredictPanel';
 import MLJobOptionCreationPanel from '@/components/Prediction/MLJobOptionCreationPanel';
 
-import styles from './index.less';
-
 @connect(({ classification, loading }) => ({
   classification,
   loading: loading.effects['classification/fetchJobs'],
@@ -145,7 +143,7 @@ class Categorical extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.numerical}>
+        <div>
           <Row>
             <MLJobControlPanel canList canCreate onList={onList} onCreate={onCreate} />
           </Row>

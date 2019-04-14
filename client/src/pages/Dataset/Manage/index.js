@@ -4,7 +4,6 @@ import { Row, Col, Tabs, Table, Divider, Empty, Modal, Form, Input, Button, mess
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './index.less';
 
 import { query2dataset } from '@/services/dataset';
 
@@ -276,7 +275,7 @@ class Manage extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.managePanel}>
+        <div>
           <Tabs defaultActiveKey="1">
             <TabPane tab="Dataset" key="1">
               {buildDatasetTable()}
