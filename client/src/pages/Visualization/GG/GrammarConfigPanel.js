@@ -33,7 +33,7 @@ class GrammarConfigPanel extends PureComponent {
   }
 
   buildPanel = (geom, panes) => {
-    Object.entries(geom).map(item => {
+    Object.entries(geom).map(function(item){
       const activeKey = item[0];
       panes.push({ title: activeKey, content: '', key: activeKey });
     });
@@ -56,14 +56,14 @@ class GrammarConfigPanel extends PureComponent {
 
   remove = targetKey => {
     const { dispatch } = this.props;
-    let { activeKey } = this.state;
+    let { activeKey, panes } = this.state;
     let lastIndex;
-    this.state.panes.forEach((pane, i) => {
+    panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1;
       }
     });
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+    const updatePanels = panes.filter(pane => pane.key !== targetKey);
     if (panes.length && activeKey === targetKey) {
       if (lastIndex >= 0) {
         activeKey = panes[lastIndex].key;
@@ -74,7 +74,7 @@ class GrammarConfigPanel extends PureComponent {
       activeKey = null;
     }
 
-    this.setState({ panes, activeKey });
+    this.setState({ updatePanels, activeKey });
     this.newTabIndex -= 1;
     dispatch({
       type: 'gchart/geomDelete',
@@ -85,6 +85,7 @@ class GrammarConfigPanel extends PureComponent {
   render() {
     const { gchart, dispatch } = this.props;
     const { currentDataset } = gchart;
+    const { panes , activeKey } = this.state;
     const facatOptions = [];
 
     const formItemLayout = {
@@ -129,9 +130,8 @@ class GrammarConfigPanel extends PureComponent {
     });
 
     if (currentDataset && currentDataset.columns) {
-      currentDataset.columns.map(col => {
-        facatOptions.push(<Option key={col.key}>{col.key}</Option>);
-      });
+      currentDataset.columns.map(col => facatOptions.push(<Option key={col.key}>{col.key}</Option>)
+      );
     }
 
     const facatValue = gchart.grammar.facat ? gchart.grammar.facat : [];
@@ -171,13 +171,13 @@ class GrammarConfigPanel extends PureComponent {
         <Row gutter={16}>
           <Tabs
             onChange={this.onTabChange}
-            activeKey={this.state.activeKey}
+            activeKey={activeKey}
             type="editable-card"
             onEdit={this.onTabEdit}
             tabPosition="top"
             style={{ marginTop: '10px' }}
           >
-            {this.state.panes.map(pane => (
+            {panes.map(pane => (
               <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
                 <GeomConfigPanel
                   geomKey={pane.key}

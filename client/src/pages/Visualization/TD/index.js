@@ -45,9 +45,9 @@ class TypeDrivenChart extends PureComponent {
     };
 
     const savedQueryList = [];
-    for (const p in query.savedQuery) {
-      savedQueryList.push({ name: query.savedQuery[p].name });
-    }
+    Object.keys(query.savedQuery).map( key => 
+      savedQueryList.push({ name: query.savedQuery[key].name })
+    )
 
     const handleChange = (value, type) => {
       dispatch({
@@ -72,7 +72,6 @@ class TypeDrivenChart extends PureComponent {
         type: 'tchart/updateType',
         payload: value,
       });
-      const { feeds } = tchart;
       const chartConfig = chartConfigs.find(value);
       // TODO : handle feeds that does not belong to this chart
       if (chartConfig && chartConfig.length > 0) {
@@ -84,10 +83,6 @@ class TypeDrivenChart extends PureComponent {
       }
     };
 
-    const exportToDashboard = () => {
-      toggleExport(true);
-    };
-
     const toggleExport = show => {
       const payload = {
         visible: show,
@@ -96,6 +91,10 @@ class TypeDrivenChart extends PureComponent {
         type: 'tchart/exportUpdate',
         payload,
       });
+    };
+
+    const exportToDashboard = () => {
+      toggleExport(true);
     };
 
     const handleExportConfirm = () => {

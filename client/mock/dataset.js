@@ -1,13 +1,13 @@
 import mockjs from 'mockjs';
 import iris from './data/iris.json';
-import air_passengers from './data/air_passengers.json';
+import air_passengers from './data/air_passengers.json';  // eslint-disable-line camelcase
 import nasdaq from './data/nasdaq.json';
-import heat_sample from './data/heat_sample.json';
+import heat_sample from './data/heat_sample.json'; // eslint-disable-line camelcase
 
 
 const {Random} = mockjs;
 
-let database = [iris,air_passengers,nasdaq,heat_sample];
+let database = [iris,air_passengers,nasdaq,heat_sample]; // eslint-disable-line camelcase
 
 const NOTFOUND = {
   message: 'Not Found',
@@ -38,7 +38,7 @@ function getDataset(req, res) {
     }
 }
 
-function fakeQuery(dataset) {
+function fakeQuery(dataset) {  // eslint-disable-line no-unused-vars
     if ( !dataset) {
         return {};
     }
@@ -88,7 +88,7 @@ function uploadDataset(req, res) {
 
 function deleteDataset(req, res) {
     const { id } = req.params;
-    database = database.filter(function(value, index, arr){
+    database = database.filter(function(value){
         return value.id !== id;
     });
     res.status(204).json({});
@@ -96,11 +96,11 @@ function deleteDataset(req, res) {
 
 function queryToDataset(req, res, u, b) {
     const body = (b && b.body) || req.body;
-    const { source_dataset_id, query_type, query,dataset_id,dataset_name,dataset_description } = body;
-    const created_dataset = {...database[source_dataset_id]};
-    created_dataset.id = dataset_id;
-    created_dataset.name = dataset_name;
-    created_dataset.dataset_description = dataset_description;
+    const { source_dataset_id,dataset_id,dataset_name,dataset_description } = body;  // eslint-disable-line camelcase
+    const created_dataset = {...database[source_dataset_id]}; // eslint-disable-line camelcase
+    created_dataset.id = dataset_id; // eslint-disable-line camelcase
+    created_dataset.name = dataset_name; // eslint-disable-line camelcase
+    created_dataset.dataset_description = dataset_description; // eslint-disable-line camelcase
 
     database.push(created_dataset);
 

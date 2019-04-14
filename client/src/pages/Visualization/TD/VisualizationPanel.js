@@ -8,7 +8,7 @@ import GGChart from '@/components/Visualization/GGChart';
 }))
 class VisualizationPanel extends PureComponent {
   render() {
-    const { tchart, dispatch } = this.props;
+    const { tchart } = this.props;
     const { grammar, currentDataset } = tchart;
     // force update
     const grammarUpdate = { ...grammar };

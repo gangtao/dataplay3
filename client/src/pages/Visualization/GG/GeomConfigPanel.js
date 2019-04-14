@@ -71,7 +71,7 @@ class GeomConfigPanel extends PureComponent {
     const geomAttributesSelectors = geomAttributes.map(attr => {
       const selected = geomValues && geomValues[attr] ? geomValues[attr] : [];
       const content = buildSelect(attr, fieldsList, false, selected);
-      return <Form.Item label={attr}>{content}</Form.Item>;
+      return <Form.Item key={attr} label={attr}>{content}</Form.Item>;
     });
 
     return (

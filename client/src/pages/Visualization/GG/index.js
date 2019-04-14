@@ -42,9 +42,9 @@ class GrammerGraph extends PureComponent {
     };
 
     const savedQueryList = [];
-    for (const p in query.savedQuery) {
-      savedQueryList.push({ name: query.savedQuery[p].name });
-    }
+    Object.keys(query.savedQuery).map( key => 
+      savedQueryList.push({ name: query.savedQuery[key].name })
+    )
 
     const handleChange = (value, type) => {
       if (type === 'dataset') {
@@ -61,10 +61,6 @@ class GrammerGraph extends PureComponent {
       }
     };
 
-    const exportToDashboard = () => {
-      toggleExport(true);
-    };
-
     const toggleExport = show => {
       const payload = {
         visible: show,
@@ -73,6 +69,10 @@ class GrammerGraph extends PureComponent {
         type: 'gchart/exportUpdate',
         payload,
       });
+    };
+
+    const exportToDashboard = () => {
+      toggleExport(true);
     };
 
     const handleExportConfirm = () => {

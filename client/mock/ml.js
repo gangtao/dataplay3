@@ -833,7 +833,7 @@ function deleteJob(req, res) {
     res.status(204).json({});
 }
 
-function predict(req, res ) {
+function predict(req, res) {
     res.status(200).json(fakePrediction);
 }
 
