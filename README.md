@@ -29,7 +29,7 @@ These tools are powerful and if you are looking for a enterprise ready data anal
 While dataplay3 is a small tool that targets to cover whole life cycle of data aquisition, data preparation, data visualization, prediction model building (Machine learning) and model deployment with easy to use in one box.  Assuming the user has little knowledge of data science. 
 
 ## document
-under construction
+[https://gangtao.github.io/dataplay3/](https://gangtao.github.io/dataplay3/)
 
 ## run
 to run dataplay3 in docker
