@@ -16,14 +16,14 @@
 
 # dataplay3
 
-## Quick Start
+### Quick Start
 
-## Feature Overview
+### Feature Overview
 
-## Architecture
+### Architecture
 
-## Development
+### Development
 
-### Client
+#### Client
 
-### Server
+#### Server
