@@ -124,7 +124,7 @@ export default class GlobalHeaderRight extends PureComponent {
         <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
-            href="https://www.zhihu.com/people/gangtao/activities"
+            href="https://gangtao.github.io/dataplay3/"
             rel="noopener noreferrer"
             className={styles.action}
           >

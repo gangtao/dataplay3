@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Form, Button, Empty, message } from 'antd';
+import { Row, Col, Form, Button, Empty, Divider, message } from 'antd';
 
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 import DatasetTable from '@/components/Dataset/DatasetTable';
@@ -37,11 +37,11 @@ class MLJobPredictPanel extends PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 2 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 8 },
       },
     };
 
@@ -53,7 +53,7 @@ class MLJobPredictPanel extends PureComponent {
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 2,
         },
       },
     };
@@ -104,27 +104,26 @@ class MLJobPredictPanel extends PureComponent {
     return (
       <div className={styles.details}>
         <Row>
-          <Col span={10}>
-            <Form {...formItemLayout}>
-              <Form.Item label="Prediction Job">{job.id}</Form.Item>
-              <Form.Item label="Select Dataset">
-                <DatasetListSelector
-                  datasetList={datasetList}
-                  queryList={[]}
-                  handleChange={handleDatasetSelect}
-                  selected={this.state.selected}
-                />
-              </Form.Item>
-              <Form.Item {...tailFormItemLayout}>
-                <Button icon="search" onClick={handlePredict} loading={this.state.loading}>
-                  Predict
-                </Button>
-              </Form.Item>
-            </Form>
-          </Col>
-          <Col span={12} offset={2}>
-            {buildPredictionResult()}
-          </Col>
+          <Form {...formItemLayout}>
+            <Form.Item label="Prediction Job">{job.id}</Form.Item>
+            <Form.Item label="Select Dataset">
+              <DatasetListSelector
+                datasetList={datasetList}
+                queryList={[]}
+                handleChange={handleDatasetSelect}
+                selected={this.state.selected}
+              />
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+              <Button icon="search" onClick={handlePredict} loading={this.state.loading}>
+                Predict
+              </Button>
+            </Form.Item>
+          </Form>
+        </Row>
+        <Row>
+          <Divider orientation="left" />
+          {buildPredictionResult()}
         </Row>
       </div>
     );
