@@ -51,7 +51,7 @@ class ChartFeedPanel extends PureComponent {
     const buildSelect = (type, children, single) => {
       const hint = `please select ${type}`;
       const value = feeds[type];
-      const handleChange = (e) => {
+      const handleChange = e => {
         const feed = {};
         feed[type] = e;
         dispatch({

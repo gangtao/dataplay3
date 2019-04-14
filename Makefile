@@ -1,5 +1,5 @@
 BIN_NAME ?= dataplay3
-VERSION ?= 0.1
+VERSION ?= 0.1-dev
 IMAGE_NAME ?= $(BIN_NAME):$(VERSION)
 DOCKER_ID_USER ?= naughtytao
 

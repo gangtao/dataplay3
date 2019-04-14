@@ -40,7 +40,7 @@ While dataplay3 is a small tool that targets to cover whole life cycle of data a
 ## run
 to run dataplay3 in docker
 ```
-docker run -p 8000:8000 naughtytao/dataplay3:0.1
+docker run -p 8000:8000 naughtytao/dataplay3:0.1-dev
 ```
 
 and the open your browser with following url 

@@ -1,4 +1,5 @@
-export function convertDataset(payload) { // eslint-disable-line import/prefer-default-export
+export function convertDataset(payload) {
+  // eslint-disable-line import/prefer-default-export
   const convertedDataset = {};
   if (payload) {
     let dataSource = [];

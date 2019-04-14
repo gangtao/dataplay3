@@ -42,9 +42,9 @@ class GrammerGraph extends PureComponent {
     };
 
     const savedQueryList = [];
-    Object.keys(query.savedQuery).map( key => 
+    Object.keys(query.savedQuery).map(key =>
       savedQueryList.push({ name: query.savedQuery[key].name })
-    )
+    );
 
     const handleChange = (value, type) => {
       if (type === 'dataset') {

@@ -32,12 +32,11 @@ class GrammarConfigPanel extends PureComponent {
     }
   }
 
-  buildPanel = (geom, panes) => {
-    Object.entries(geom).map(item => {
+  buildPanel = (geom, panes) =>
+    Object.entries(geom).map(function(item) {
       const activeKey = item[0];
-      panes.push({ title: activeKey, content: '', key: activeKey , index:0});
+      panes.push({ title: activeKey, content: '', key: activeKey, index: 0 });
     });
-  };
 
   onTabChange = activeKey => {
     this.setState({ activeKey });
@@ -49,22 +48,22 @@ class GrammarConfigPanel extends PureComponent {
 
   add = () => {
     const { panes } = this.state;
-    let newIndex = undefined;
+    let newIndex;
 
-    const usedIndexes = panes.map( pane => pane.index);
-    for( let i = 0; i < usedIndexes.length; i++) {
+    const usedIndexes = panes.map(pane => pane.index);
+    for (let i = 0; i < usedIndexes.length; i += 1) {
       if (!usedIndexes.includes(i)) {
         newIndex = i;
         break;
       }
-    } 
+    }
 
     if (newIndex === undefined) {
       newIndex = usedIndexes.length;
     }
 
-    const activeKey = `Geom${newIndex+1}`;
-    panes.push({ title: `Geom${newIndex+1}`, content: '', key: activeKey , index: newIndex});
+    const activeKey = `Geom${newIndex + 1}`;
+    panes.push({ title: `Geom${newIndex + 1}`, content: '', key: activeKey, index: newIndex });
     this.setState({ panes, activeKey });
   };
 
@@ -94,7 +93,6 @@ class GrammarConfigPanel extends PureComponent {
     // never decrease index
     // this.newTabIndex -= 1;
 
-
     dispatch({
       type: 'gchart/geomDelete',
       payload: targetKey,
@@ -104,6 +102,7 @@ class GrammarConfigPanel extends PureComponent {
   render() {
     const { gchart, dispatch } = this.props;
     const { currentDataset } = gchart;
+    const { activeKey, panes } = this.state;
     const facatOptions = [];
 
     const formItemLayout = {
@@ -148,9 +147,9 @@ class GrammarConfigPanel extends PureComponent {
     });
 
     if (currentDataset && currentDataset.columns) {
-      currentDataset.columns.map(col => {
-        facatOptions.push(<Option key={col.key}>{col.key}</Option>);
-      });
+      currentDataset.columns.map(col =>
+        facatOptions.push(<Option key={col.key}>{col.key}</Option>)
+      );
     }
 
     const facatValue = gchart.grammar.facat ? gchart.grammar.facat : [];
@@ -190,13 +189,13 @@ class GrammarConfigPanel extends PureComponent {
         <Row gutter={16}>
           <Tabs
             onChange={this.onTabChange}
-            activeKey={this.state.activeKey}
+            activeKey={activeKey}
             type="editable-card"
             onEdit={this.onTabEdit}
             tabPosition="top"
             style={{ marginTop: '10px' }}
           >
-            {this.state.panes.map(pane => (
+            {panes.map(pane => (
               <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
                 <GeomConfigPanel
                   geomKey={pane.key}
