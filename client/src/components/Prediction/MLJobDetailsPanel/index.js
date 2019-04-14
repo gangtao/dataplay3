@@ -176,7 +176,7 @@ class MLJobDetailsPanel extends PureComponent {
     const trendValidation = buildTrendValidation(validation_result);
 
     return (
-      <div className={styles.details}>
+      <div>
         <Row>
           <Col key="JobDetails" span={12}>
             <Collapse defaultActiveKey={['1']} className={styles.detailsPanel}>

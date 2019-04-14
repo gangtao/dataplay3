@@ -16,8 +16,6 @@ import {
 
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 
-import styles from './index.less';
-
 const { Option } = Select;
 
 class CustomizedForm extends React.Component {

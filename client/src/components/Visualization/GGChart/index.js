@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { Empty } from 'antd';
 import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Facet } from 'bizcharts';
 import { DataSet } from '@antv/data-set';
-import styles from './index.less';
 
 const defaultHeight = 600;
 const padding = 'auto';
@@ -153,7 +152,7 @@ class GGChart extends PureComponent {
       const axis = buildAxis();
 
       return (
-        <div className={styles.ggchart}>
+        <div>
           <Chart
             height={height || defaultHeight}
             data={dv}
@@ -188,7 +187,7 @@ class GGChart extends PureComponent {
         return <Empty />;
       }
       return (
-        <div className={styles.ggchart}>
+        <div>
           <Chart
             height={height || defaultHeight}
             data={dv}

@@ -73,15 +73,7 @@ class ConfigTab extends PureComponent {
           cell: EditableCell,
         },
       };
-      return (
-        <Table
-          components={components}
-          rowClassName={styles.editablerow}
-          columns={columns}
-          dataSource={data}
-          size="small"
-        />
-      );
+      return <Table components={components} columns={columns} dataSource={data} size="small" />;
     };
 
     return buildTabContent(data);

@@ -7,8 +7,6 @@ import { predict } from '@/services/automl';
 
 import { convertDataset } from '@/utils/dataset';
 
-import styles from './index.less';
-
 class MLJobPredictPanel extends PureComponent {
   constructor(props) {
     super(props);
@@ -102,7 +100,7 @@ class MLJobPredictPanel extends PureComponent {
     };
 
     return (
-      <div className={styles.details}>
+      <div>
         <Row>
           <Form {...formItemLayout}>
             <Form.Item label="Prediction Job">{job.id}</Form.Item>

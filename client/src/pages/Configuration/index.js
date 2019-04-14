@@ -69,7 +69,7 @@ class Configuration extends PureComponent {
 
     return (
       <PageHeaderWrapper>
-        <div className={styles.config}>
+        <div>
           <Row gutter={16} type="flex" justify="end">
             <Col span={6}>
               <div className={styles.configHeader}>
