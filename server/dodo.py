@@ -103,7 +103,7 @@ def gen_install_tasks():
         "basename": "install_dep",
         "actions": ["pip install -r requirements.txt . --no-deps"],
     }
-    yield {"basename": "override_numpy", "actions": ["pip3 install numpy==1.16.0"]}
+    yield {"basename": "override_numpy", "actions": ["pip3 install numpy==1.16.0 holidays==0.9.8"]}
 
 
 def task_install() -> DoitReturn:

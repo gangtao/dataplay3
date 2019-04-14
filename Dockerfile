@@ -23,8 +23,10 @@ RUN cd /home && \
     pip3 install -r requirements.txt 
 
 # override numpy version  
-# refer to https://github.com/scikit-learn-contrib/hdbscan/issues/272 
-RUN pip3 install numpy==1.16.0 --force-reinstall
+# refer to https://github.com/scikit-learn-contrib/hdbscan/issues/272
+# override holidays version
+# refer to https://github.com/facebook/prophet/issues/796 
+RUN pip3 install numpy==1.16.0 holidays==0.9.8 --force-reinstall
 
 EXPOSE 8000
 RUN mkdir /home/dataplay
