@@ -16,6 +16,8 @@
 
 # dataplay3
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e46d2bc99bc4dad990af063c26efb00)](https://app.codacy.com/app/gangtao/dataplay3?utm_source=github.com&utm_medium=referral&utm_content=gangtao/dataplay3&utm_campaign=Badge_Grade_Settings)
+
 ## introduction
 dataplay3 is a minimized data science tool that provide basic data related functions including dataset management, data visualization, prediction for numeric, catagorical and time serials data.
 
