@@ -32,7 +32,7 @@ EXPOSE 8000
 RUN mkdir /home/dataplay
 WORKDIR /home
 COPY entrypoint.sh /home/
-ADD server/dataplay /home/dataplay
+COPY server/dataplay /home/dataplay
 
 RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
     find /usr/local/lib/python3.6/ -name '*.pyc' -exec rm -r '{}' + && \
