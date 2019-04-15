@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Modal, Empty } from 'antd';
+import { Row, Modal, Empty } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import MLJobTable from '@/components/Prediction/MLJobTable';
@@ -112,10 +112,10 @@ class Numerical extends PureComponent {
     };
 
     const contentView = () => {
-      if (view == 'list') {
+      if (view === 'list') {
         return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} onPredict={onPredict} />;
       }
-      if (view == 'create') {
+      if (view === 'create') {
         return (
           <MLJobOptionCreationPanel
             datasetList={datasetList}
@@ -127,12 +127,12 @@ class Numerical extends PureComponent {
           />
         );
       }
-      if (view == 'detail') {
+      if (view === 'detail') {
         return (
           <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
       }
-      if (view == 'predict') {
+      if (view === 'predict') {
         return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
       }
       return <Empty />;

@@ -16,7 +16,7 @@ class DatasetListSelector extends PureComponent {
       }
       return (
         <Option key={item.name} value={item.name} type={type}>
-          <span className={styles.datasetType}>
+          <span>
             {item.name} <Icon type={icon} />{' '}
           </span>
         </Option>

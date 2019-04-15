@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Modal, Empty } from 'antd';
+import { Row, Modal, Empty } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import MLJobTable from '@/components/Prediction/MLJobTable';
@@ -27,7 +27,7 @@ class Categorical extends PureComponent {
   }
 
   render() {
-    const { classification, dispatch, loading } = this.props;
+    const { classification, dispatch } = this.props;
     const { jobs, view, selectedJob, datasetList, selectedDataset, config } = classification;
     const jobType = 'AutoClassificationJob';
 
@@ -115,10 +115,10 @@ class Categorical extends PureComponent {
     };
 
     const contentView = () => {
-      if (view == 'list') {
+      if (view === 'list') {
         return <MLJobTable jobs={jobs} onView={onView} onDelete={onDelete} onPredict={onPredict} />;
       }
-      if (view == 'create') {
+      if (view === 'create') {
         return (
           <MLJobOptionCreationPanel
             datasetList={datasetList}
@@ -130,12 +130,12 @@ class Categorical extends PureComponent {
           />
         );
       }
-      if (view == 'detail') {
+      if (view === 'detail') {
         return (
           <MLJobDetailsPanel job={selectedJob} onRefresh={handleDetailRefresh} config={jobConfig} />
         );
       }
-      if (view == 'predict') {
+      if (view === 'predict') {
         return <MLJobPredictPanel datasetList={datasetList} job={selectedJob} />;
       }
       return <Empty />;
