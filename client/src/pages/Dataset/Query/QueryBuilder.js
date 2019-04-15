@@ -42,14 +42,14 @@ class QueryBuilder extends PureComponent {
           title: 'invalide query',
           content: 'query is not valid',
         });
-        return null;
+        return;
       }
 
       const regex = /(\w*=\w*)/g;
       const properties = commands[0].match(regex);
       currentQuery.type = 'sql';
 
-      properties.map(property => {
+      properties.forEach(property => {
         const [key, value] = property.split(equal);
         if (key === 'type') {
           currentQuery.type = value;

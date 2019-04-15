@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Tabs, Table, Divider, Empty, Modal, Form, Input, Button, message } from 'antd';
+import { Tabs, Table, Divider, Empty, Modal, Form, Input, message } from 'antd';
 
 import { connect } from 'dva';
 
@@ -12,10 +12,6 @@ const { confirm } = Modal;
 const { TextArea } = Input;
 
 class CustomizedContentForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { payload } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -142,11 +138,11 @@ class Manage extends PureComponent {
 
             return (
               <span>
-                <a href="javascript:;" onClick={callView}>
+                <a onClick={callView}>
                   View
                 </a>
                 <Divider type="vertical" />
-                <a href="javascript:;" onClick={callDelete}>
+                <a onClick={callDelete}>
                   Delete
                 </a>
               </span>
@@ -230,10 +226,13 @@ class Manage extends PureComponent {
                       const payload = { ...values };
                       return new Promise((resolve, reject) => {
                         const response = query2dataset(payload);
+                        console.log(response);
                         message.success(`query ${record.name} has been exported to dataset!`);
                       }).catch(() => {
                         message.error(`query ${record.name} failed to export!`);
                       });
+                    } else {
+                      return;
                     }
                   });
                 },
@@ -243,15 +242,15 @@ class Manage extends PureComponent {
 
             return (
               <span>
-                <a href="javascript:;" onClick={callView}>
+                <a onClick={callView}>
                   View
                 </a>
                 <Divider type="vertical" />
-                <a href="javascript:;" onClick={callDelete}>
+                <a onClick={callDelete}>
                   Delete
                 </a>
                 <Divider type="vertical" />
-                <a href="javascript:;" onClick={callExport}>
+                <a onClick={callExport}>
                   Export as Dataset
                 </a>
               </span>
@@ -265,11 +264,11 @@ class Manage extends PureComponent {
       }
 
       const data = [];
-      for (const p in query.savedQuery) {
-        const source = query.savedQuery[p];
+      Object.keys(query.savedQuery).forEach(key=>{
+        const source = query.savedQuery[key];
         const item = { ...source };
         data.push(item);
-      }
+      })
       return <Table columns={columns} dataSource={data} />;
     };
 

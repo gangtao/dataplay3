@@ -33,7 +33,7 @@ class GrammarConfigPanel extends PureComponent {
   }
 
   buildPanel = (geom, panes) =>
-    Object.entries(geom).map(function(item) {
+    Object.entries(geom).forEach(function(item) {
       const activeKey = item[0];
       panes.push({ title: activeKey, content: '', key: activeKey, index: 0 });
     });

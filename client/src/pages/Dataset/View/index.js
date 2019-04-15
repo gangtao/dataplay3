@@ -24,9 +24,10 @@ class Dataset extends PureComponent {
     const { dataset, query, dispatch } = this.props;
     const { dataSource, columns, name } = dataset.currentDataset;
     const savedQueryList = [];
-    for (const p in query.savedQuery) {
-      savedQueryList.push({ name: query.savedQuery[p].name });
-    }
+
+    Object.keys(query.savedQuery).forEach(key =>
+      savedQueryList.push({ name: query.savedQuery[key].name })
+    );
 
     const handleChange = (value, type) => {
       console.log(`selected ${value}`);
