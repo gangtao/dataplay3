@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Steps, Icon, Button, message } from 'antd';
+import { Row, Col, Steps, Button, message } from 'antd';
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -18,13 +18,7 @@ const { Step } = Steps;
 class GetDataIn extends PureComponent {
   render() {
     const { dataimport, dispatch } = this.props;
-    const { currentStep, dataset } = dataimport;
-
-    const handleUploadComplete = file => {
-      console.log(file);
-      const dataset = { name: file.name, type: file.type, size: file.size };
-      console.log(dataset);
-    };
+    const { currentStep } = dataimport;
 
     const next = () => {
       dispatch({

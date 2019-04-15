@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Empty, PageHeader, Tooltip, Button, Modal, message } from 'antd';
+import { Row, Col, Empty, Tooltip, Button, Modal, message } from 'antd';
 import GGChart from '@/components/Visualization/GGChart';
 
 import styles from './DashboardPanel.less';
@@ -12,17 +12,7 @@ const { confirm } = Modal;
 }))
 class DashboardPanel extends PureComponent {
   render() {
-    const {
-      dashboard,
-      grammar,
-      dataSource,
-      title,
-      description,
-      dispatch,
-      height,
-      id,
-      isMax,
-    } = this.props;
+    const { grammar, dataSource, title, description, dispatch, height, id, isMax } = this.props;
     const grammarUpdate = { ...grammar };
     if (!dataSource) {
       return <Empty />;

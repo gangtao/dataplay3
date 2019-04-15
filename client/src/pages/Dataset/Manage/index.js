@@ -13,8 +13,8 @@ const { TextArea } = Input;
 
 class CustomizedContentForm extends React.Component {
   render() {
-    const { payload } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { payload, form } = this.props;
+    const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -138,13 +138,9 @@ class Manage extends PureComponent {
 
             return (
               <span>
-                <a onClick={callView}>
-                  View
-                </a>
+                <a onClick={callView}>View</a>
                 <Divider type="vertical" />
-                <a onClick={callDelete}>
-                  Delete
-                </a>
+                <a onClick={callDelete}>Delete</a>
               </span>
             );
           },
@@ -231,8 +227,6 @@ class Manage extends PureComponent {
                       }).catch(() => {
                         message.error(`query ${record.name} failed to export!`);
                       });
-                    } else {
-                      return;
                     }
                   });
                 },
@@ -242,17 +236,11 @@ class Manage extends PureComponent {
 
             return (
               <span>
-                <a onClick={callView}>
-                  View
-                </a>
+                <a onClick={callView}>View</a>
                 <Divider type="vertical" />
-                <a onClick={callDelete}>
-                  Delete
-                </a>
+                <a onClick={callDelete}>Delete</a>
                 <Divider type="vertical" />
-                <a onClick={callExport}>
-                  Export as Dataset
-                </a>
+                <a onClick={callExport}>Export as Dataset</a>
               </span>
             );
           },
@@ -264,11 +252,11 @@ class Manage extends PureComponent {
       }
 
       const data = [];
-      Object.keys(query.savedQuery).forEach(key=>{
+      Object.keys(query.savedQuery).forEach(key => {
         const source = query.savedQuery[key];
         const item = { ...source };
         data.push(item);
-      })
+      });
       return <Table columns={columns} dataSource={data} />;
     };
 

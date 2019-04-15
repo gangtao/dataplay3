@@ -11,8 +11,7 @@ const { Dragger } = Upload;
 }))
 class DatasetUploader extends PureComponent {
   render() {
-    const { dataimport, dispatch } = this.props;
-    const { dataset } = dataimport;
+    const { dispatch } = this.props;
 
     const checkName = name => {
       return name
@@ -38,7 +37,7 @@ class DatasetUploader extends PureComponent {
         const { status } = info.file;
         if (status === 'done') {
           message.success(`${info.file.name} file uploaded successfully.`);
-          const dataset = {
+          const data = {
             name: checkName(info.file.name),
             content: info.file.name,
             type: checkType(info.file.type),
@@ -47,7 +46,7 @@ class DatasetUploader extends PureComponent {
           };
           dispatch({
             type: 'dataimport/updateDatasetInfo',
-            payload: dataset,
+            payload: data,
           });
         } else if (status === 'error') {
           message.error(`${info.file.name} file upload failed.`);

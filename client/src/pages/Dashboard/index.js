@@ -16,7 +16,7 @@ class Dashboards extends PureComponent {
   }
 
   render() {
-    const { dashboard, dispatch } = this.props;
+    const { dashboard } = this.props;
     const { dashboards, maximize } = dashboard;
     const colNumber = 4;
     const colSpan = 24 / colNumber;
@@ -41,9 +41,9 @@ class Dashboards extends PureComponent {
       );
     };
 
-    for (const key in dashboards) {
+    Object.keys(dashboards).forEach(key => {
       dashboardsContents.push(buildDashboard(dashboards[key], key));
-    }
+    });
 
     if (!maximize) {
       return (

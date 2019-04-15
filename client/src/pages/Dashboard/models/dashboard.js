@@ -1,9 +1,4 @@
-import {
-  listDashboards,
-  queryDashboard,
-  createDashboard,
-  deleteDashboard,
-} from '@/services/dashboard';
+import { listDashboards, deleteDashboard } from '@/services/dashboard';
 import { queryDataset, runDatasetQuery } from '@/services/dataset';
 import { convertDataset } from '@/utils/dataset';
 
@@ -24,8 +19,9 @@ export default {
       });
 
       for (const key in response) {
-        const dashboardObj = response[key];
-        const { dataset, type, query } = dashboardObj;
+        // TODO: fix this lint issue
+        let dashboardObj = response[key];
+        const { dataset, type } = dashboardObj;
         const dashboardObjWithKey = {};
         if (!type) {
           const queryResponse = yield call(queryDataset, dataset);
@@ -46,7 +42,7 @@ export default {
       }
     },
     *deleteSelected({ payload }, { call, put }) {
-      const response = yield call(deleteDashboard, payload);
+      yield call(deleteDashboard, payload);
       // TODO: handle rest error
       yield put({
         type: 'delete',

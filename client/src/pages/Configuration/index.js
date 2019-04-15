@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Row, Col, Tabs, Button, Tooltip, Modal } from 'antd';
 import { connect } from 'dva';
-
-import { saveConfig } from '@/services/config';
-
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import ConfigTab from './ConfigTab';
 
@@ -54,14 +51,14 @@ class Configuration extends PureComponent {
 
     const buildTabPanel = () => {
       const tabs = [];
-      for (const domain in config) {
+      Object.keys(config).forEach(domain => {
         const content = buildTabContent(config[domain], domain);
         tabs.push(
           <TabPane tab={domain} key={domain}>
             {content}
           </TabPane>
         );
-      }
+      });
       return tabs;
     };
 

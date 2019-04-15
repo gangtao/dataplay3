@@ -9,7 +9,7 @@ export default {
     *fetchAll(_, { call, put }) {
       const response = yield call(listConfigs);
 
-      for (let i = 0; i < response.length; i++) {
+      for (let i = 0; i < response.length; i += 1) {
         const domain = response[i];
         const domainResponse = yield call(getConfig, domain);
         const config = {};
@@ -21,7 +21,7 @@ export default {
       }
     },
     *updateOne({ payload }, { call, put }) {
-      const response = yield call(saveConfig, payload);
+      yield call(saveConfig, payload);
       yield put({
         type: 'updateValue',
         payload,

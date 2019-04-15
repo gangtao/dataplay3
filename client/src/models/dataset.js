@@ -26,7 +26,7 @@ export default {
       });
     },
     *deleteSelected({ payload }, { call, put }) {
-      const response = yield call(deleteDataset, payload);
+      yield call(deleteDataset, payload);
       yield put({
         type: 'deleteDataset',
         payload,
@@ -59,12 +59,12 @@ export default {
       };
     },
     deleteDataset(state, action) {
-      const new_list = state.list.filter(function(value, index, arr) {
+      const newList = state.list.filter(function(value) {
         return value.id !== action.payload;
       });
       return {
         ...state,
-        list: new_list,
+        list: newList,
       };
     },
   },

@@ -9,16 +9,18 @@ export default {
   effects: {},
 
   reducers: {
-    forward(state, action) {
+    forward(state) {
+      const newStep = state.currentStep + 1;
       return {
         ...state,
-        currentStep: (state.currentStep += 1),
+        currentStep: newStep,
       };
     },
-    backward(state, action) {
+    backward(state) {
+      const newStep = state.currentStep - 1;
       return {
         ...state,
-        currentStep: (state.currentStep -= 1),
+        currentStep: newStep,
       };
     },
     updateDatasetInfo(state, action) {
