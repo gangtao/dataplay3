@@ -27,7 +27,7 @@ class DatasetListSelector extends PureComponent {
       return buildOption(item, 'dataset');
     });
 
-    queryList.map(item => {
+    queryList.forEach(item => {
       optionContents.push(buildOption(item, 'query'));
     });
 

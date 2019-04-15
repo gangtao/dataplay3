@@ -56,13 +56,13 @@ class GGChart extends PureComponent {
         if (Array.isArray(geom.position)) {
           position = geom.position.join('*');
         } else {
-          position = geom.position;
+          ({ position } = geom);
         }
       }
 
       let color = '';
       if (geom.color && geom.color.length > 0) {
-        color = geom.color;
+        ({ color } = geom);
       }
 
       let size = '';
@@ -80,10 +80,7 @@ class GGChart extends PureComponent {
         opacity = geom.opacity.join('*');
       }
 
-      let style = '';
-      if (geom.style) {
-        style = geom.style;
-      }
+      const { style } = geom;
 
       const buildLable = () => {
         if (geom.label && geom.label.length > 0) {
@@ -119,7 +116,7 @@ class GGChart extends PureComponent {
       }
       const geometryList = [];
 
-      Object.entries(grammar.geom).map(item => {
+      Object.entries(grammar.geom).forEach(item => {
         const [key, value] = item;
         if (!validateGrammar(value)) {
           return [];

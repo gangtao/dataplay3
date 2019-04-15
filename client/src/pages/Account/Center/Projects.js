@@ -3,7 +3,7 @@ import { List, Card } from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
 import AvatarList from '@/components/AvatarList';
-import stylesProjects from '../Projects.less';
+import stylesProjects from './Projects.less';
 
 @connect(({ list }) => ({
   list,

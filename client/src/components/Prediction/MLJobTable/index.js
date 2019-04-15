@@ -54,21 +54,13 @@ class MLJobTable extends PureComponent {
 
           return (
             <span>
-              <a href="javascript:;" onClick={callView}>
-                View
-              </a>
+              <a onClick={callView}>View</a>
               <Divider type="vertical" />
-              <a href="javascript:;" onClick={callPredict}>
-                Predict
-              </a>
+              <a onClick={callPredict}>Predict</a>
               <Divider type="vertical" />
-              <a href="javascript:;" onClick={callDeploy}>
-                Deploy
-              </a>
+              <a onClick={callDeploy}>Deploy</a>
               <Divider type="vertical" />
-              <a href="javascript:;" onClick={callDelete}>
-                Delete
-              </a>
+              <a onClick={callDelete}>Delete</a>
             </span>
           );
         },

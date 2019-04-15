@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Form, Card, Statistic, Collapse, Icon } from 'antd';
+import { Row, Col, Form, Statistic, Collapse, Icon } from 'antd';
 
 import { chartConfigs } from '@/components/Visualization/ChartConfig';
 import GGChart from '@/components/Visualization/GGChart';
@@ -29,24 +29,24 @@ class MLJobDetailsPanel extends PureComponent {
   }
 
   render() {
-    const { job, dispatch } = this.props;
+    const { job } = this.props;
 
     const {
-      validation_result,
+      validation_result, // eslint-disable-line camelcase
       status,
-      start_time,
-      end_time,
-      model_representation,
-      model_stats,
-      job_option,
-      validation_option,
+      start_time, // eslint-disable-line camelcase
+      end_time, // eslint-disable-line camelcase
+      model_representation, // eslint-disable-line camelcase
+      model_stats, // eslint-disable-line camelcase
+      job_option, // eslint-disable-line camelcase
+      validation_option, // eslint-disable-line camelcase
       ...jobDetails
     } = job;
 
     const jobType = jobDetails.type;
 
-    const { time_left_for_this_task } = job_option;
-    const deadline = 1000 * time_left_for_this_task + 1000 * start_time + 1000 * refreshInterval;
+    const { time_left_for_this_task } = job_option; // eslint-disable-line camelcase
+    const deadline = 1000 * time_left_for_this_task + 1000 * start_time + 1000 * refreshInterval; // eslint-disable-line camelcase
 
     const formItemLayout = {
       labelCol: {
@@ -60,12 +60,12 @@ class MLJobDetailsPanel extends PureComponent {
     };
 
     // const details = JSON.stringify(job);
-    if (status == 'SUCCESS' || status == 'FAILED') {
+    if (status === 'SUCCESS' || status === 'FAILED') {
       clearInterval(this.timer);
     }
 
     const buildETA = () => {
-      if (status != 'SUCCESS' && status != 'FAILED' && jobType != 'TimeSerialsForecastsJob') {
+      if (status !== 'SUCCESS' && status !== 'FAILED' && jobType !== 'TimeSerialsForecastsJob') {
         return (
           <Col span={8}>
             <Countdown title="ETA" value={deadline} format="HH:mm:ss:SSS" />
@@ -77,10 +77,10 @@ class MLJobDetailsPanel extends PureComponent {
     };
 
     const buildStatusIcon = () => {
-      if (status == 'SUCCESS') {
+      if (status === 'SUCCESS') {
         return <Icon type="check" />;
       }
-      if (status == 'FAILED') {
+      if (status === 'FAILED') {
         return <Icon type="warning" />;
       }
       return <Icon type="loading" />;
@@ -88,10 +88,14 @@ class MLJobDetailsPanel extends PureComponent {
 
     const buildItems = obj => {
       const items = [];
-      for (const p in obj) {
+      if (!obj) {
+        return items;
+      }
+
+      Object.keys(obj).forEach(p => {
         if (obj[p] instanceof Object && !Array.isArray(obj[p])) {
           const childItems = buildItems(obj[p]);
-          childItems.map(item => {
+          childItems.forEach(item => {
             items.push(item);
           });
         } else {
@@ -101,13 +105,14 @@ class MLJobDetailsPanel extends PureComponent {
             </Form.Item>
           );
         }
-      }
+      });
       return items;
     };
 
     const buildValidationStats = obj => {
       const items = [];
-      for (const p in obj) {
+
+      Object.keys(obj).forEach(p => {
         if (typeof obj[p] === 'number') {
           items.push(
             <Col span={8} key={p}>
@@ -115,7 +120,7 @@ class MLJobDetailsPanel extends PureComponent {
             </Col>
           );
         }
-      }
+      });
       return items;
     };
 
@@ -123,7 +128,7 @@ class MLJobDetailsPanel extends PureComponent {
       if (!obj) {
         return null;
       }
-      const { confusion_matrix } = obj;
+      const { confusion_matrix } = obj; // eslint-disable-line camelcase
       if (!confusion_matrix) {
         return null;
       }
@@ -183,7 +188,7 @@ class MLJobDetailsPanel extends PureComponent {
               <Panel header="Job Info" key="1">
                 <Form {...formItemLayout}>{jobContents}</Form>
               </Panel>
-              {jobType != 'TimeSerialsForecastsJob' && (
+              {jobType !== 'TimeSerialsForecastsJob' && (
                 <Panel header="Validation Options" key="2">
                   <Form {...formItemLayout}>{validationContents}</Form>
                 </Panel>

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Form, Button, Empty, Divider, message } from 'antd';
+import { Row, Form, Button, Empty, Divider, message } from 'antd';
 
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 import DatasetTable from '@/components/Dataset/DatasetTable';
@@ -18,19 +18,8 @@ class MLJobPredictPanel extends PureComponent {
   }
 
   render() {
-    const { datasetList, job, dispatch } = this.props;
-
-    const {
-      validation_result,
-      status,
-      start_time,
-      end_time,
-      model_representation,
-      model_stats,
-      job_option,
-      validation_option,
-      ...jobDetails
-    } = job;
+    const { datasetList, job } = this.props;
+    const { loading, selected, result } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -65,7 +54,7 @@ class MLJobPredictPanel extends PureComponent {
     const handlePredict = () => {
       const me = this;
       const payload = {};
-      payload.data = this.state.selected;
+      payload.data = selected;
       payload.jobid = job.id;
       payload.input_type = 'dataset';
       console.log(payload);
@@ -92,8 +81,8 @@ class MLJobPredictPanel extends PureComponent {
     };
 
     const buildPredictionResult = () => {
-      if (this.state.result) {
-        const { dataSource, columns } = this.state.result;
+      if (result) {
+        const { dataSource, columns } = result;
         return <DatasetTable dataSource={dataSource} columns={columns} />;
       }
       return <Empty />;
@@ -109,11 +98,11 @@ class MLJobPredictPanel extends PureComponent {
                 datasetList={datasetList}
                 queryList={[]}
                 handleChange={handleDatasetSelect}
-                selected={this.state.selected}
+                selected={selected}
               />
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button icon="search" onClick={handlePredict} loading={this.state.loading}>
+              <Button icon="search" onClick={handlePredict} loading={loading}>
                 Predict
               </Button>
             </Form.Item>

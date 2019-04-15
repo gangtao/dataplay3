@@ -1,18 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  Row,
-  Col,
-  Form,
-  Icon,
-  Input,
-  Button,
-  Checkbox,
-  Select,
-  Tooltip,
-  Switch,
-  Slider,
-  InputNumber,
-} from 'antd';
+import { Row, Col, Form, Input, Button, Checkbox, Select, Switch, Slider, InputNumber } from 'antd';
 
 import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 
@@ -25,12 +12,21 @@ class CustomizedForm extends React.Component {
   }
 
   render() {
-    const { datasetList, selectedDataset, onDatasetSelect, onCreate, jobType, config } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const {
+      datasetList,
+      selectedDataset,
+      onDatasetSelect,
+      onCreate,
+      jobType,
+      config,
+      form,
+    } = this.props;
+    const { getFieldDecorator } = form;
+    const { showValidation, showAdvanced } = this.state;
 
-    const isAutoMLJob = jobType == 'AutoRegressionJob' || jobType == 'AutoClassificationJob';
-    const isTimeForcastJob = jobType == 'TimeSerialsForecastsJob';
-    const featureNumber = isTimeForcastJob ? 'single' : 'multiple';
+    const isAutoMLJob = jobType === 'AutoRegressionJob' || jobType === 'AutoClassificationJob';
+    const isTimeForcastJob = jobType === 'TimeSerialsForecastsJob';
+    // const featureNumber = isTimeForcastJob ? 'single' : 'multiple';
     let datasetName;
     if (selectedDataset.name) {
       datasetName = selectedDataset.name;
@@ -75,7 +71,8 @@ class CustomizedForm extends React.Component {
           if (payload.validation_option) {
             payload.validation_option.test_size /= 100;
             payload.validation_option.random_state = parseInt(
-              payload.validation_option.random_state
+              payload.validation_option.random_state,
+              10
             );
           }
           onCreate(payload);
@@ -161,11 +158,11 @@ class CustomizedForm extends React.Component {
           </Form.Item>
         )}
 
-        {this.state.showValidation && isAutoMLJob && (
+        {showValidation && isAutoMLJob && (
           <div>
             <Form.Item label="Test Data Percentage">
               {getFieldDecorator('validation_option.test_size', {
-                initialValue: parseFloat(config.validation_option.test_size) * 100,
+                initialValue: parseFloat(config.validation_option.test_size, 10) * 100,
               })(<Slider min={0} max={100} tipFormatter={formatterPercentage} />)}
             </Form.Item>
 
@@ -187,47 +184,47 @@ class CustomizedForm extends React.Component {
           <Switch onChange={onSwitchAdvanced} />
         </Form.Item>
 
-        {this.state.showAdvanced && isAutoMLJob && (
+        {showAdvanced && isAutoMLJob && (
           <div>
             <Form.Item label="Time Limitation">
               {getFieldDecorator('job_option.time_left_for_this_task', {
-                initialValue: parseInt(config.auto_ml.time_left_for_this_task),
+                initialValue: parseInt(config.auto_ml.time_left_for_this_task, 10),
               })(<InputNumber min={1} max={3600} size="small" />)}
             </Form.Item>
             <Form.Item label="Time Limitation per Run">
               {getFieldDecorator('job_option.per_run_time_limit', {
-                initialValue: parseInt(config.auto_ml.per_run_time_limit),
+                initialValue: parseInt(config.auto_ml.per_run_time_limit, 10),
               })(<InputNumber min={1} max={300} size="small" />)}
             </Form.Item>
             <Form.Item label="initial_configurations_via_metalearning">
               {getFieldDecorator('job_option.initial_configurations_via_metalearning', {
-                initialValue: parseInt(config.auto_ml.initial_configurations_via_metalearning),
+                initialValue: parseInt(config.auto_ml.initial_configurations_via_metalearning, 10),
               })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_size">
               {getFieldDecorator('job_option.ensemble_size', {
-                initialValue: parseInt(config.auto_ml.ensemble_size),
+                initialValue: parseInt(config.auto_ml.ensemble_size, 10),
               })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_nbest">
               {getFieldDecorator('job_option.ensemble_nbest', {
-                initialValue: parseInt(config.auto_ml.ensemble_nbest),
+                initialValue: parseInt(config.auto_ml.ensemble_nbest, 10),
               })(<InputNumber min={1} max={100} size="small" />)}
             </Form.Item>
             <Form.Item label="ensemble_memory_limit">
               {getFieldDecorator('job_option.ensemble_memory_limit', {
-                initialValue: parseInt(config.auto_ml.ensemble_memory_limit),
+                initialValue: parseInt(config.auto_ml.ensemble_memory_limit, 10),
               })(<InputNumber min={1} max={16384} size="small" />)}
             </Form.Item>
             <Form.Item label="ml_memory_limit">
               {getFieldDecorator('job_option.ml_memory_limit', {
-                initialValue: parseInt(config.auto_ml.ml_memory_limit),
+                initialValue: parseInt(config.auto_ml.ml_memory_limit, 10),
               })(<InputNumber min={1} max={16384} size="small" />)}
             </Form.Item>
           </div>
         )}
 
-        {this.state.showAdvanced && isTimeForcastJob && (
+        {showAdvanced && isTimeForcastJob && (
           <div>
             <Form.Item label="Time Format string">
               {getFieldDecorator('job_option.time_format', {})(
