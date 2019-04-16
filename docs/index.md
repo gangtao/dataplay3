@@ -31,7 +31,7 @@ and then start the dataplay3 in a container with
 ```bash
 make run
 ```
-open `http://localhost:8000` to access dataplay3 ui.
+open [http://localhost:8000](http://localhost:8000) to access dataplay3 ui.
 
 ### Feature Overview
 
@@ -96,7 +96,7 @@ To start the dataplay server, run
 doit server
 ```
 
-To access open api doc, visit `http://localhost:8000/swagger/`
+To access open api doc, visit [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
 
 for more build options of server, run
 ```bash
