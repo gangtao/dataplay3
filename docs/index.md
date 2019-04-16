@@ -96,6 +96,8 @@ To start the dataplay server, run
 doit server
 ```
 
+To access open api doc, visit `http://localhost:8000/swagger/`
+
 for more build options of server, run
 ```bash
 doit list
