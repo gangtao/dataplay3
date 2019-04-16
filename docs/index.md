@@ -23,6 +23,16 @@
 # dataplay3
 
 ### Quick Start
+To build you dataplay3 container, run
+```bash
+make docker
+```
+and then you can run the dataplay3 in a container with
+```bash
+make run
+```
+open `http://localhost:8000` to access dataplay3 ui.
+
 
 ### Feature Overview
 
@@ -31,5 +41,53 @@
 ### Development
 
 #### Client
+Dataplay3 client is based on [ant design pro](https://pro.ant.design/). To build the client, you need have [node](https://nodejs.org/en/) installed.
+
+To develop the client, first install all dependencies.
+
+```bash
+cd client
+npm install
+```
+
+Start the client
+```bash
+npm run start
+```
+
+To build the client and copy all the output client code to the static directory of the server
+```bash
+npm run build
+``` 
+
+Other build command refer to `dataplay3/client/package.json` 
 
 #### Server
+Dataplay3 server is based on Python3 and [Sanic](https://github.com/huge-success/sanic). 
+
+To setup server development environment, you need Python3 and pip. It is recommended to using virtual env to manage your python environment.  Run following command to create your python virtual environment. 
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Install development dependency
+```bash
+cd server
+pip install -r dev-requirements.txt
+```
+
+And then you can use doit to install all the dependencies for dataplay3 server.
+```bash
+doit install_dep
+```
+
+To start the dataplay server, run
+```bash
+doit server
+```
+
+for more build options of server, run
+```bash
+doit list
+```

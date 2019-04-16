@@ -33,7 +33,7 @@ PYTHON_FOLDER = os.path.dirname(os.path.abspath(__file__))
 # TESTING_IMAGE = "naughtytao/python-builder:0.1"
 
 DOIT_CONFIG: MutableMapping[str, List[str]] = {
-    "default_tasks": ["formatcheck", "lint", "typecheck"]
+    "default_tasks": ["formatcheck", "lint"]
 }
 
 PROJECT = "dataplay"
@@ -77,7 +77,7 @@ def task_update_dependencies() -> DoitReturn:
     commands = []
 
     pinner_template = "pip-compile requirements.in --no-index --output-file {} "
-    darwin_pinner = pinner_template.format("requirements.txt")
+    pinner = pinner_template.format("requirements.txt")
     '''
     linux_pinner = pinner_template.format("requirements-linux.txt")
 
@@ -86,30 +86,21 @@ def task_update_dependencies() -> DoitReturn:
         f"docker run -it --rm -v $PWD:/python {TESTING_IMAGE} bash -c {linux_command}"
     )
     '''
-    commands.append(darwin_pinner)
-    ##commands.append(docker_command)
+    commands.append(pinner)
+    # commands.append(docker_command)
 
     return {"actions": commands, "verbosity": 2}
 
 
-def gen_install_tasks():
-    yield {
-        "basename": "auto_sklearn_dep",
+def task_install_dep():
+    """ install server dependencies """
+    return {
         "actions": [
-            "curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install"
+            "curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install",
+            "pip install -r requirements.txt . --no-deps",
+            "pip3 install numpy==1.16.0 holidays==0.9.8"
         ],
-    }
-    yield {
-        "basename": "install_dep",
-        "actions": ["pip install -r requirements.txt . --no-deps"],
-    }
-    yield {"basename": "override_numpy", "actions": ["pip3 install numpy==1.16.0 holidays==0.9.8"]}
-
-
-def task_install() -> DoitReturn:
-    """ Installs requirements-{darwin/linux}.txt  """
-
-    yield gen_install_tasks()
+        "verbosity": 2}
 
 
 def task_tox() -> DoitReturn:
