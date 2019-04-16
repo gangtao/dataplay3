@@ -23,18 +23,26 @@
 # dataplay3
 
 ### Quick Start
-To build you dataplay3 container, run
+To build your own dataplay3 container, run
 ```bash
 make docker
 ```
-and then you can run the dataplay3 in a container with
+and then start the dataplay3 in a container with
 ```bash
 make run
 ```
 open `http://localhost:8000` to access dataplay3 ui.
 
-
 ### Feature Overview
+
+Main feature of dataplay3 includes:
+- Dataset management
+- Dataset query
+- Data visualization
+- A Simple dashboard
+- Categorical data prediction
+- Numerical data prediction
+- Time serials data prediction
 
 ### Architecture
 
@@ -49,6 +57,7 @@ To develop the client, first install all dependencies.
 cd client
 npm install
 ```
+[yarn](https://yarnpkg.com/en/) can be used for dependency management as well.
 
 Start the client
 ```bash
@@ -60,7 +69,7 @@ To build the client and copy all the output client code to the static directory 
 npm run build
 ``` 
 
-Other build command refer to `dataplay3/client/package.json` 
+More client build options refer to `dataplay3/client/package.json` 
 
 #### Server
 Dataplay3 server is based on Python3 and [Sanic](https://github.com/huge-success/sanic). 
@@ -77,7 +86,7 @@ cd server
 pip install -r dev-requirements.txt
 ```
 
-And then you can use doit to install all the dependencies for dataplay3 server.
+And then use doit to install all the dependencies for dataplay3 server.
 ```bash
 doit install_dep
 ```

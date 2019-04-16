@@ -15,7 +15,7 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-After that, you'll want to install the `dev-requirements-{linux/darwin}.txt` appropriate for your os.
+After that, you'll want to install the `dev-requirements.txt`
 ```bash
-pip install -r dev-requirements-{linux/darwin}
+pip install -r dev-requirements.txt
 ```
