@@ -47,6 +47,52 @@ Main feature of dataplay3 includes:
 ### Architecture
 
 !(https://gangtao.github.io/dataplay3/assets/dataplay3_component_view.png)
+```
+@startuml
+
+title Dataplay3 Architecture
+
+package "Client" {
+    [Dashboard Page] as dashboard
+    [Dataset Page] as dataset
+    [Visualization Page] as viz
+    [Prediction Page] as ml
+    [Configuration Page] as config
+    [Services Wrapper] as services
+}
+
+ 
+package "Server" {
+    [REST API] as api
+    [Dashboard]   
+    [Configuration]
+    [ML]
+    [Dataset]
+    [AutoSklearn]
+    [Prophet]
+    [Pandas]
+} 
+
+dashboard -down-> services
+dataset -down-> services
+viz -down-> services
+ml -down-> services
+config -down-> services
+
+services -down-( api
+
+api -down-> Dashboard 
+api -down-> Configuration 
+api -down-> ML 
+api -down-> Dataset
+
+ML -down-> AutoSklearn 
+ML -down-> Prophet
+
+Dataset -down-> Pandas
+
+@enduml
+```
 
 ### Development
 
