@@ -46,6 +46,22 @@ Main feature of dataplay3 includes:
 
 ### Architecture
 
+Here is a list of what is being used to build dataplay3:
+
+**Client Side**
+- [React](https://reactjs.org/) A JavaScript library for building user interfaces
+- [Ant Design Pro](https://pro.ant.design/) Out-of-box UI solution for enterprise applications
+  - [Ant Design](https://ant.design/) An enterprise-class UI design language and React implementation.
+  - [UmiJS](https://umijs.org/) Pluggable enterprise-level react application framework.
+  - [Dva](https://github.com/dvajs/dva) Lightweight front-end framework based on redux, redux-saga and react-router
+- [BizCharts](https://github.com/alibaba/BizCharts) Powerful data visualization library based on G2 and React
+  - [G2](https://github.com/antvis/g2) The Grammar of Graphics in JavaScript
+
+**Server Side**
+- 
+
+Here is a component view of dataplay3
+
 ![dataplay3_component_view](./assets/dataplay3_component_view.png)
 ```plantuml
 @startuml
