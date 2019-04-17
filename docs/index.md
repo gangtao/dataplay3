@@ -58,7 +58,11 @@ Here is a list of what is being used to build dataplay3:
   - [G2](https://github.com/antvis/g2) The Grammar of Graphics in JavaScript
 
 **Server Side**
-- 
+- [sanic](https://github.com/huge-success/sanic) Async Python 3.5+ web server
+- [pandas](https://pandas.pydata.org/) Python Data Analysis Library
+- [auto-sklearn](https://automl.github.io/auto-sklearn/master/index.html) an automated machine learning toolkit
+- [prophet](https://github.com/facebook/prophet) Tool for producing high quality forecasts for time series data that has multiple seasonality with linear or non-linear growth.
+
 
 Here is a component view of dataplay3
 
