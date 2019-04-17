@@ -46,7 +46,7 @@ Main feature of dataplay3 includes:
 
 ### Architecture
 
-!(https://gangtao.github.io/dataplay3/assets/dataplay3_component_view.png)
+![dataplay3_component_view](./assets/dataplay3_component_view.png)
 ```plantuml
 @startuml
 
