@@ -2,3 +2,6 @@
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Doit
+.doit.db
