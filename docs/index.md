@@ -14,6 +14,12 @@
   <a href="https://ebertapp.io/github/gangtao/dataplay3">
     <img src="https://ebertapp.io/github/gangtao/dataplay3.svg">
   </a>
+  <a href="https://app.codeship.com/projects/336732">
+    <img src="https://app.codeship.com/projects/b95bdb50-43c7-0137-cea7-0eb7bfe1a733/status?branch=master">
+  </a>
+  <a href="https://cloud.docker.com/repository/docker/naughtytao/dataplay3">
+    <img src="https://img.shields.io/docker/automated/naughtytao/dataplay3.svg">
+  </a>
 </p>
 
 <p align="center">
