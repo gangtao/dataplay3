@@ -61,5 +61,5 @@ def test_query2dataset():
     try:
         DatasetManager.query2dataset(**payload)
         DatasetManager.delete_dataset(payload['dataset_id'])
-    except:
+    except Exception:
         pytest.fail('query to dataset should not raise error')
