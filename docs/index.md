@@ -35,7 +35,7 @@ open [http://localhost:8000](http://localhost:8000) to access dataplay3 ui.
 
 ### Feature Overview
 
-Main feature of dataplay3 includes:
+dataplay3 provides following features:
 - Dataset management
 - Dataset query
 - Data visualization
@@ -43,6 +43,8 @@ Main feature of dataplay3 includes:
 - Categorical data prediction
 - Numerical data prediction
 - Time serials data prediction
+
+refer to [feature introduction](/features) for details
 
 ### Architecture
 
