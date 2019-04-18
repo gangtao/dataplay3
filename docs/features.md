@@ -22,4 +22,4 @@
 <img src="./assets/screens/imgs/prediction_num_details.png" width="800">
 <img src="./assets/screens/imgs/prediction_time_details.png" width="800">
 
-<img src="/assets/screens/imgs/configuration.png" width="800">
+<img src="./assets/screens/imgs/configuration.png" width="800">
