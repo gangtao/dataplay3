@@ -58,18 +58,19 @@ Here is a list of what is being used to build dataplay3:
   - [G2](https://github.com/antvis/g2) The Grammar of Graphics in JavaScript
 
 **Server Side**
-- [sanic](https://github.com/huge-success/sanic) Async Python 3.5+ web server
-- [pandas](https://pandas.pydata.org/) Python Data Analysis Library
+- [sanic](https://github.com/huge-success/sanic) async python 3.5+ web server
+- [pandas](https://pandas.pydata.org/) python data analysis library
 - [auto-sklearn](https://automl.github.io/auto-sklearn/master/index.html) an automated machine learning toolkit
-- [prophet](https://github.com/facebook/prophet) Tool for producing high quality forecasts for time series data that has multiple seasonality with linear or non-linear growth.
-
+- [prophet](https://github.com/facebook/prophet) tool for producing high quality forecasts for time series data that has multiple seasonality with linear or non-linear growth.
+- [pandassql](https://github.com/yhat/pandasql/) allows you to query pandas DataFrames using SQL syntax
+- [gunicorn](https://gunicorn.org/) a python WSGI HTTP Server for UNIX
 
 Here is a component view of dataplay3
 
 ![dataplay3_component_view](./assets/dataplay3_component_view.png)
 ```plantuml
 @startuml
-
+swag
 title Dataplay3 Architecture
 
 package "Client" {
@@ -81,17 +82,17 @@ package "Client" {
     [Services Wrapper] as services
 }
 
- 
+
 package "Server" {
     [REST API] as api
-    [Dashboard]   
+    [Dashboard]
     [Configuration]
     [ML]
     [Dataset]
     [AutoSklearn]
     [Prophet]
     [Pandas]
-} 
+}
 
 dashboard -down-> services
 dataset -down-> services
@@ -101,12 +102,12 @@ config -down-> services
 
 services -down-( api
 
-api -down-> Dashboard 
-api -down-> Configuration 
-api -down-> ML 
+api -down-> Dashboard
+api -down-> Configuration
+api -down-> ML
 api -down-> Dataset
 
-ML -down-> AutoSklearn 
+ML -down-> AutoSklearn
 ML -down-> Prophet
 
 Dataset -down-> Pandas
@@ -135,14 +136,14 @@ npm run start
 To build the client and copy all the output client code to the static directory of the server
 ```bash
 npm run build
-``` 
+```
 
-More client build options refer to `dataplay3/client/package.json` 
+More client build options refer to `dataplay3/client/package.json`
 
 #### Server
-Dataplay3 server is based on Python3 and [Sanic](https://github.com/huge-success/sanic). 
+Dataplay3 server is based on Python3 and [Sanic](https://github.com/huge-success/sanic).
 
-To setup server development environment, you need Python3 and pip. It is recommended to using virtual env to manage your python environment.  Run following command to create your python virtual environment. 
+To setup server development environment, you need Python3 and pip. It is recommended to using virtual env to manage your python environment.  Run following command to create your python virtual environment.
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -151,13 +152,15 @@ source .venv/bin/activate
 Install development dependency
 ```bash
 cd server
-pip install -r dev-requirements.txt
+pip3 install -r dev-requirements.txt
 ```
 
 And then use doit to install all the dependencies for dataplay3 server.
 ```bash
 doit install_dep
 ```
+Depending on your develop operating system, you may need manually install `gcc` and `swig`, refer to these [how to install gcc](https://www.guru99.com/c-gcc-install.html), [how to install swig](https://www.dev2qa.com/how-to-install-swig-on-macos-linux-and-windows/)
+
 
 To start the dataplay server, run
 ```bash
