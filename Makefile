@@ -12,9 +12,10 @@ push:
 	docker push ${DOCKER_ID_USER}/$(BIN_NAME):$(VERSION)
 	docker push ${DOCKER_ID_USER}/$(BIN_NAME):latest
 
-run: 
+run:
 	docker run -p 8000:8000 $(IMAGE_NAME)
 
-build: 
+build:
 	cd client; \
+    npm install --silent; \
 	npm run build
