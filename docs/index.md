@@ -44,7 +44,7 @@ dataplay3 provides following features:
 - Numerical data prediction
 - Time serials data prediction
 
-refer to [feature introduction](./features) for details
+refer to [feature introduction](https://gangtao.github.io/dataplay3/features) for details
 
 ### Architecture
 
