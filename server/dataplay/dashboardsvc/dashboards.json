@@ -1,0 +1,161 @@
+{
+  "e055a319-1428-48ec-9a6c-5549beb06f71": {
+    "title": "scatter",
+    "description": "scatter",
+    "dataset": "iris",
+    "grammar": {
+      "facat": null,
+      "coordination": "rect",
+      "geom": {
+        "Geom1": {
+          "geometry": "point",
+          "shape": [
+            "circle"
+          ],
+          "position": [
+            "sepal_length",
+            "sepal_width"
+          ],
+          "color": [
+            "species"
+          ]
+        }
+      }
+    }
+  },
+  "f50f544f-7b4d-4e75-a4ea-11a425e5e3d3": {
+    "title": "polar",
+    "description": "polar",
+    "dataset": "iris",
+    "grammar": {
+      "facat": null,
+      "coordination": "polar",
+      "geom": {
+        "Geom1": {
+          "geometry": "line",
+          "position": [
+            "sepal_width",
+            "petal_width"
+          ],
+          "color": [
+            "species"
+          ]
+        }
+      }
+    }
+  },
+  "1f684d62-626e-11e9-a01f-88e9fe56e175": {
+    "title": "pie",
+    "description": "pie",
+    "dataset": "iris",
+    "query": "select sum(sepal_length),sum(sepal_width), species from dataset group by species",
+    "type": "sql",
+    "grammar": {
+      "facat": null,
+      "coordination": "theta",
+      "geom": {
+        "Geom1": {
+          "geometry": "intervalStack",
+          "position": [
+            "percent"
+          ],
+          "color": [
+            "species"
+          ]
+        }
+      },
+      "transformer": {
+        "type": "percent",
+        "field": "sum(sepal_length)",
+        "dimension": "species",
+        "as": "percent"
+      }
+    }
+  },
+  "d322a458-6271-11e9-a3d4-88e9fe56e175": {
+    "title": "bar",
+    "description": "bar",
+    "dataset": "iris",
+    "query": "select sum(sepal_length),sum(sepal_width), species from dataset group by species",
+    "type": "sql",
+    "grammar": {
+      "facat": null,
+      "coordination": "rect",
+      "geom": {
+        "Geom1": {
+          "geometry": "interval",
+          "position": [
+            "species",
+            "sum(sepal_length)"
+          ]
+        }
+      }
+    }
+  },
+  "d0294d4a-627b-11e9-ae84-88e9fe56e175": {
+    "title": "line",
+    "description": "line",
+    "dataset": "nasdaq",
+    "query": " select * from dataset ORDER BY Date Desc Limit 100",
+    "type": "sql",
+    "grammar": {
+      "facat": null,
+      "coordination": "rect",
+      "geom": {
+        "Geom1": {
+          "geometry": "line",
+          "position": [
+            "Date",
+            "Open"
+          ]
+        }
+      }
+    }
+  },
+  "0dca0a18-627e-11e9-97ba-88e9fe56e175": {
+    "title": "area",
+    "description": "area",
+    "dataset": "nasdaq",
+    "query": "select * from dataset ORDER BY Date Desc Limit 100",
+    "type": "sql",
+    "grammar": {
+      "facat": null,
+      "coordination": "rect",
+      "geom": {
+        "Geom1": {
+          "geometry": "area",
+          "position": [
+            "Date",
+            "Open"
+          ]
+        }
+      }
+    }
+  },
+  "d0781ab4-627e-11e9-afb9-88e9fe56e175": {
+    "title": "scatter",
+    "description": "scatter",
+    "dataset": "nasdaq",
+    "query": "select * from dataset ORDER BY Date Desc Limit 100",
+    "type": "sql",
+    "grammar": {
+      "facat": null,
+      "coordination": "rect",
+      "geom": {
+        "Geom1": {
+          "geometry": "point",
+          "shape": [
+            "circle"
+          ],
+          "position": [
+            "Open",
+            "High"
+          ],
+          "color": [
+            "Low"
+          ]
+        }
+      }
+    }
+  }
+}

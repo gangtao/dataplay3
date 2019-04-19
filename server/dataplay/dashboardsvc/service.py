@@ -6,7 +6,7 @@ from sanic import response
 from sanic.log import logger
 from sanic_openapi import doc
 
-from .dashboard import get_dashboards
+from .dashboard import get_dashboards, save_dashboards
 
 dashboard_svc = Blueprint('dashboard_svc')
 
@@ -31,6 +31,7 @@ async def create_dashboard(request):
         request_body = json.loads(request.body)
         id = str(uuid.uuid1())
         dashboard[id] = request_body
+        save_dashboards()
         return response.json(id, status=200)
     except Exception:
         logger.exception("faile to create dashboard")
@@ -58,6 +59,7 @@ async def delete_dashboard(request, id):
         dashboards = get_dashboards()
         if id in dashboards:
             del dashboards[id]
+            save_dashboards()
             return response.json({}, status=200)
         else:
             return response.json({}, status=404)

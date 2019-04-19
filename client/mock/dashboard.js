@@ -56,7 +56,7 @@ let dashboards = {
         description: 'pie with query',
         dataset: 'iris',
         query: 'select * from dataset',
-        type: undefined,
+        type: 'sql',
         grammar: {"facat":null,"coordination":"theta","geom":{"Geom1":{"geometry":"intervalStack","position":["sepal_width"],"color":["species"]}}}
     },
 }

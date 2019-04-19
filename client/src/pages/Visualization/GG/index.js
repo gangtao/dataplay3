@@ -81,12 +81,12 @@ class GrammerGraph extends PureComponent {
       restParams.description = description;
       if (gchart.currentDataset.type) {
         restParams.dataset = gchart.currentDataset.dataset;
-        restParams.query = gchart.currentDataset.query;
-        restParams.queryType = gchart.currentDataset.type;
+        restParams.query = gchart.currentDataset.query.trim();
+        restParams.type = gchart.currentDataset.type;
       } else {
         restParams.dataset = gchart.currentDataset.name;
         restParams.query = '';
-        restParams.queryType = undefined;
+        restParams.type = undefined;
       }
       // TODO: handle scale for some chart type such as heatmap
       restParams.grammar = gchart.grammar;

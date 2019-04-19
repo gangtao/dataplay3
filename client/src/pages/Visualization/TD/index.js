@@ -103,15 +103,16 @@ class TypeDrivenChart extends PureComponent {
       restParams.description = description;
       if (tchart.currentDataset.type) {
         restParams.dataset = tchart.currentDataset.dataset;
-        restParams.query = tchart.currentDataset.query;
-        restParams.queryType = tchart.currentDataset.type;
+        restParams.query = tchart.currentDataset.query.trim();
+        restParams.type = tchart.currentDataset.type;
       } else {
         restParams.dataset = tchart.currentDataset.name;
         restParams.query = '';
-        restParams.queryType = undefined;
+        restParams.type = undefined;
       }
       restParams.grammar = tchart.grammar;
       const payload = { restParams };
+      console.log(payload);
       createDashboard(payload);
       // TODO: handle rest failure;
       toggleExport(false);
