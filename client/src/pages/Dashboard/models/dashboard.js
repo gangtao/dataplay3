@@ -1,6 +1,6 @@
 import { listDashboards, deleteDashboard } from '@/services/dashboard';
 import { queryDataset, runDatasetQuery } from '@/services/dataset';
-import { convertDataset } from '@/utils/dataset';
+import convertDataset from '@/utils/dataset';
 
 export default {
   namespace: 'dashboard',
@@ -18,8 +18,9 @@ export default {
         payload: response,
       });
 
-      for (const key in response) {
-        // TODO: fix this lint issue
+      const keys = Object.keys(response);
+      for (let i = 0; i < keys.length; i += 1) {
+        const key = keys[i];
         let dashboardObj = response[key];
         const { dataset, type } = dashboardObj;
         const dashboardObjWithKey = {};

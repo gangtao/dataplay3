@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Tabs, Table, Divider, Empty, Modal, Form, Input, message } from 'antd';
+import { Tabs, Table, Divider, Empty, Modal, Form, message } from 'antd';
 
 import { connect } from 'dva';
 
@@ -7,71 +7,10 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import { query2dataset } from '@/services/dataset';
 
+import ContentForm from './ContentForm';
+
 const { TabPane } = Tabs;
 const { confirm } = Modal;
-const { TextArea } = Input;
-
-class CustomizedContentForm extends React.Component {
-  render() {
-    const { payload, form } = this.props;
-    const { getFieldDecorator } = form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-
-    return (
-      <Form {...formItemLayout}>
-        <Form.Item label="Query">
-          {getFieldDecorator('query', {
-            rules: [{ required: true, message: 'dataset query' }],
-            initialValue: payload.query,
-          })(<Input disabled />)}
-        </Form.Item>
-
-        <Form.Item label="Source Dataset">
-          {getFieldDecorator('source_dataset_id', {
-            rules: [{ required: true, message: 'source dataset id' }],
-            initialValue: payload.dataset,
-          })(<Input disabled />)}
-        </Form.Item>
-
-        <Form.Item label="Query Type">
-          {getFieldDecorator('query_type', {
-            rules: [{ required: true, message: 'query type' }],
-            initialValue: payload.type,
-          })(<Input disabled />)}
-        </Form.Item>
-
-        <Form.Item label="Created Dataset ID">
-          {getFieldDecorator('dataset_id', {
-            rules: [{ required: true, message: 'Please give your dataset an id' }],
-            initialValue: payload.name,
-          })(<Input placeholder="Please give your dataset an id" />)}
-        </Form.Item>
-
-        <Form.Item label="Created Dataset Name">
-          {getFieldDecorator('dataset_name', {
-            rules: [{ required: true, message: 'Please give your dataset a name' }],
-            initialValue: payload.name,
-          })(<Input placeholder="Please give your dataset a name" />)}
-        </Form.Item>
-
-        <Form.Item label="Description">
-          {getFieldDecorator('dataset_description', {
-            rules: [{ required: false, message: 'Please describe your dataset' }],
-          })(<TextArea rows={3} placeholder="Please describe your dataset" />)}
-        </Form.Item>
-      </Form>
-    );
-  }
-}
 
 @connect(({ dataset, query, loading }) => ({
   dataset,
@@ -203,12 +142,14 @@ class Manage extends PureComponent {
             };
 
             const callExport = () => {
-              const CreationForm = Form.create()(CustomizedContentForm);
+              const CreationForm = Form.create()(ContentForm);
               const wrapper = {};
               const exportForm = (
                 <CreationForm
                   payload={record}
-                  wrappedComponentRef={form => (wrapper.form = form)}
+                  wrappedComponentRef={form => {
+                    wrapper.form = form;
+                  }}
                 />
               );
 
@@ -220,7 +161,7 @@ class Manage extends PureComponent {
                   wrapper.form.props.form.validateFields((err, values) => {
                     if (!err) {
                       const payload = { ...values };
-                      return new Promise((resolve, reject) => {
+                      return new Promise(() => {
                         const response = query2dataset(payload);
                         console.log(response);
                         message.success(`query ${record.name} has been exported to dataset!`);

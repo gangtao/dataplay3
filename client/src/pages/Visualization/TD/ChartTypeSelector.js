@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Select, Icon } from 'antd';
 
-import { chartConfigs } from '@/components/Visualization/ChartConfig';
+import chartConfigs from '@/components/Visualization/ChartConfig';
 
 const { Option } = Select;
 

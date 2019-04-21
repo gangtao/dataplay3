@@ -21,7 +21,6 @@ package-lock.json
 
 # jslingui
 src/locales/_build
-src/locales/**/*.js
 
 report.*
 

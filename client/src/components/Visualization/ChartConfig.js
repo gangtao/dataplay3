@@ -399,9 +399,11 @@ const chartList = [
   heatmapChart,
 ];
 
-export const chartConfigs = {
+const chartConfigs = {
   value: chartList,
   find(name) {
     return chartList.filter(chart => chart.name === name);
   },
 };
+
+export default chartConfigs;

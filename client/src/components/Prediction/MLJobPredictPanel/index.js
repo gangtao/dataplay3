@@ -5,7 +5,7 @@ import DatasetListSelector from '@/components/Dataset/DatasetListSelector';
 import DatasetTable from '@/components/Dataset/DatasetTable';
 import { predict } from '@/services/automl';
 
-import { convertDataset } from '@/utils/dataset';
+import convertDataset from '@/utils/dataset';
 
 class MLJobPredictPanel extends PureComponent {
   constructor(props) {

@@ -1,5 +1,5 @@
 import { queryDatasets, queryDataset } from '@/services/dataset';
-import { convertDataset } from '@/utils/dataset';
+import convertDataset from '@/utils/dataset';
 
 export default {
   namespace: 'gchart',

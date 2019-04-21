@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Row, Col, Form, Statistic, Collapse, Icon } from 'antd';
 
-import { chartConfigs } from '@/components/Visualization/ChartConfig';
+import chartConfigs from '@/components/Visualization/ChartConfig';
 import GGChart from '@/components/Visualization/GGChart';
 
-import { convertDataset } from '@/utils/dataset';
+import convertDataset from '@/utils/dataset';
 
 import styles from './index.less';
 
@@ -42,6 +42,8 @@ class MLJobDetailsPanel extends PureComponent {
       validation_option, // eslint-disable-line camelcase
       ...jobDetails
     } = job;
+
+    const validationResult = validation_result; // eslint-disable-line camelcase
 
     const jobType = jobDetails.type;
 
@@ -128,18 +130,18 @@ class MLJobDetailsPanel extends PureComponent {
       if (!obj) {
         return null;
       }
-      const { confusion_matrix } = obj; // eslint-disable-line camelcase
-      if (!confusion_matrix) {
+      const confusionMatrix = obj.confusion_matrix;
+      if (!confusionMatrix) {
         return null;
       }
       const data = [];
-      confusion_matrix.lables.forEach(function(actual, actualIndex) {
-        confusion_matrix.lables.reverse().forEach(function(predicted, predictedIndex) {
+      confusionMatrix.lables.forEach(function(actual, actualIndex) {
+        confusionMatrix.lables.reverse().forEach(function(predicted, predictedIndex) {
           const item = {};
           item.actual = `actual(${actual})`;
           item.predicted = `predicted(${predicted})`;
-          const index = confusion_matrix.lables.length - predictedIndex - 1;
-          item.value = confusion_matrix.value[actualIndex][index];
+          const index = confusionMatrix.lables.length - predictedIndex - 1;
+          item.value = confusionMatrix.value[actualIndex][index];
           data.push(item);
         });
       });
@@ -177,8 +179,8 @@ class MLJobDetailsPanel extends PureComponent {
     const jobContents = buildItems(jobDetails);
     const optionContents = buildItems(job_option);
     const validationContents = buildItems(validation_option);
-    const confusionMatrix = buildConfusionMatrix(validation_result);
-    const trendValidation = buildTrendValidation(validation_result);
+    const confusionMatrix = buildConfusionMatrix(validationResult);
+    const trendValidation = buildTrendValidation(validationResult);
 
     return (
       <div>
@@ -207,9 +209,7 @@ class MLJobDetailsPanel extends PureComponent {
                   </Col>
                   {buildETA()}
                 </Row>
-                <Row gutter={16}>
-                  {validation_result && buildValidationStats(validation_result)}
-                </Row>
+                <Row gutter={16}>{validationResult && buildValidationStats(validationResult)}</Row>
                 <Row gutter={16}>{confusionMatrix && confusionMatrix}</Row>
                 <Row gutter={16}>{trendValidation && trendValidation}</Row>
               </Panel>

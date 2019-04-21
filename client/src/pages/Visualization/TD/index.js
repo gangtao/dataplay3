@@ -10,7 +10,7 @@ import VisualizationPanel from './VisualizationPanel';
 import ChartFeedPanel from './ChartFeedPanel';
 
 import { createDashboard } from '@/services/dashboard';
-import { chartConfigs } from '@/components/Visualization/ChartConfig';
+import chartConfigs from '@/components/Visualization/ChartConfig';
 
 import styles from './index.less';
 
