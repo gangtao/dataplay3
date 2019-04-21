@@ -13,7 +13,7 @@ def is_json(content):
 
 
 def test_data_list():
-    files = DatasetManager.list_datasets()
+    DatasetManager.list_datasets()
 
 
 def test_query():

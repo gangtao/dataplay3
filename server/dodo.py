@@ -32,9 +32,7 @@ PYTHON_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 # TESTING_IMAGE = "naughtytao/python-builder:0.1"
 
-DOIT_CONFIG: MutableMapping[str, List[str]] = {
-    "default_tasks": ["formatcheck", "lint"]
-}
+DOIT_CONFIG: MutableMapping[str, List[str]] = {"default_tasks": ["formatcheck", "lint"]}
 
 PROJECT = "dataplay"
 
@@ -98,9 +96,10 @@ def task_install_dep():
         "actions": [
             "curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install",
             "pip install -r requirements.txt . --no-deps",
-            "pip3 install numpy==1.16.0 holidays==0.9.8"
+            "pip3 install numpy==1.16.0 holidays==0.9.8",
         ],
-        "verbosity": 2}
+        "verbosity": 2,
+    }
 
 
 def task_tox() -> DoitReturn:
