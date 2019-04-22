@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Tabs, Table, Divider, Empty, Modal, Form, message } from 'antd';
-
 import { connect } from 'dva';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 import { query2dataset } from '@/services/dataset';
-
 import ContentForm from './ContentForm';
 
 const { TabPane } = Tabs;
@@ -169,6 +166,9 @@ class Manage extends PureComponent {
                         message.error(`query ${record.name} failed to export!`);
                       });
                     }
+                    return new Promise(() => {
+                      message.error(`query ${record.name} failed to validate!!`);
+                    });
                   });
                 },
                 onCancel() {},

@@ -96,7 +96,14 @@
   "optionalDependencies": {
     "puppeteer": "^1.12.1"
   },
-  "lint-staged": {},
+  "lint-staged": {
+    "**/*.{js,ts,tsx,json,jsx,less}": [
+      "node ./scripts/lint-prettier.js",
+      "git add"
+    ],
+    "**/*.{js,jsx}": "npm run lint-staged:js",
+    "**/*.less": "stylelint --syntax less"
+  },
   "engines": {
     "node": ">=8.0.0"
   },

@@ -3,6 +3,7 @@ import { Form, Input } from 'antd';
 
 const { TextArea } = Input;
 
+// eslint-disable-next-line react/prefer-stateless-function
 class ContentForm extends React.Component {
   render() {
     const { payload, form } = this.props;

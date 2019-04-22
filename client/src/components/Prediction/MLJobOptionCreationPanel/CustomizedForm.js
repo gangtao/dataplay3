@@ -51,16 +51,16 @@ class CustomizedForm extends React.Component {
     };
 
     const onSwitchValidation = checked => {
-      this.setState({ ...this.state, showValidation: checked });
+      this.setState(prevState => ({ ...prevState, showValidation: checked }));
     };
 
     const onSwitchAdvanced = checked => {
-      this.setState({ ...this.state, showAdvanced: checked });
+      this.setState(prevState => ({ ...prevState, showAdvanced: checked }));
     };
 
     const handleCreate = event => {
       event.preventDefault();
-      this.props.form.validateFields((err, values) => {
+      form.validateFields((err, values) => {
         if (!err) {
           const payload = { ...values };
           payload.dataset = datasetName;

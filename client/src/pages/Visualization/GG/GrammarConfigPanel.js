@@ -69,14 +69,15 @@ class GrammarConfigPanel extends PureComponent {
 
   remove = targetKey => {
     const { dispatch } = this.props;
-    let { activeKey } = this.state;
+    let { activeKey, panes } = this.state;
+
     let lastIndex;
-    this.state.panes.forEach((pane, i) => {
+    panes.forEach(function(pane, i) {
       if (pane.key === targetKey) {
         lastIndex = i - 1;
       }
     });
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+    panes = panes.filter(pane => pane.key !== targetKey);
     if (panes.length && activeKey === targetKey) {
       if (lastIndex >= 0) {
         activeKey = panes[lastIndex].key;

@@ -116,12 +116,11 @@ class GGChart extends PureComponent {
       }
       const geometryList = [];
 
-      Object.entries(grammar.geom).forEach(item => {
+      Object.entries(grammar.geom).forEach(function(item) {
         const [key, value] = item;
-        if (!validateGrammar(value)) {
-          return [];
+        if (validateGrammar(value)) {
+          geometryList.push(buildGeom(key, value));
         }
-        geometryList.push(buildGeom(key, value));
       });
 
       return geometryList;

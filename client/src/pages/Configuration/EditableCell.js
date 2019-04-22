@@ -19,7 +19,8 @@ export class EditableCell extends React.Component {
   };
 
   toggleEdit = () => {
-    const editing = !this.state.editing;
+    let { editing } = this.state;
+    editing = !editing;
     this.setState({ editing }, () => {
       if (editing) {
         this.input.focus();
