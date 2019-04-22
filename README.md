@@ -38,10 +38,19 @@ There are lots of opensource or free data analysis and data visualization tools 
 
 These tools are powerful and if you are looking for a enterprise ready data analysis tool, you should choose these tools.
 
-While dataplay3 is a small tool that targets to cover whole life cycle of data aquisition, data preparation, data visualization, prediction model building (Machine learning) and model deployment with easy to use in one box.  Assuming the user has little knowledge of data science. 
+While dataplay3 is a small tool that targets to cover whole life cycle of data aquisition, data preparation, data visualization, prediction model building (Machine learning) and model deployment with easy to use in one box.  Assuming the user has little knowledge of data science.
 
 ## document
 [https://gangtao.github.io/dataplay3/](https://gangtao.github.io/dataplay3/)
+
+## demo
+[youtube](https://youtu.be/jm83LLYO3Es) 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jm83LLYO3Es?start=321" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+or
+
+<iframe height=498 width=510 src='http://player.youku.com/embed/XNDE0OTI3MjIzMg==' frameborder=0 'allowfullscreen'></iframe>
 
 ## run
 to run dataplay3 in docker
@@ -49,7 +58,7 @@ to run dataplay3 in docker
 docker run -p 8000:8000 naughtytao/dataplay3:0.1-dev
 ```
 
-and the open your browser with following url 
+and the open your browser with following url
 > http://localhost:8000
 
 note, the image size is **2.11GB**
