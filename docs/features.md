@@ -5,9 +5,7 @@
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jm83LLYO3Es?start=321" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-or
-
-<iframe height="498" width="510" src="http://player.youku.com/embed/XNDE0OTI3MjIzMg==" frameborder="0" allowfullscreen></iframe>
+or [youku](http://player.youku.com/embed/XNDE0OTI3MjIzMg==)
 
 ### workflow
 
