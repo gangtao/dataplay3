@@ -7,7 +7,7 @@
 
 or
 
-<iframe height=498 width=510 src='http://player.youku.com/embed/XNDE0OTI3MjIzMg==' frameborder=0 'allowfullscreen'></iframe>
+<iframe height="498" width="510" src="http://player.youku.com/embed/XNDE0OTI3MjIzMg==" frameborder="0" allowfullscreen></iframe>
 
 ### workflow
 
