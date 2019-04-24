@@ -32,9 +32,9 @@
 dataplay3 is a minimized data science tool that provide basic data related functions including dataset management, data visualization, prediction for numeric, catagorical and time serials data.
 
 There are lots of opensource or free data analysis and data visualization tools such as:
-- [Tableau public](http://uiw.gitee.io/react-markdown-editor/)
-- [Microsoft Power BI](https://powerbi.microsoft.com/en-us/)
-- [Superset](https://github.com/apache/incubator-superset)
+-   [Tableau public](http://uiw.gitee.io/react-markdown-editor/)
+-   [Microsoft Power BI](https://powerbi.microsoft.com/en-us/)
+-   [Superset](https://github.com/apache/incubator-superset)
 
 These tools are powerful and if you are looking for a enterprise ready data analysis tool, you should choose these tools.
 
