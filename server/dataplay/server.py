@@ -47,7 +47,7 @@ app.blueprint(conf_svc, url_prefix=PREFIX)
 
 @app.route('/')
 def handle_request(request):
-    return response.redirect('/ui')
+    return response.redirect('/ui/index.html')
 
 
 if __name__ == '__main__':
