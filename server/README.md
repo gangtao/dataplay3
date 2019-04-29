@@ -1,6 +1,5 @@
 # Development
 
-
 In case your current python is not version3 or you want to run in a separated env, using [virtualenv](https://virtualenv.pypa.io/en/latest/) is an option.
 ```bash
 pip install --upgrade virtualenv

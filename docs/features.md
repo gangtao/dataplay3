@@ -1,4 +1,12 @@
 ## Dataplay3 Feature Introduction
+
+### demo
+[youtube](https://youtu.be/jm83LLYO3Es)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jm83LLYO3Es?start=321" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+or [youku](http://player.youku.com/embed/XNDE0OTI3MjIzMg==)
+
 ### workflow
 
 Following diagram shows the basic workflow of dataplay3:
