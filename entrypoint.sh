@@ -6,6 +6,7 @@ touch /home/logs/gunicorn.log
 touch /home/logs/gunicorn-access.log
 tail -n 0 -f /home/logs/gunicorn*.log &
 
+cd /home/dataplay3/server
 exec gunicorn dataplay.server:app \
     --name dataplay \
     --bind 0.0.0.0:8000 \

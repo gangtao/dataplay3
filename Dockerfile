@@ -12,14 +12,21 @@ RUN apt-get update -q && \
         gcc \
         swig \
         curl \
+        git \
         ca-certificates && \
-    pip3 install setuptools pip --upgrade
+    pip3 install setuptools pip --upgrade && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    apt-get install --no-install-recommends -y -q nodejs
 
+RUN cd /home \
+    && git clone https://github.com/gangtao/dataplay3
+
+WORKDIR /home/dataplay3
+
+# build server
 RUN curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install
 
-COPY server/requirements.txt /home/
-RUN cd /home && \
-    pip3 install --upgrade pip && \
+RUN cd /home/dataplay3/server && \
     pip3 install -r requirements.txt 
 
 # override numpy version  
@@ -28,14 +35,19 @@ RUN cd /home && \
 # refer to https://github.com/facebook/prophet/issues/796 
 RUN pip3 install numpy==1.16.0 holidays==0.9.8 --force-reinstall
 
+# build client
+RUN cd /home/dataplay3/client && \
+    mkdir /home/dataplay3/server/dataplay/static && \
+    npm install --silent && \
+    npm run build
+
 EXPOSE 8000
-RUN mkdir /home/dataplay
-WORKDIR /home
-COPY entrypoint.sh /home/
-COPY server/dataplay /home/dataplay
+
+COPY entrypoint.sh /home/dataplay3
 
 RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
     find /usr/local/lib/python3.6/ -name '*.pyc' -exec rm -r '{}' + && \
+    apt-get remove nodejs npm -y && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf \
@@ -43,4 +55,4 @@ RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
         /tmp/* \
         /var/tmp/*
 
-CMD ["sh", "/home/entrypoint.sh"]
+CMD ["sh", "/home/dataplay3/entrypoint.sh"]

@@ -3,7 +3,7 @@ VERSION ?= 0.1-dev
 IMAGE_NAME ?= $(BIN_NAME):$(VERSION)
 DOCKER_ID_USER ?= naughtytao
 
-docker: Dockerfile build
+docker: Dockerfile
 	docker build --no-cache -t $(IMAGE_NAME) .
 
 push:
