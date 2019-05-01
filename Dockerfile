@@ -47,6 +47,7 @@ COPY entrypoint.sh /home/dataplay3
 
 RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
     find /usr/local/lib/python3.6/ -name '*.pyc' -exec rm -r '{}' + && \
+    rm -rf /home/dataplay3/client && \
     apt-get remove nodejs npm -y && \
     apt-get autoremove -y && \
     apt-get clean && \
