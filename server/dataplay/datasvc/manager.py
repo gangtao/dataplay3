@@ -1,4 +1,5 @@
 import os
+import base64
 
 from sanic.log import logger
 from ..confsvc.manager import ConfigurationManager
@@ -36,7 +37,20 @@ class DatasetManager:
     @staticmethod
     def add_dataset(payload):
         domain = 'datasets'
-        # TODO: validation payload
+
+        if 'id' not in payload:
+            raise RuntimeError(f'dataset payload must contain id')
+
+        if 'name' not in payload:
+            raise RuntimeError(f'dataset payload must contain name')
+
+        if 'payload' in payload:
+            data = base64.b64decode(payload['payload'])
+            name = f'{payload["name"]}.csv'
+            payload['content'] = name
+            payload['type'] = 'csv'
+            DatasetManager.upload_dataset(name, data)
+
         section = payload.get('id')
         value = {}
         fields = ['content', 'name', 'type', 'description']

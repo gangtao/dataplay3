@@ -16,6 +16,8 @@ run:
 	docker run -p 8000:8000 $(IMAGE_NAME)
 
 build:
+	rm -r ./server/dataplay/static/
+	mkdir ./server/dataplay/static/
 	cd client; \
     npm install --silent; \
 	npm run build

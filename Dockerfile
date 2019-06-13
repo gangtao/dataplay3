@@ -13,6 +13,7 @@ RUN apt-get update -q && \
         swig \
         curl \
         git \
+        libgomp1 \
         ca-certificates && \
     pip3 install setuptools pip --upgrade && \
     curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
@@ -48,7 +49,8 @@ COPY entrypoint.sh /home/dataplay3
 RUN  find /usr/local/lib/python3.6/ -name 'tests' -exec rm -r '{}' + && \
     find /usr/local/lib/python3.6/ -name '*.pyc' -exec rm -r '{}' + && \
     rm -rf /home/dataplay3/client && \
-    apt-get remove nodejs npm -y && \
+    rm -rf /home/dataplay3/docs && \
+    apt-get remove nodejs gcc git curl -y && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf \
