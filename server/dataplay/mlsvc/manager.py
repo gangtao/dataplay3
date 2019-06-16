@@ -1,5 +1,6 @@
 import os
-from io import StringIO
+from io import StringIO, BytesIO
+import base64
 from multiprocessing import Process
 import _thread
 
@@ -117,11 +118,13 @@ class MLJobManager:
         try:
             model = MLJob.get_model(job_id)
             if input_type == 'csv':
-                csv_data = StringIO(data)
+                csv_data = BytesIO(base64.b64decode(data))
                 df = pd.read_csv(csv_data, sep=",")
                 df_prediction = model.predict(df)
                 output_data = df_prediction.to_csv()
-                return output_data
+                result = {}
+                result['data'] = base64.b64encode(output_data.encode('utf-8'))
+                return result
             elif input_type == 'dataset':
                 dataset = DatasetManager.get_dataset(data)
                 df = dataset.get_df()
