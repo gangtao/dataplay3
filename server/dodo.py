@@ -95,7 +95,7 @@ def task_install_dep():
     return {
         "actions": [
             "curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt | xargs -n 1 -L 1 pip3 install",
-            "pip install -r requirements.txt . --no-deps",
+            "pip3 install -r requirements.txt . --no-deps",
             "pip3 install numpy==1.16.0 holidays==0.9.8",
         ],
         "verbosity": 2,

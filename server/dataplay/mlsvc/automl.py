@@ -6,6 +6,11 @@ import sklearn.model_selection
 import sklearn.metrics
 from sklearn import preprocessing
 
+# used for evaluate model representation
+from autosklearn.pipeline.classification import SimpleClassificationPipeline
+from autosklearn.pipeline.regression import SimpleRegressionPipeline
+from autosklearn.evaluation.abstract_evaluator import MyDummyClassifier, MyDummyRegressor
+
 from sanic.log import logger
 
 from .job import MLJob, MLJobStatus
@@ -94,12 +99,15 @@ class AutoMLJob(MLJob):
         default_job_config['initial_configurations_via_metalearning'] = job_config.getint(
             'auto_ml', 'initial_configurations_via_metalearning'
         )
-        default_job_config['ensemble_size'] = job_config.getint('auto_ml', 'ensemble_size')
-        default_job_config['ensemble_nbest'] = job_config.getint('auto_ml', 'ensemble_nbest')
+        default_job_config['ensemble_size'] = job_config.getint(
+            'auto_ml', 'ensemble_size')
+        default_job_config['ensemble_nbest'] = job_config.getint(
+            'auto_ml', 'ensemble_nbest')
         default_job_config['ensemble_memory_limit'] = job_config.getint(
             'auto_ml', 'ensemble_memory_limit'
         )
-        default_job_config['ml_memory_limit'] = job_config.getint('auto_ml', 'ml_memory_limit')
+        default_job_config['ml_memory_limit'] = job_config.getint(
+            'auto_ml', 'ml_memory_limit')
 
         for key in default_job_config:
             if key not in self.job_option:
@@ -125,6 +133,30 @@ class AutoMLJob(MLJob):
             if key not in self.validation_option:
                 self.validation_option[key] = default_validation[key]
 
+    def _parse_model_representation(self):
+        # TODO : it is not safe to do so
+        model_representation = eval(self.model.show_models())
+
+        representations = []
+        for model in model_representation:
+            weight, modeli = model
+            representation = {}
+            representation['weight'] = weight
+            representation['steps'] = []
+            if hasattr(modeli, 'steps'):
+                steps = modeli.steps
+                for step in steps:
+                    name, val = step
+                    if name in ['classifier', 'preprocessor', 'regressor']:
+                        representation['steps'].append(f'{name}:{val.choice}')
+                    else:
+                        representation['steps'].append(name)
+                representations.append(representation)
+            else:
+                representation['steps'].append(type(modeli).__name__)
+
+        self.model_representation = representations
+
     def train(self):
         logger.debug('start to train')
         self._update_status(MLJobStatus.TRAINING)
@@ -141,7 +173,7 @@ class AutoMLJob(MLJob):
             logger.debug('validation complete')
             self._update_status(MLJobStatus.SUCCESS)
             self.end_time = datetime.datetime.now().timestamp()
-            self.model_representation = self.model.show_models()
+            self._parse_model_representation()
             self.model_stats = self.model.sprint_statistics()
             self._save_meta()
         except Exception as e:
@@ -170,7 +202,8 @@ class AutoMLJob(MLJob):
         target = self.targets[0]
         if target in self.target_encoder:
             target_encoder = self.target_encoder[target]['encoder']
-            transformed_predict_result = target_encoder.inverse_transform(predict_result)
+            transformed_predict_result = target_encoder.inverse_transform(
+                predict_result)
             df_copy['prediction'] = transformed_predict_result
         else:
             df_copy['prediction'] = predict_result
@@ -183,16 +216,20 @@ class AutoClassificationJob(AutoMLJob):
             self, name, dataset, features, targets, job_option, validation_option
         )
         self.type = 'AutoClassificationJob'
-        self.model = autosklearn.classification.AutoSklearnClassifier(**self.job_option)
+        self.model = autosklearn.classification.AutoSklearnClassifier(
+            **self.job_option)
 
     def _validate(self):
         predictions = self.model.predict(self.X_test)
         accuracy = sklearn.metrics.accuracy_score(self.y_test, predictions)
         self.validation_result['accuracy'] = accuracy
 
-        f1 = sklearn.metrics.f1_score(self.y_test, predictions, average='micro')
-        precision = sklearn.metrics.precision_score(self.y_test, predictions, average='micro')
-        recall = sklearn.metrics.recall_score(self.y_test, predictions, average='micro')
+        f1 = sklearn.metrics.f1_score(
+            self.y_test, predictions, average='micro')
+        precision = sklearn.metrics.precision_score(
+            self.y_test, predictions, average='micro')
+        recall = sklearn.metrics.recall_score(
+            self.y_test, predictions, average='micro')
         self.validation_result['f1'] = f1
         self.validation_result['precision'] = precision
         self.validation_result['recall'] = recall
@@ -217,14 +254,18 @@ class AutoRegressionJob(AutoMLJob):
             self, name, dataset, features, targets, job_option, validation_option
         )
         self.type = 'AutoRegressionJob'
-        self.model = autosklearn.regression.AutoSklearnRegressor(**self.job_option)
+        self.model = autosklearn.regression.AutoSklearnRegressor(
+            **self.job_option)
 
     def _validate(self):
         predictions = self.model.predict(self.X_test)
         r2 = sklearn.metrics.r2_score(self.y_test, predictions)
-        mean_squared_error = sklearn.metrics.mean_squared_error(self.y_test, predictions)
-        mean_absolute_error = sklearn.metrics.mean_absolute_error(self.y_test, predictions)
-        median_absolute_error = sklearn.metrics.median_absolute_error(self.y_test, predictions)
+        mean_squared_error = sklearn.metrics.mean_squared_error(
+            self.y_test, predictions)
+        mean_absolute_error = sklearn.metrics.mean_absolute_error(
+            self.y_test, predictions)
+        median_absolute_error = sklearn.metrics.median_absolute_error(
+            self.y_test, predictions)
         self.validation_result['r2'] = r2
         self.validation_result['mean_squared_error'] = mean_squared_error
         self.validation_result['mean_absolute_error'] = mean_absolute_error

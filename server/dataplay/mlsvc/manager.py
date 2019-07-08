@@ -121,7 +121,7 @@ class MLJobManager:
                 csv_data = BytesIO(base64.b64decode(data))
                 df = pd.read_csv(csv_data, sep=",")
                 df_prediction = model.predict(df)
-                output_data = df_prediction.to_csv()
+                output_data = df_prediction.to_csv(index=False)
                 result = {}
                 result['data'] = base64.b64encode(output_data.encode('utf-8'))
                 return result

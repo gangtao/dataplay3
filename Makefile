@@ -13,7 +13,7 @@ push:
 	docker push ${DOCKER_ID_USER}/$(BIN_NAME):latest
 
 run:
-	docker run -p 8000:8000 $(IMAGE_NAME)
+	docker run -p 8001:8000 $(IMAGE_NAME)
 
 build:
 	rm -r ./server/dataplay/static/
