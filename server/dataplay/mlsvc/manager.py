@@ -1,5 +1,5 @@
 import os
-from io import StringIO, BytesIO
+from io import BytesIO
 import base64
 from multiprocessing import Process
 import _thread
