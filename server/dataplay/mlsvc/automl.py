@@ -148,7 +148,8 @@ class AutoMLJob(MLJob):
                 for step in steps:
                     name, val = step
                     if name in ['classifier', 'preprocessor', 'regressor']:
-                        representation['steps'].append(f'{name}:{val.choice}')
+                        type_name = type(val.choice).__name__
+                        representation['steps'].append(f'{name}:{type_name}')
                     else:
                         representation['steps'].append(name)
                 representations.append(representation)
